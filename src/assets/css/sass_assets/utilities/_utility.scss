@@ -157,3 +157,18 @@ a, button {
 .heading-1 { font-size: 2rem }
 .heading-2 { font-size: 2.5rem }
 .heading-3 { font-size: 3rem }
+
+/** Overlay effect **/
+.overlay-bg {
+	position: relative;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, .5);
+	}
+}
