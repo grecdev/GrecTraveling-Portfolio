@@ -1,0 +1,39 @@
+header {
+	@include flex(row, space-between, center);
+	background: $primary-blue;
+	color: $primary-white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	
+	.active-page { color: $primary-dark }
+
+	#logo {
+		width: 13%;
+		
+		@include flex(row, center, center);
+
+		img { width: 30% }
+
+		span {
+			margin-left: .5rem;
+			font-family: 'Domine', serif;
+			font-size: 1.2rem;
+		}
+	}
+
+	#desktop-navbar ul {
+		@include flex(row, center, center);
+
+		li {
+			margin: 0 1rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: color 200ms ease-in-out;
+
+			&:hover:not(.active-page) { color: lighten($primary-blue, 15%)}
+		}
+	}
+}
