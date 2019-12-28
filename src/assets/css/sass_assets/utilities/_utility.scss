@@ -75,6 +75,12 @@ a, button {
 
 /*** Utility Classes ***/
 
+.container {
+	max-width: 1300px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
 /** Spacing **/
 /* Margins */
 /* Margin All */
@@ -159,7 +165,7 @@ a, button {
 .heading-3 { font-size: 3rem }
 
 /** Overlay effect **/
-.overlay-bg {
+.overlay {
 	position: relative;
 
 	&::after {
@@ -169,6 +175,9 @@ a, button {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, .5);
 	}
+
+	&-light::after { background: rgba(0, 0, 0, .3) }
+	&-normal::after { background: rgba(0, 0, 0, .4) }
+	&-dark::after { background: rgba(0, 0, 0, .7) }
 }
