@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { GlobalContext } from '../../../context/global/GlobalContext';
 
-const SlideshowImage = ({ startingImage, changingTime }) => {
+const SlideshowImage = ({ startingImage, changingTime, incrementImage }) => {
 
 	const { getImage } = useContext(GlobalContext);
 
@@ -22,8 +22,16 @@ const SlideshowImage = ({ startingImage, changingTime }) => {
 			if (slidePos < 0) slide.style.transform = `translateX(${-slideWidth}px)`;
 			if (slidePos > 0) slide.style.transform = `translateX(${slideWidth}px)`;
 
-			if (slidePos < 0 || slidePos > 0) slide.classList.add('outer');
-			if (slidePos === 0) slide.classList.remove('outer');
+			if (slidePos < 0) slide.classList.add('outer-left');
+
+			/** 
+			z-index: -2 => Because we have the items in the slideshow array are displayed on top of each other
+			So the solution is: ones from the right are on top of the ones from the left, so when the image move to the left,
+			the left one should be on the top of the right one.
+		**/
+			if (slidePos > 0) slide.classList.add('outer-right');
+
+			if (slidePos === 0) slide.classList.remove('outer-left', 'outer-right');
 		});
 	}
 
@@ -34,7 +42,7 @@ const SlideshowImage = ({ startingImage, changingTime }) => {
 
 		const interval = setInterval(() => {
 
-			if (imagePos < 2) setImagePos(imagePos + 1);
+			if (imagePos < 2) setImagePos(imagePos + incrementImage);
 			else setImagePos(0);
 
 			moveSlides();

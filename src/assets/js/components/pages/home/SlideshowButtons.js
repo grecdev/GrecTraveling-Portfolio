@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const SlideshowButtons = ({ startingImage, changingTime }) => {
+const SlideshowButtons = ({ startingImage, changingTime, incrementImage }) => {
 
 	const [activeBtn, setActiveBtn] = useState(startingImage);
 
@@ -22,7 +22,7 @@ const SlideshowButtons = ({ startingImage, changingTime }) => {
 
 		const interval = setInterval(() => {
 
-			if (activeBtn < 2) setActiveBtn(activeBtn + 1);
+			if (activeBtn < 2) setActiveBtn(activeBtn + incrementImage);
 			else setActiveBtn(0);
 
 			activeSlide();
