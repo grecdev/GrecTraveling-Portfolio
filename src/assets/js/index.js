@@ -18,7 +18,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import GlobalContextProvider from './context/GlobalContext';
+import GlobalContextProvider from './context/global/GlobalContext';
 
 ReactDOM.render(
 	<GlobalContextProvider>

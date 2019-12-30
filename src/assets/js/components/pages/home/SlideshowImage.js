@@ -1,48 +1,57 @@
-import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { GlobalContext } from '../../../context/GlobalContext';
+import { GlobalContext } from '../../../context/global/GlobalContext';
 
-const SlideshowImage = () => {
+const SlideshowImage = ({ startingImage, changingTime }) => {
 
 	const { getImage } = useContext(GlobalContext);
 
 	const images = ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg'];
+	const [imagePos, setImagePos] = useState(startingImage);
 
-	const moveSlides = (imagePos) => {
+	const moveSlides = () => {
+
 		const slideWidth = document.querySelector('.slideshow-image').getBoundingClientRect().width;
 
 		document.querySelectorAll('.slideshow-image').forEach((slide, index) => {
 
 			slide.style.transform = `translateX(${slideWidth * (index - imagePos)}px)`;
 
+			const slidePos = parseFloat(slide.style.transform.slice(11, -3));
+
+			if (slidePos < 0) slide.style.transform = `translateX(${-slideWidth}px)`;
+			if (slidePos > 0) slide.style.transform = `translateX(${slideWidth}px)`;
+
+			if (slidePos < 0 || slidePos > 0) slide.classList.add('outer');
+			if (slidePos === 0) slide.classList.remove('outer');
 		});
 	}
 
 	useEffect(() => {
 
-		let imagePos = 1;
-
 		// So we have the initial position of each image
-		moveSlides(imagePos);
+		moveSlides();
 
-		setInterval(() => {
+		const interval = setInterval(() => {
 
-			imagePos < 2 ? imagePos++ : imagePos = 0;
+			if (imagePos < 2) setImagePos(imagePos + 1);
+			else setImagePos(0);
 
-			moveSlides(imagePos);
-		}, 3000);
+			moveSlides();
 
-	}, []);
+		}, changingTime);
+
+		return () => clearInterval(interval);
+	}, [imagePos]);
 
 	return (
+
 		images.map((img, index) => (
 			<div
 				style={{ background: `url(${getImage(img)}) no-repeat center/cover` }}
 				key={index + 1}
 				className='slideshow-image'
 			>
-
 			</div>
 		))
 	)
