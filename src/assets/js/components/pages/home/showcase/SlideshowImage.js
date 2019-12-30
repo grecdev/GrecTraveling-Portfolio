@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
-import { GlobalContext } from '../../../context/global/GlobalContext';
-import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
+import { GlobalContext } from '../../../../context/global/GlobalContext';
+import { SlideshowContext } from '../../../../context/slideshow/SlideshowContext';
 
 const SlideshowImage = () => {
 

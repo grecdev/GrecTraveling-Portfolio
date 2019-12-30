@@ -62,7 +62,7 @@ img {
 	height: auto;
 }
 
-a, button {
+a, button, input {
 	background: none;
 	outline: none;
 	border: none;
@@ -156,13 +156,16 @@ a, button {
 
 /** Text **/
 /* Headings */
-.heading-1,
-.heading-2,
-.heading-3 { font-family: 'Domine', serif }
+.heading { font-family: 'Domine', serif }
 
 .heading-1 { font-size: 2rem }
 .heading-2 { font-size: 2.5rem }
 .heading-3 { font-size: 3rem }
+
+/* Alignement */
+.text-left { text-align: left }
+.text-center { text-align: center }
+.text-right { text-align: right }
 
 /** Overlay effect **/
 .overlay {
@@ -180,11 +183,4 @@ a, button {
 	&-light::after { background: rgba(0, 0, 0, .3) }
 	&-normal::after { background: rgba(0, 0, 0, .4) }
 	&-dark::after { background: rgba(0, 0, 0, .7) }
-}
-
-.preload * {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
 }

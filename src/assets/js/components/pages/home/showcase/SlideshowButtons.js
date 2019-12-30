@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 
-import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
+import { SlideshowContext } from '../../../../context/slideshow/SlideshowContext';
 
 const SlideshowButtons = () => {
 

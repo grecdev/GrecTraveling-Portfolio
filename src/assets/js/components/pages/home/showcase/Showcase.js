@@ -1,9 +1,11 @@
 import React from 'react';
 
-import SlideshowContextProvider from '../../../context/slideshow/SlideshowContext';
+import SlideshowContextProvider from '../../../../context/slideshow/SlideshowContext';
 
 import SlideshowImage from './SlideshowImage';
+import ShowcaseInfo from './ShowcaseInfo';
 import SlideshowButtons from './SlideshowButtons';
+import CheckinForm from './CheckinForm';
 
 const Showcase = () => {
 	return (
@@ -15,7 +17,9 @@ const Showcase = () => {
 				</div>
 
 				<div className="showcase-container">
+					<ShowcaseInfo />
 					<SlideshowButtons />
+					<CheckinForm />
 				</div>
 			</section>
 		</SlideshowContextProvider>

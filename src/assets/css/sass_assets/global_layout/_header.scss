@@ -1,21 +1,23 @@
 header {
 	@include flex(row, space-between, center);
-	background: $primary-blue;
 	color: $primary-white;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 100;
+
+	&,
+	#logo,
+	#logo span { transition: all 500ms ease-in-out }
 	
-	.active-page { color: $primary-dark }
+	.active-page { color: $primary-blue }
 
 	#logo {
-		width: 13%;
-		
-		@include flex(row, center, center);
+		width: 4.5%;
+		margin-left: 4rem;
 
-		img { width: 30% }
+		@include flex(row, center, center);
 
 		span {
 			margin-left: .5rem;
@@ -36,5 +38,19 @@ header {
 
 			&:hover:not(.active-page) { color: lighten($primary-blue, 15%)}
 		}
+	}
+
+	&.header-fixed {
+		background: $primary-blue;
+		padding: .5rem;
+		font-size: .85rem;
+
+		#logo {
+			width: 3%;
+
+			span { font-size: 1.05rem }
+		}
+
+		.active-page { color: $primary-dark }
 	}
 }
