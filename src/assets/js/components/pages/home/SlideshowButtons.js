@@ -4,7 +4,7 @@ import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
 
 const SlideshowButtons = () => {
 
-	const { currentPos, changingTime } = useContext(SlideshowContext);
+	const { currentPos, changingTime, images, changeSlideshow, disableSelection } = useContext(SlideshowContext);
 
 	const activeSlide = () => {
 
@@ -27,11 +27,20 @@ const SlideshowButtons = () => {
 		return () => clearInterval(interval);
 	});
 
+	const selectSlide = e => {
+
+		if (e.target.tagName === 'BUTTON' && e.target.dataset.eventToggle === 'true') {
+			changeSlideshow(parseFloat(e.target.id));
+
+			disableSelection();
+		}
+
+	}
+
+	// Dynamically add buttons acording to how manny slides the cliens wants
 	return (
-		<div className='slideshow-buttons'>
-			<button className='slideshow-btn my-1' type='button'></button>
-			<button className='slideshow-btn my-1' type='button'></button>
-			<button className='slideshow-btn my-1' type='button'></button>
+		<div className='slideshow-buttons' onClick={selectSlide}>
+			{images.map((img, index) => <button id={index} key={index} data-event-toggle='true' className='slideshow-btn my-1' type='button'></button>)}
 		</div>
 	)
 }

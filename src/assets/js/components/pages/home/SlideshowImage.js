@@ -6,9 +6,7 @@ import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
 const SlideshowImage = () => {
 
 	const { getImage } = useContext(GlobalContext);
-	const { currentPos, changingTime, setPos } = useContext(SlideshowContext);
-
-	const images = ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg'];
+	const { currentPos, changingTime, setPos, images, disableSelection } = useContext(SlideshowContext);
 
 	const moveSlides = () => {
 
@@ -18,6 +16,7 @@ const SlideshowImage = () => {
 
 			slide.style.transform = `translateX(${slideWidth * (index - currentPos)}px)`;
 
+			// 1000 || -1000
 			const slidePos = parseFloat(slide.style.transform.slice(11, -3));
 
 			if (slidePos < 0) slide.style.transform = `translateX(${-slideWidth}px)`;
@@ -25,14 +24,16 @@ const SlideshowImage = () => {
 
 			if (slidePos < 0) slide.classList.add('outer-left');
 			/** 
-				z-index: -2 => Because we have the items in the slideshow array are displayed on top of each other
-				So the solution is: ones from the right are on top of the ones from the left, so when the image move to the left,
+				z-index: -2 => Because the items in the slideshow array are displayed on top of each other
+				So the solution is: the ones from the right are on top of the ones from the left, so when the image move to the left,
 				the left one should be on the top of the right one.
 			**/
 			if (slidePos > 0) slide.classList.add('outer-right');
 
 			if (slidePos === 0) slide.classList.remove('outer-left', 'outer-right');
 		});
+
+		disableSelection();
 	}
 
 	useEffect(() => {
