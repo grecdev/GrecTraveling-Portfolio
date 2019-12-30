@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { GlobalContext } from '../../../context/global/GlobalContext';
+import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
 
-const SlideshowImage = ({ startingImage, changingTime, incrementImage }) => {
+const SlideshowImage = () => {
 
 	const { getImage } = useContext(GlobalContext);
+	const { currentPos, changingTime, setPos } = useContext(SlideshowContext);
 
 	const images = ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg'];
-	const [imagePos, setImagePos] = useState(startingImage);
 
 	const moveSlides = () => {
 
@@ -15,7 +16,7 @@ const SlideshowImage = ({ startingImage, changingTime, incrementImage }) => {
 
 		document.querySelectorAll('.slideshow-image').forEach((slide, index) => {
 
-			slide.style.transform = `translateX(${slideWidth * (index - imagePos)}px)`;
+			slide.style.transform = `translateX(${slideWidth * (index - currentPos)}px)`;
 
 			const slidePos = parseFloat(slide.style.transform.slice(11, -3));
 
@@ -23,12 +24,11 @@ const SlideshowImage = ({ startingImage, changingTime, incrementImage }) => {
 			if (slidePos > 0) slide.style.transform = `translateX(${slideWidth}px)`;
 
 			if (slidePos < 0) slide.classList.add('outer-left');
-
 			/** 
-			z-index: -2 => Because we have the items in the slideshow array are displayed on top of each other
-			So the solution is: ones from the right are on top of the ones from the left, so when the image move to the left,
-			the left one should be on the top of the right one.
-		**/
+				z-index: -2 => Because we have the items in the slideshow array are displayed on top of each other
+				So the solution is: ones from the right are on top of the ones from the left, so when the image move to the left,
+				the left one should be on the top of the right one.
+			**/
 			if (slidePos > 0) slide.classList.add('outer-right');
 
 			if (slidePos === 0) slide.classList.remove('outer-left', 'outer-right');
@@ -42,15 +42,13 @@ const SlideshowImage = ({ startingImage, changingTime, incrementImage }) => {
 
 		const interval = setInterval(() => {
 
-			if (imagePos < 2) setImagePos(imagePos + incrementImage);
-			else setImagePos(0);
-
+			setPos();
 			moveSlides();
 
 		}, changingTime);
 
 		return () => clearInterval(interval);
-	}, [imagePos]);
+	});
 
 	return (
 

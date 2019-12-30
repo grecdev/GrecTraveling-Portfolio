@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 
-const SlideshowButtons = ({ startingImage, changingTime, incrementImage }) => {
+import { SlideshowContext } from '../../../context/slideshow/SlideshowContext';
 
-	const [activeBtn, setActiveBtn] = useState(startingImage);
+const SlideshowButtons = () => {
+
+	const { currentPos, changingTime } = useContext(SlideshowContext);
 
 	const activeSlide = () => {
 
-		document.querySelectorAll('.slideshow-image').forEach((img, index) => {
-			img.className === 'slideshow-image' ? activeBtn + index : false;
-		});
-
 		document.querySelectorAll('.slideshow-btn').forEach((btn, index) => {
-			index === activeBtn ? btn.classList.add('slideshow-btn-active') : btn.classList.remove('slideshow-btn-active');
+			index === currentPos ? btn.classList.add('slideshow-btn-active') : btn.classList.remove('slideshow-btn-active');
 		});
 
 	}
@@ -22,15 +20,12 @@ const SlideshowButtons = ({ startingImage, changingTime, incrementImage }) => {
 
 		const interval = setInterval(() => {
 
-			if (activeBtn < 2) setActiveBtn(activeBtn + incrementImage);
-			else setActiveBtn(0);
-
 			activeSlide();
 
 		}, changingTime);
 
 		return () => clearInterval(interval);
-	}, [activeBtn]);
+	});
 
 	return (
 		<div className='slideshow-buttons'>
