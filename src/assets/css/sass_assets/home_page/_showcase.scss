@@ -60,20 +60,38 @@
 			}
 		}
 
-		.showcase-info { color: $primary-white }
+		.showcase-info {
+			color: $primary-white;
+			margin-bottom: 7rem;
+		}
 	
 		#checkin-form {
 			background: rgba($primary-dark, .7);
-			min-width: 60%;
+			width: 70%;
 			border-bottom: 3px solid darken($primary-blue, 10%);
+			position: relative;
 
 			> * { opacity: 1 }
 			
-			form {
-				width: inherit;
-				height: inherit;
-				@include flex(row, space-between, flex-end);
+			.checkin-header {
+				position: absolute;
+				top: -55%;
+				left: 0%;
+				@include flex(row, space-between, center);
+
+				a {
+					background: darken($primary-blue, 10%);
+					padding: 1rem;
+					color: $primary-white;
+					transition: background-color 150ms ease-in-out;
+
+					&:hover { background: darken($primary-blue, 5%) }
+
+					&.active-checkin { background: rgba($primary-dark, .7) }
+				}
 			}
+
+			form { @include flex(row, space-between, flex-end) }
 
 			.form-box {
 				@include flex(column, flex-start, flex-start);
@@ -93,6 +111,7 @@
 					color: $primary-white;
 					border: 1.5px solid darken($primary-blue, 10%);
 					transition: border-color 500ms ease-in-out;
+					width: 100%;
 				}
 			}
 

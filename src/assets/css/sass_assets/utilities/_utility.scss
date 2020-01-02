@@ -184,3 +184,7 @@ a, button, input {
 	&-normal::after { background: rgba(0, 0, 0, .4) }
 	&-dark::after { background: rgba(0, 0, 0, .7) }
 }
+
+.display-none { display: none !important }
+.display-block { display: block !important }
+.display-flex { display: flex !important }
