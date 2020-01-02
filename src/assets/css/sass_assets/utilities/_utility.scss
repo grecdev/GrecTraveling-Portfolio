@@ -34,6 +34,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	font: normal 1rem/1.5 'Roboto', sans-serif;
+	color: $primary-dark;
 }
 
 ol, ul {
@@ -74,11 +75,39 @@ a, button, input {
 }
 
 /*** Utility Classes ***/
-
 .container {
 	max-width: 1300px;
 	margin: 0 auto;
 	overflow: hidden;
+}
+
+.section-header {
+	width: 50%;
+	margin: 0 auto 3.5rem;
+
+	&-logo {
+		width: 8%;
+		margin: 0 auto;
+		position: relative;
+
+		&::before, &::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 100px;
+			height: 2px;
+			background: $primary-dark;
+		}
+
+		&::before { left: -250% }
+		&::after { right: -250% }
+	}
+	
+	p {
+		font-size: 1.1rem;
+		font-style: italic;
+	}
 }
 
 /** Spacing **/
@@ -161,6 +190,8 @@ a, button, input {
 .heading-1 { font-size: 2rem }
 .heading-2 { font-size: 2.5rem }
 .heading-3 { font-size: 3rem }
+
+.description { color: $primary-gray }
 
 /* Alignement */
 .text-left { text-align: left }

@@ -1,0 +1,14 @@
+#choose-us {
+
+	.choose-us-container {
+		@include flex(row, space-between, center);
+
+		.choose-us-box {
+			width: 25%;
+			@include flex(column, center, center);
+
+			img { width: 20% }
+		}
+	}
+
+}
