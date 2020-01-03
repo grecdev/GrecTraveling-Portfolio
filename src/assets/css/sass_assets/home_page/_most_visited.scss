@@ -17,6 +17,8 @@
 			@include flex(column, center, center);
 			min-height: 250px;
 			position: relative;
+			
+			* { cursor: context-menu }
 
 			.most-visited-image {
 				position: absolute;

@@ -1,0 +1,17 @@
+#history {
+	@include flex(row, space-between, center);
+	
+	.history-box {
+		@include flex(row, flex-start, center);
+
+		&-image { width: 15% }
+		
+		p:first-child {
+			color: $primary-blue;
+			font-size: 2rem;
+			font-weight: bold;
+		}
+
+		p:nth-child(2) { font-size: 1.3rem }
+	}
+}
