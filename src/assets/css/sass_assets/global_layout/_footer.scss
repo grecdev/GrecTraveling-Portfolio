@@ -1,0 +1,16 @@
+footer  {
+	background: $primary-blue;
+	color: $primary-white;
+
+	.footer-container {
+		@include flex(row, space-between, center);
+
+		.footer-social {
+			font-size: 1.3rem;
+
+			a { transition: color 150ms ease-in-out }
+
+			a:hover { color: darken($primary-white, 10%) }
+		}
+	}
+}
