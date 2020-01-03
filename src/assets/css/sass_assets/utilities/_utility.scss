@@ -221,3 +221,23 @@ a, button, input {
 .display-none { display: none !important }
 .display-block { display: block !important }
 .display-flex { display: flex !important }
+
+/** Buttons **/
+.btn {
+	padding: .5rem 1rem;
+	transition: all 200ms ease-in-out;
+	cursor: pointer !important;
+	
+	&-blue {
+		background: $primary-blue;
+		color: $primary-white;
+
+		&:hover { background: lighten($primary-blue, 5%) }
+	}
+
+	&-yellow {
+		background: $primary-yellow;
+
+		&:hover { background: lighten($primary-yellow, 5%) }
+	}
+}

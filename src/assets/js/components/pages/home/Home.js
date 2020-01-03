@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 
 import Showcase from './showcase/Showcase';
-import Choose from './choose/Choose';
+import ChooseUs from './choose_us/ChooseUs';
 import MostVisited from './most_visited/MostVisited';
 import History from './history/History';
+import CityBreaks from './city_breaks/CityBreaks';
 
 class Home extends Component {
 	render() {
 		return (
 			<>
 				<Showcase />
-				<Choose />
+				<ChooseUs />
 				<MostVisited />
 				<History />
+				<CityBreaks />
 			</>
 		)
 	}

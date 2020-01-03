@@ -105,34 +105,51 @@
 		.seven {
 
 			.left-line {
-				bottom: -45%;
-				left: -85%;
+				bottom: -29%;
+    		left: -101%;
 			}
 
 			.right-line {
-				top: -45%;
-				right: -85%;
+				top: -29%;
+				right: -101%;
 			}
 
-			.left-line, .right-line { width: 70% }
+			.left-line, .right-line { width: 82% }
+		 }
+
+		.four,
+		.three {
+
+			.left-line {
+				bottom: -30%;
+				left: -170%;
+			}
+
+			.right-line {
+				right: -170%;
+    		top: -30%;
+			}
+
+			.left-line, .right-line {	width: 150% }
 		 }
 
 		.two,
-		.six,
-		.four,
-		.three { 
+		.six {
+
+			.top-line { top: -5% !important }
+			.bottom-line { bottom: -15% !important }
 
 			.left-line {
-				bottom: -33%;
-				left: -135%;
+				left: -140%;
+				bottom: -23%;
 			}
 
 			.right-line {
-				right: -135%;
-				top: -33%;
+				right: -140%;
+    		top: -14%;
 			}
 
-			.left-line, .right-line {	width: 115% }
+			.left-line, .right-line {	width: 125% }
 		 }
 
 		.one {
