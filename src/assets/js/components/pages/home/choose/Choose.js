@@ -8,11 +8,11 @@ const Choose = () => {
 
 	return (
 		<section id='choose-us'>
-			<div className="container p-1">
+			<div className="container p-2">
 				<div className="section-header text-center">
 					<h3 className='mb-1 heading-1'>Why to choose us</h3>
 
-					<div className="section-header-logo mb-1"><img src={getImage('section-header-logo.svg')} alt='section header logo' /></div>
+					<div className="section-header-logo mb-1"><img src={getImage('section-header-logo-blue.svg')} alt='section header logo' /></div>
 
 					<p>We are the most professional travel agency in the world</p>
 				</div>

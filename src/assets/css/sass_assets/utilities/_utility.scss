@@ -85,6 +85,8 @@ a, button, input {
 	width: 50%;
 	margin: 0 auto 3.5rem;
 
+	h3 { text-transform: capitalize }
+
 	&-logo {
 		width: 8%;
 		margin: 0 auto;

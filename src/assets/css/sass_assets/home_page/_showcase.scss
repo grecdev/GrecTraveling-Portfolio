@@ -114,6 +114,13 @@
 					border: 1.5px solid darken($primary-blue, 10%);
 					transition: border-color 500ms ease-in-out;
 					width: 100%;
+
+					&#from:hover,
+					&#to:hover,
+					&#hotel-name:hover,
+					&#car-location:hover,
+					&#sail-from:hover,
+					&#sail-to:hover { cursor: auto }
 				}
 			}
 
