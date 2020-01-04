@@ -16,12 +16,25 @@ import '../css/style.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 
 import GlobalContextProvider from './context/global/GlobalContext';
 
-ReactDOM.render(
-	<GlobalContextProvider>
-		<App />
-	</GlobalContextProvider>
-	, document.getElementById('root'));
+import HomePage from './HomePage';
+import ContactPage from './ContactPage';
+
+const apps = {
+	'index': <HomePage />,
+	'contact-page': <ContactPage />
+}
+
+const renderApp = el => {
+	if (apps[el]) {
+		ReactDOM.render(
+			<GlobalContextProvider>
+				{apps[el]}
+			</GlobalContextProvider>
+			, document.querySelector(`.${el}`));
+	}
+}
+
+renderApp(document.body.id);

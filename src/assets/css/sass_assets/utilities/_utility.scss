@@ -35,6 +35,9 @@ footer, header, hgroup, menu, nav, section {
 body {
 	font: normal 1rem/1.5 'Roboto', sans-serif;
 	color: $primary-dark;
+	position: relative;
+	min-height: 100vh;
+	padding-bottom: $footer-height;
 }
 
 ol, ul {

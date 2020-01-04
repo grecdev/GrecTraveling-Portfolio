@@ -41,9 +41,10 @@ header {
 	}
 
 	&.header-fixed {
-		background: $primary-blue;
+		background: darken($primary-blue, 10%);
 		padding: .5rem;
 		font-size: .85rem;
+		position: fixed;
 
 		#logo {
 			width: 3%;

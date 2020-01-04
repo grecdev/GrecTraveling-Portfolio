@@ -1,6 +1,10 @@
 footer  {
-	background: $primary-blue;
+	background: darken($primary-blue, 10%);
 	color: $primary-white;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
 
 	.footer-container {
 		@include flex(row, space-between, center);

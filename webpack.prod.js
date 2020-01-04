@@ -29,6 +29,15 @@ module.exports = merge(config, {
 					collapseWhitespace: true,
 					removeComments: true
 				}
+			}),
+			new HtmlWebpackPlugin({
+				filename: 'contact.html',
+				template: './src/contact.html',
+				minify: {
+					removeAttributeQuotes: true,
+					collapseWhitespace: true,
+					removeComments: true
+				}
 			})
 		]
 	},
