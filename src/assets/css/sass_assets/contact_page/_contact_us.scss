@@ -1,5 +1,6 @@
 #contact-us {
-	background: #ededed;
+	background: url('../media/contact-showcase.jpg') no-repeat center/cover;
+	color: $primary-white;
 
 	.contact-us-container { @include flex(row, space-between, stretch) }
 
@@ -32,17 +33,19 @@
 
 			input,
 			textarea {
-				border-bottom: 1px solid $primary-white;
+				border-bottom: 1.3px solid $primary-blue;
 				transition: border-color 150ms ease-in-out;
 
-				&:focus { border-color: $primary-blue }
+				&:focus { border-color: $primary-white }
 			}
+
+			::placeholder { color: #aaa }
 
 			input {
 				width: 47%;
 				padding: .8rem .3rem;
 			}
-
+			
 			textarea {
 				padding: .5rem;
 				width: 100%;

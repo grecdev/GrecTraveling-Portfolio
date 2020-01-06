@@ -40,7 +40,7 @@ const Faq = () => {
 				<SectionHeader title={'Frequently Asked Questions'} image={'section-header-logo-blue.svg'} />
 
 				<div className="faq-container">
-					<div className="faq-image overlay overlay-light"></div>
+					<div className="faq-image bg-parallax overlay overlay-light"></div>
 
 					<div className="faq-content">
 						<div className="faq-box">

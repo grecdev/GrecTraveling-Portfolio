@@ -19,31 +19,51 @@ class GlobalContextProvider extends Component {
 		if (e.type === 'scroll') window.requestAnimationFrame(this.headerFixed);
 	}
 
+	parallaxBackground = (e) => {
+
+		if (e.type === 'scroll' || e.type === 'DOMContentLoaded') {
+			document.querySelectorAll('.bg-parallax').forEach(bg => {
+
+				const elHeight = Math.floor(parseFloat(window.getComputedStyle(bg).height));
+
+				const posY = Math.floor(bg.getBoundingClientRect().top - elHeight) / 3;
+
+				bg.style.backgroundPositionY = `${posY}px`;
+
+			});
+		}
+
+		if (e.type === 'scroll') requestAnimationFrame(this.parallaxBackground);
+	}
+
+	loadEvent = e => {
+		this.parallaxBackground(e);
+
+		this.removeTransitions();
+
+		this.headerFixed(e);
+
+		e.stopPropagation();
+	}
+
+	scrollEvent = e => {
+		this.headerFixed(e);
+
+		this.parallaxBackground(e);
+
+		e.stopPropagation();
+	}
+
 	componentDidMount() {
+		document.addEventListener('DOMContentLoaded', this.loadEvent);
 
-		document.addEventListener('DOMContentLoaded', e => {
-			this.removeTransitions();
-
-			this.headerFixed(e);
-
-			e.stopPropagation();
-		});
-
-		window.addEventListener('scroll', e => {
-			this.headerFixed(e);
-
-			e.stopPropagation();
-		});
-
+		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('DOMContentLoaded', e => {
-			this.removeTransitions();
-			this.headerFixed(e);
-		});
+		document.removeEventListener('DOMContentLoaded', this.loadEvent);
 
-		window.removeEventListener('scroll', e => this.headerFixed(e));
+		window.removeEventListener('scroll', this.scrollEvent);
 	}
 
 	render() {

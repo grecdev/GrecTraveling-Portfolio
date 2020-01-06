@@ -3,7 +3,7 @@ import React from 'react';
 const ContactForm = () => {
 
 	return (
-		<section id='contact-us'>
+		<section id='contact-us' className='bg-parallax overlay overlay-dark'>
 			<div className="contact-us-container">
 				<div className="contact-us-info text-center p-3">
 
