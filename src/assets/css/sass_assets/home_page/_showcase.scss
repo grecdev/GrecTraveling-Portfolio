@@ -52,6 +52,7 @@
 				border-radius: 50%;
 				background: lighten($primary-blue, 5%);
 				transition: all 500ms ease-in-out;
+				cursor: pointer;
 	
 				&:hover, &.slideshow-btn-active {
 					background: lighten($primary-blue, 20%);
@@ -86,6 +87,7 @@
 					padding: 1rem;
 					color: $primary-white;
 					transition: background-color 150ms ease-in-out;
+					cursor: pointer;
 
 					&:hover { background: darken($primary-blue, 5%) }
 

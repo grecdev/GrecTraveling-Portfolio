@@ -40,6 +40,10 @@ body {
 	padding-bottom: $footer-height;
 
 	&.header-padding { padding-top: $header-height }
+
+	&.preload * {
+		transition: none !important;
+	}
 }
 
 ol, ul {
