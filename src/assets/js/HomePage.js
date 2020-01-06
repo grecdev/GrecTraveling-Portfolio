@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 
 import Header from './components/global_layout/Header';
-import Home from './components/pages/home/Home';
+import Showcase from './components/pages/home/showcase/Showcase';
+import ChooseUs from './components/pages/home/ChooseUs';
+import MostVisited from './components/pages/home/MostVisited';
+import History from './components/pages/home/History';
+import CityBreaks from './components/pages/home/CityBreaks';
 
 class HomePage extends Component {
 	render() {
 		return (
 			<>
 				<Header />
-				<Home />
+				<Showcase />
+				<ChooseUs />
+				<MostVisited />
+				<History />
+				<CityBreaks />
 			</>
 		)
 	}

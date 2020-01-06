@@ -38,6 +38,8 @@ body {
 	position: relative;
 	min-height: 100vh;
 	padding-bottom: $footer-height;
+
+	&.header-padding { padding-top: $header-height }
 }
 
 ol, ul {
@@ -66,11 +68,10 @@ img {
 	height: auto;
 }
 
-a, button, input {
+a, button, input, textarea {
 	background: none;
 	outline: none;
 	border: none;
-	cursor: pointer;
 	color: inherit;
 	text-decoration: none;
 	text-transform: inherit;
@@ -230,6 +231,7 @@ a, button, input {
 	padding: .5rem 1rem;
 	transition: all 200ms ease-in-out;
 	cursor: pointer !important;
+	border-radius: $border-radius-primary;
 	
 	&-blue {
 		background: $primary-blue;

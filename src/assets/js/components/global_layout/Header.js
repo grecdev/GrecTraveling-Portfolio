@@ -6,28 +6,14 @@ const Header = () => {
 
 	const { getImage } = useContext(GlobalContext);
 
-	const headerFixed = () => {
-
-		const pos = window.pageYOffset;
-
-		pos > 1 ? document.querySelector('header').classList.add('header-fixed') : document.querySelector('header').classList.remove('header-fixed');
-
-		window.requestAnimationFrame(headerFixed);
-	}
-
 	useEffect(() => {
+
+		// Active page link
 		document.querySelectorAll('header li').forEach(link => {
-			location.pathname.includes(link.textContent.toLowerCase()) || (location.pathname.includes('index') && link.textContent === 'Home') ? link.classList.add('active-page') : false;
+			location.pathname.includes(link.textContent.toLowerCase()) || (document.body.id === 'index' && link.textContent === 'Home') ? link.classList.add('active-page') : false;
 		});
 
-		if (!location.pathname.includes('index')) document.querySelector('header').classList.add('header-fixed');
-
-		// When we load and don't scroll the header should be fixed
-		headerFixed();
-		window.addEventListener('scroll', headerFixed);
-
-		return () => window.removeEventListener('scroll', () => headerFixed);
-	}, []);
+	});
 
 	return (
 		<header className='p-1'>

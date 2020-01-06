@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
 import Header from './components/global_layout/Header';
+import ContactForm from './components/pages/contact/ContactForm';
+import Faq from './components/pages/contact/Faq';
 
 class ContactPage extends Component {
 	render() {
 		return (
 			<>
 				<Header />
-				<p>HELLO FROM CONTACT PAGE</p>
+				<ContactForm />
+				<Faq />
 			</>
 		)
 	}

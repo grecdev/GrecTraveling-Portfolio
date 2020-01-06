@@ -1,0 +1,40 @@
+#faq {
+
+	.faq-container {
+		@include flex(row, space-between, stretch);
+
+		.faq-image,
+		.faq-content { width: 48% }
+
+		.faq-image {
+			background: url('../media/faq-image.jpg') no-repeat center/cover;
+			min-height: 550px;
+		}
+
+		.faq-content .faq-box {
+
+			.faq-header {
+				background: #ddd;
+				padding: .5rem 1rem .5rem .5rem;
+				cursor: pointer;
+				transition: background-color 100ms ease-in-out;
+				border-radius: $border-radius-primary;
+				@include flex(row, space-between, center);
+				position: relative;
+				z-index: 1;
+
+				&:hover { background: #eee }
+			}
+
+			.faq-info {
+				max-height: 0;
+				transition: max-height 250ms ease-in-out;
+				overflow: hidden;
+			}
+
+			.show-info { max-height: 177.5px }
+
+			&:last-child .faq-info p { border-bottom: 1.5px solid $primary-blue }
+		}
+	}
+}

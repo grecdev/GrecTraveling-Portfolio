@@ -1,0 +1,53 @@
+#contact-us {
+
+	.contact-us-container { @include flex(row, space-between, stretch) }
+
+	.contact-us-info,
+	form { width: 50% }
+
+	.contact-us-info {
+		background: #ddd;
+
+		ul li {
+			@include flex(row, flex-start, center);
+			width: 30%;
+
+			span {
+				margin-right: .5rem;
+				width: 45px;
+				height: 45px;
+				font-size: 1.2rem;
+				background: $primary-white;
+				border-radius: 50%;
+				color: $primary-blue;
+				@include flex(column, center, center);
+			}
+		}
+	}
+
+	form {
+		.form-box {
+			@include flex(row, space-between, center);
+
+			input,
+			textarea {
+				border-bottom: 1px solid #ddd;
+				transition: border-color 150ms ease-in-out;
+
+				&:focus { border-color: $primary-blue }
+			}
+
+			input {
+				width: 47%;
+				padding: .8rem .3rem;
+			}
+
+			textarea {
+				padding: .5rem;
+				width: 100%;
+				font-size: 1rem;
+				font-family: inherit;
+			}
+		}
+	}
+}

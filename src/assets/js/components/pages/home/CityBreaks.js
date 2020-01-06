@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 
-import { GlobalContext } from '../../../../context/global/GlobalContext';
+import { GlobalContext } from '../../../context/global/GlobalContext';
+
+import SectionHeader from '../../global_layout/SectionHeader';
 
 const CityBreaks = () => {
 
@@ -9,11 +11,7 @@ const CityBreaks = () => {
 	return (
 		<section id='city-breaks'>
 			<div className="container p-2">
-				<div className="section-header text-center">
-					<h3 className='mb-1 heading-1'>City breaks offers</h3>
-
-					<div className="section-header-logo mb-1"><img src={getImage('section-header-logo-blue.svg')} alt='section header logo' /></div>
-				</div>
+				<SectionHeader title={'City breaks offers'} image={'section-header-logo-blue.svg'} />
 
 				<div className="city-breaks-wrapper">
 

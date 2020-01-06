@@ -1,19 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { GlobalContext } from '../../../../context/global/GlobalContext';
+import SectionHeader from '../../global_layout/SectionHeader';
 
 const MostVisited = () => {
-
-	const { getImage } = useContext(GlobalContext);
 
 	return (
 		<section id='most-visited'>
 			<div className="container p-2">
-				<div className="section-header text-center">
-					<h3 className='mb-1 heading-1'>Most visited places</h3>
-
-					<div className="section-header-logo mb-1"><img src={getImage('section-header-logo-white.svg')} alt='section header logo' /></div>
-				</div>
+				<SectionHeader title={'Most visited places'} image={'section-header-logo-white.svg'} />
 
 				<div className="most-visited-container">
 
