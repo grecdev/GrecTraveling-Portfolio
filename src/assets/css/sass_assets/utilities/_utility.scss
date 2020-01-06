@@ -217,11 +217,6 @@ a, button, input, textarea {
 		height: 100%;
 	}
 
-	> * {
-		position: relative;
-		z-index: 1;
-	}
-
 	&-light::after { background: rgba(0, 0, 0, .3) }
 	&-normal::after { background: rgba(0, 0, 0, .4) }
 	&-dark::after { background: rgba(0, 0, 0, .7) }

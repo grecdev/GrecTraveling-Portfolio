@@ -2,6 +2,11 @@
 	background: url('../media/contact-showcase.jpg') no-repeat center/cover;
 	color: $primary-white;
 
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+
 	.contact-us-container { @include flex(row, space-between, stretch) }
 
 	.contact-us-info,
