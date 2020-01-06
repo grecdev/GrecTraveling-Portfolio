@@ -5,7 +5,7 @@ const ContactForm = () => {
 	return (
 		<section id='contact-us'>
 			<div className="contact-us-container">
-				<div className="contact-us-info p-3">
+				<div className="contact-us-info text-center p-3">
 
 					<h2 className='heading heading-1 mb-1'>Contact Us</h2>
 
