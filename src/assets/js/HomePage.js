@@ -8,6 +8,7 @@ import History from './components/pages/home/History';
 import CityBreaks from './components/pages/home/CityBreaks';
 
 class HomePage extends Component {
+
 	render() {
 		return (
 			<>

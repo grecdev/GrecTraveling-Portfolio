@@ -117,18 +117,18 @@
 					transition: border-color 500ms ease-in-out;
 					width: 100%;
 
-					&#from:hover,
-					&#to:hover,
-					&#hotel-name:hover,
-					&#car-location:hover,
-					&#sail-from:hover,
-					&#sail-to:hover { cursor: auto }
+					&#hotel_checkIn,
+					&#hotel_checkOut,
+					&#hotel_people {
+						cursor: pointer;
+					}
 				}
 			}
 
 			button {
 				color: $primary-white;
 				font-size: 2rem;
+				cursor: pointer;
 			}
 		}
 	}
