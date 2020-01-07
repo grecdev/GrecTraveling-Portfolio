@@ -1,0 +1,140 @@
+.form-container {
+	background: rgba($primary-dark, .7);
+	width: 70%;
+	border-bottom: 3px solid darken($primary-blue, 10%);
+	position: relative;
+
+	> * { opacity: 1 }
+	
+	.checkin-header {
+		position: absolute;
+		top: -55%;
+		left: 0%;
+		@include flex(row, space-between, center);
+
+		a {
+			background: darken($primary-blue, 10%);
+			padding: 1rem;
+			color: $primary-white;
+			transition: background-color 150ms ease-in-out;
+			cursor: pointer;
+
+			&:hover { background: darken($primary-blue, 5%) }
+
+			&.active-checkin { background: rgba($primary-dark, .7) }
+		}
+	}
+
+	form { @include flex(row, space-between, flex-end) }
+
+	.form-box {
+		@include flex(column, flex-start, flex-start);
+		margin: 0 .5rem;
+		position: relative;
+
+		::placeholder { color: $primary-blue }
+
+		input:focus { border-color: lighten($primary-blue, 10%) }
+
+		label {
+			margin-bottom: .5rem;
+			color: $primary-white;
+		}
+
+		input {
+			padding: .5rem;
+			color: $primary-white;
+			border: 1.5px solid darken($primary-blue, 10%);
+			transition: border-color 500ms ease-in-out;
+			width: 100%;
+
+			&#hotel_checkIn,
+			&#hotel_checkOut,
+			&#hotel_people {
+				cursor: pointer;
+			}
+		}
+	}
+
+	button {
+		color: $primary-white;
+		font-size: 2rem;
+		cursor: pointer;
+	}
+
+	/** Calendar **/
+	.checkin-calendar {
+		background: $primary-white;
+		box-shadow: 0 0 10px 5px $primary-dark;
+		position: absolute;
+		width: 350px;
+		bottom: -280px;
+		@include flex(column, stretch, center);
+
+		.calendar-triangle {
+			position: absolute;
+			top: -25px;
+			left: 45px;
+			border-color: transparent transparent darken($primary-blue, 10%) transparent;
+			border-width: 10px 12px 17px 12px;
+			border-style: solid;
+		}
+
+		.calendar-month {
+			@include flex(row, center, center);
+			width: 100%;
+			padding: .5rem;
+			background: darken($primary-blue, 10%);
+			color: $primary-white;
+
+			p { pointer-events: none }
+
+			.left-arrow,
+			.right-arrow {
+				font-size: 1.3rem;
+				cursor: pointer;
+				transition: color 100ms ease-in-out;
+
+				&:hover { color: darken($primary-white, 15%) }
+			}
+		}
+
+		table {
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+
+		thead {
+			background: darken($primary-blue, 10%);
+			color: $primary-white;
+		}
+
+		tbody {
+			border: 2px solid red;
+		}
+
+		tr {
+
+			th, td {
+				width: 35px;
+				height: 35px;
+				line-height: 35px;
+			}
+
+			th { pointer-events: none }
+
+			td {
+				transition: background-color 100ms ease-in-out;
+				border: 1px solid #ddd;
+
+				&.unavailable { color: #bbb }
+			}
+
+			td:not(.empty-cell):hover {
+				background: darken($primary-white, 10%);
+				cursor: pointer;
+			}
+		}
+	}
+}
