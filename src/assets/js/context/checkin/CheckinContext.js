@@ -6,7 +6,7 @@ export class CheckinContextProvider extends Component {
 
 	state = {
 		hotel_destination: '0000',
-		hotel_checkIn: '',
+		hotel_checkIn: '11 / 11 / 1111',
 		hotel_checkOut: '22 / 22 / 2222',
 		hotel_people: 33
 	}
@@ -32,8 +32,7 @@ export class CheckinContextProvider extends Component {
 			if (i === 10) formatArray.push(e.target.value.substring(i, i + 4));
 		}
 
-		console.log(this.state.hotel_checkIn.length)
-		this.setState({ hotel_checkIn: formatArray.join("") });
+		this.setState({ [e.target.id]: formatArray.join("") });
 	}
 
 	componentDidMount() {
