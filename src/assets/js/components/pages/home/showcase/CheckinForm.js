@@ -21,8 +21,8 @@ const CheckinForm = () => {
 
 	const date = {
 		date: new Date().getDate(),
-		month: new Date().getMonth() + 4,
-		year: new Date().getFullYear() - 1,
+		month: new Date().getMonth(),
+		year: new Date().getFullYear(),
 		monthName: [
 			'January',
 			'February',
@@ -48,6 +48,8 @@ const CheckinForm = () => {
 		]
 	};
 
+	const formatDate = () => `${date.monthName[date.month]} ${date.year}`;
+
 	const getMonthDays = (month = date.month, year = date.year) => {
 		let totalDays;
 
@@ -63,8 +65,7 @@ const CheckinForm = () => {
 
 	const getPreviousMonthDays = (month = date.month, year = date.year) => {
 
-		let prevMonth;
-		let prevYear;
+		let prevMonth, prevYear;
 
 		if (month > 1) {
 			prevMonth = month - 1
@@ -77,6 +78,21 @@ const CheckinForm = () => {
 		return getMonthDays(prevMonth, prevYear);
 	}
 
+	const getNextMonthDays = (month = date.month, year = date.year) => {
+
+		let nextMonth, nextYear;
+
+		if (month < 11) {
+			nextMonth = month + 1;
+			nextYear = year;
+		} else {
+			nextMonth = 1;
+			nextYear = year + 1;
+		}
+
+		return getMonthDays(nextMonth, nextYear);
+	}
+
 	const firstDayOfMonth = () => {
 
 		let firstDay = new Date(date.year, date.month).getDay() - 1;
@@ -85,7 +101,6 @@ const CheckinForm = () => {
 
 		return firstDay;
 	}
-
 
 	const displayMonthDays = () => {
 
@@ -108,7 +123,17 @@ const CheckinForm = () => {
 
 					row.append(cell);
 
-				} else if (dayCount > getMonthDays()) break;
+				} else if (dayCount > getMonthDays()) {
+
+					let cell = document.createElement('td');
+
+					cell.classList.add('unavailable');
+
+					dayCount++;
+					cell.textContent = (dayCount - getMonthDays()) - 1;
+
+					row.append(cell);
+				}
 				else {
 					let cell = document.createElement('td');
 					cell.textContent = dayCount;
@@ -175,7 +200,7 @@ const CheckinForm = () => {
 
 						<div className="calendar-month">
 							<div className="left-arrow"><i className="far fa-arrow-alt-circle-left"></i></div>
-							<p className='month-name mx-3'>{date.monthName[date.month]}</p>
+							<p className='date-name mx-3'>{formatDate()}</p>
 							<div className="right-arrow"><i className="far fa-arrow-alt-circle-right"></i></div>
 						</div>
 
