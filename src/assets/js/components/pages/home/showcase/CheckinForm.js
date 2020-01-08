@@ -20,10 +20,9 @@ const CheckinForm = () => {
 	const { hotel_destination, hotel_checkIn, hotel_checkOut, hotel_people, handleChange, formatDates } = useContext(CheckinContext);
 
 	const date = {
-		// First day of the week should be Monday
-		day: new Date().getDay() || 7 - 1,
-		month: new Date().getMonth(),
-		year: new Date().getFullYear(),
+		date: new Date().getDate(),
+		month: new Date().getMonth() + 4,
+		year: new Date().getFullYear() - 1,
 		monthName: [
 			'January',
 			'February',
@@ -78,30 +77,39 @@ const CheckinForm = () => {
 		return getMonthDays(prevMonth, prevYear);
 	}
 
+	const firstDayOfMonth = () => {
+
+		let firstDay = new Date(date.year, date.month).getDay() - 1;
+
+		firstDay === -1 ? firstDay = 6 : firstDay;
+
+		return firstDay;
+	}
+
+
 	const displayMonthDays = () => {
 
 		const tbody = document.querySelector('table tbody');
-		const firstDayOfMonth = new Date(date.year, date.month).getDay() - 1;
-		const prevMonthDays = getPreviousMonthDays();
-
+		let prevMonthDays = getPreviousMonthDays();
 		let dayCount = 1;
 
 		for (let r = 0; r < 6; r++) {
+
 			let row = document.createElement('tr');
-
-
 
 			for (let c = 0; c < 7; c++) {
 
-				if (r === 0 && c < firstDayOfMonth) {
+				if (r === 0 && c < firstDayOfMonth()) {
 					let cell = document.createElement('td');
 
 					cell.classList.add('unavailable');
 
-					cell.textContent = prevMonthDays - c;
+					cell.textContent = prevMonthDays - (firstDayOfMonth() - c) + 1;
 
 					row.append(cell);
-				} else {
+
+				} else if (dayCount > getMonthDays()) break;
+				else {
 					let cell = document.createElement('td');
 					cell.textContent = dayCount;
 					row.append(cell);
@@ -167,7 +175,7 @@ const CheckinForm = () => {
 
 						<div className="calendar-month">
 							<div className="left-arrow"><i className="far fa-arrow-alt-circle-left"></i></div>
-							<p className='month-name mx-3'>Month name</p>
+							<p className='month-name mx-3'>{date.monthName[date.month]}</p>
 							<div className="right-arrow"><i className="far fa-arrow-alt-circle-right"></i></div>
 						</div>
 

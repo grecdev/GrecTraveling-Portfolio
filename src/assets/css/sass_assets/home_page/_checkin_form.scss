@@ -110,10 +110,6 @@
 			color: $primary-white;
 		}
 
-		tbody {
-			border: 2px solid red;
-		}
-
 		tr {
 
 			th, td {
@@ -131,7 +127,7 @@
 				&.unavailable { color: #bbb }
 			}
 
-			td:not(.empty-cell):hover {
+			td:not(.unavailable):hover {
 				background: darken($primary-white, 10%);
 				cursor: pointer;
 			}
