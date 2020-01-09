@@ -124,7 +124,10 @@
 				transition: background-color 100ms ease-in-out;
 				border: 1px solid #ddd;
 
-				&.unavailable { color: #bbb }
+				&.unavailable {
+					color: #bbb;
+					pointer-events: none;
+				}
 			}
 
 			td:not(.unavailable):hover {
