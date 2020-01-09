@@ -49,11 +49,11 @@ const CheckinForm = () => {
 	};
 
 	let [currentMonth, setCurrentMonth] = useState(date.month);
-	const [currentYear, setCurrentYear] = useState(date.year);
+	let [currentYear, setCurrentYear] = useState(date.year);
 
 	const formatDate = () => `${date.monthName[currentMonth]} ${currentYear}`;
 
-	const getMonthDays = (month = date.month, year = date.year) => {
+	const getMonthDays = (month = currentMonth, year = currentYear) => {
 		let totalDays;
 
 		// From our date.monthName
@@ -66,16 +66,16 @@ const CheckinForm = () => {
 		return totalDays;
 	}
 
-	const getPreviousMonthDays = (month = date.month, year = date.year) => {
+	const getPreviousMonthDays = () => {
 
 		let prevMonth, prevYear;
 
-		if (month > 1) {
-			prevMonth = month - 1
-			prevYear = year;
+		if (currentMonth > 1) {
+			prevMonth = currentMonth - 1
+			prevYear = currentYear;
 		} else {
 			prevMonth = 11;
-			prevYear = year - 1;
+			prevYear = currentYear - 1;
 		}
 
 		return getMonthDays(prevMonth, prevYear);
@@ -83,20 +83,21 @@ const CheckinForm = () => {
 
 	const firstDayOfMonth = () => {
 
-		let firstDay = new Date(date.year, date.month).getDay() - 1;
+		let firstDay = new Date(currentYear, currentMonth).getDay() - 1;
 
 		firstDay === -1 ? firstDay = 6 : firstDay;
 
 		return firstDay;
 	}
 
+	// Display the calendar
 	const displayMonthDays = () => {
-
 		const tbody = document.querySelector('table tbody');
+		// Always remove the inner html, because we always add another set of rows / cells
+		tbody.innerHTML = '';
+
 		let prevMonthDays = getPreviousMonthDays();
 		let dayCount = 1;
-
-		const dateName = document.querySelector('.date-name');
 
 		for (let r = 0; r < 6; r++) {
 
@@ -105,9 +106,10 @@ const CheckinForm = () => {
 			for (let c = 0; c < 7; c++) {
 				let cell = document.createElement('td');
 
+				// Previous month days
 				if (r === 0 && c < firstDayOfMonth()) {
 
-					cell.classList.add('unavailable');
+					cell.classList.add('unavailable-day');
 
 					// Get the total days of previous month
 					// Get the first day of current month, then decrement the first day with the cells coresponding the previous month days
@@ -116,9 +118,10 @@ const CheckinForm = () => {
 
 					row.append(cell);
 
+					// Following month days
 				} else if (dayCount > getMonthDays()) {
 
-					cell.classList.add('unavailable');
+					cell.classList.add('following-month-day');
 
 					dayCount++;
 					// for each day count decrement the total days of the current month
@@ -132,11 +135,14 @@ const CheckinForm = () => {
 					dayCount++;
 				}
 
-				if (cell.textContent === String(date.currentDay) && dayCount <= getMonthDays()) cell.style.color = '#64a5f8'; // $primary-blue
+				// Current day
+				if (cell.textContent === String(date.currentDay) && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear) cell.classList.add('current-day');
+				// Before the current day but in the same month
 				if (parseFloat(cell.textContent) < date.currentDay && dayCount <= getMonthDays()) cell.classList.add('unavailable');
-
 				// Highlight weekends
-				if (c >= 5 && dayCount <= getMonthDays() && parseFloat(cell.textContent) > date.currentDay) cell.style.color = 'red';
+				if (c >= 5 && dayCount <= getMonthDays() && currentMonth >= date.month && currentYear >= date.year) cell.classList.add('weekend-day');
+				// Days from previous months
+				if (date.month <= currentMonth && currentYear < date.year) cell.classList.add('unavailable-day');
 			}
 			tbody.append(row);
 		}
@@ -145,32 +151,35 @@ const CheckinForm = () => {
 	const changeMonth = e => {
 
 		// Decrement month
-		if (e.currentTarget.classList.contains('left-arrow')) {
+		if (e.currentTarget.classList.contains('decrement-month')) {
 			setCurrentMonth(currentMonth => currentMonth - 1);
 
 			if (currentMonth <= 0) {
 				setCurrentMonth(11);
 				setCurrentYear(currentYear => currentYear - 1);
 			}
+
 		}
 
 		// Increment Month
-		if (e.currentTarget.classList.contains('right-arrow')) {
+		if (e.currentTarget.classList.contains('increment-month')) {
 			setCurrentMonth(currentMonth => currentMonth + 1);
 
 			if (currentMonth >= 11) {
 				setCurrentMonth(0);
 				setCurrentYear(currentYear => currentYear + 1);
-			}
-
+			};
 		}
+
+		// On each click re-render the tbody
+		displayMonthDays();
 
 		e.stopPropagation();
 	};
 
 	useEffect(() => {
 		displayMonthDays();
-	}, []);
+	});
 
 	return (
 		<div className='form-container'>
@@ -224,9 +233,9 @@ const CheckinForm = () => {
 						<div className='calendar-triangle'></div>
 
 						<div className="calendar-month">
-							<div className="left-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-left"></i></div>
+							<div className="decrement-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-left"></i></div>
 							<p className='date-name mx-1 text-center'>{formatDate()}</p>
-							<div className="right-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></div>
+							<div className="increment-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></div>
 						</div>
 
 						<table>

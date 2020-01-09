@@ -92,8 +92,7 @@
 				width: 40%;
 			}
 
-			.left-arrow,
-			.right-arrow {
+			.calendar-arrow {
 				font-size: 1.3rem;
 				cursor: pointer;
 				transition: color 100ms ease-in-out;
@@ -127,15 +126,23 @@
 				transition: background-color 100ms ease-in-out;
 				border: 1px solid #ddd;
 
-				&.unavailable {
-					color: #bbb;
+				&.unavailable, &.unavailable-day {
 					pointer-events: none;
-					font-size: .8rem;
-					font-size: 300;
 				}
+
+				&.unavailable-day, &.following-month-day {
+					color: #bbb;
+				}
+
+				&.current-day {
+					background: $primary-blue;
+					color: $primary-white;
+				}
+
+				&.weekend-day { color: red }
 			}
 
-			td:not(.unavailable):hover {
+			td:not(.passed-day):hover {
 				background: darken($primary-white, 10%);
 				cursor: pointer;
 			}
