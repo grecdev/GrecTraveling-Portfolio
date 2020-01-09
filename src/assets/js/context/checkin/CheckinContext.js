@@ -1,19 +1,30 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 export const CheckinContext = createContext();
+import { checkinReducer } from '../../reducer/checkinReducer';
 
-export class CheckinContextProvider extends Component {
+export const CheckinContextProvider = (props) => {
 
-	state = {
-		hotel_destination: '0000',
-		hotel_checkIn: '11 / 11 / 1111',
-		hotel_checkOut: '22 / 22 / 2222',
-		hotel_people: 33
+	const initialState = {
+		hotel_destination: '',
+		hotel_checkIn: '',
+		hotel_checkOut: '',
+		hotel_people: 0
 	}
 
-	handleChange = e => this.setState({ [e.target.id]: e.target.value });
+	const [state, dispatch] = useReducer(checkinReducer, initialState);
 
-	formatDates = e => {
+	const handleChange = e => {
+		dispatch({ type: 'CHANGE_HOTEL_DESTINATION', payload: e.target.value });
+	};
+
+	const selectDate = e => {
+		console.log(e.target);
+
+		console.log(document.querySelector('.date-name'))
+	}
+
+	const formatDates = e => {
 		const formatArray = [];
 		const len = e.target.value.length;
 		let slash = ' / ';
@@ -35,24 +46,16 @@ export class CheckinContextProvider extends Component {
 		this.setState({ [e.target.id]: formatArray.join("") });
 	}
 
-	componentDidMount() {
-
-	}
-
-	render() {
-
-		const { handleChange, formatDates } = this;
-
-		return (
-			<CheckinContext.Provider value={{
-				...this.state,
-				handleChange,
-				formatDates
-			}}>
-				{this.props.children}
-			</CheckinContext.Provider>
-		)
-	}
+	return (
+		<CheckinContext.Provider value={{
+			...state,
+			handleChange,
+			formatDates,
+			selectDate
+		}}>
+			{props.children}
+		</CheckinContext.Provider>
+	)
 }
 
 export default CheckinContextProvider;

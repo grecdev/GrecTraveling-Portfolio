@@ -4,7 +4,7 @@ import { CheckinContext } from '../../../../context/checkin/CheckinContext';
 
 const CheckinForm = () => {
 
-	const { hotel_destination, hotel_checkIn, hotel_checkOut, hotel_people, handleChange, formatDates } = useContext(CheckinContext);
+	const { hotel_destination, hotel_checkIn, hotel_checkOut, hotel_people, handleChange, formatDates, selectDate } = useContext(CheckinContext);
 
 	// Show / Hide checkin form
 	const displayForm = e => {
@@ -109,7 +109,9 @@ const CheckinForm = () => {
 				// Previous month days
 				if (r === 0 && c < firstDayOfMonth()) {
 
-					cell.classList.add('unavailable-day');
+					if(currentMonth === date.month) cell.classList.add('unavailable-day');
+					else cell.classList.add('available-day');
+					
 
 					// Get the total days of previous month
 					// Get the first day of current month, then decrement the first day with the cells coresponding the previous month days
@@ -121,7 +123,7 @@ const CheckinForm = () => {
 					// Following month days
 				} else if (dayCount > getMonthDays()) {
 
-					cell.classList.add('following-month-day');
+					cell.classList.add('available-day');
 
 					dayCount++;
 					// for each day count decrement the total days of the current month
@@ -137,12 +139,13 @@ const CheckinForm = () => {
 
 				// Current day
 				if (cell.textContent === String(date.currentDay) && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear) cell.classList.add('current-day');
-				// Before the current day but in the same month
-				if (parseFloat(cell.textContent) < date.currentDay && dayCount <= getMonthDays()) cell.classList.add('unavailable');
+				// Every day before current month
+				if (currentYear < date.year) cell.classList.add('unavailable-day');
 				// Highlight weekends
-				if (c >= 5 && dayCount <= getMonthDays() && currentMonth >= date.month && currentYear >= date.year) cell.classList.add('weekend-day');
-				// Days from previous months
-				if (date.month <= currentMonth && currentYear < date.year) cell.classList.add('unavailable-day');
+				if (c >= 5 && parseFloat(cell.textContent) <= getMonthDays() && currentMonth >= date.month && currentYear >= date.year) cell.classList.add('weekend-day');
+				// Every day before the current day but in the same month
+				if (r <= 3 && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
+
 			}
 			tbody.append(row);
 		}
@@ -244,7 +247,7 @@ const CheckinForm = () => {
 									{date.weekdayName.map((day, index) => <th key={index + 1}>{day}</th>)}
 								</tr>
 							</thead>
-							<tbody>
+							<tbody onClick={selectDate} >
 							</tbody>
 						</table>
 					</div>

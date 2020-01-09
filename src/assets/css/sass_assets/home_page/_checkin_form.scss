@@ -68,7 +68,7 @@
 		box-shadow: 0 0 10px 5px $primary-dark;
 		position: absolute;
 		width: 350px;
-		bottom: -280px;
+		bottom: -310px;
 		@include flex(column, stretch, center);
 
 		.calendar-triangle {
@@ -126,12 +126,8 @@
 				transition: background-color 100ms ease-in-out;
 				border: 1px solid #ddd;
 
-				&.unavailable, &.unavailable-day {
+			  &.unavailable-day {
 					pointer-events: none;
-				}
-
-				&.unavailable-day, &.following-month-day {
-					color: #bbb;
 				}
 
 				&.current-day {
@@ -139,7 +135,9 @@
 					color: $primary-white;
 				}
 
+				&.unavailable-day, &.available-day { color: #bbb !important }
 				&.weekend-day { color: red }
+				&.before-current-day { font-size: .8rem }
 			}
 
 			td:not(.passed-day):hover {
