@@ -87,7 +87,10 @@
 			background: darken($primary-blue, 10%);
 			color: $primary-white;
 
-			p { pointer-events: none }
+			p {
+				pointer-events: none;
+				width: 40%;
+			}
 
 			.left-arrow,
 			.right-arrow {
@@ -127,6 +130,8 @@
 				&.unavailable {
 					color: #bbb;
 					pointer-events: none;
+					font-size: .8rem;
+					font-size: 300;
 				}
 			}
 
