@@ -4,6 +4,8 @@ import { CheckinContext } from '../../../../context/checkin/CheckinContext';
 
 const CheckinForm = () => {
 
+	const { hotel_destination, hotel_checkIn, hotel_checkOut, hotel_people, handleChange, formatDates } = useContext(CheckinContext);
+
 	// Show / Hide checkin form
 	const displayForm = e => {
 		if (e.target.tagName === 'A') {
@@ -16,8 +18,6 @@ const CheckinForm = () => {
 			e.target.classList.add('active-checkin');
 		}
 	};
-
-	const { hotel_destination, hotel_checkIn, hotel_checkOut, hotel_people, handleChange, formatDates } = useContext(CheckinContext);
 
 	const date = {
 		currentDay: new Date().getDate(),
@@ -48,7 +48,10 @@ const CheckinForm = () => {
 		]
 	};
 
-	const formatDate = () => `${date.monthName[date.month]} ${date.year}`;
+	let [currentMonth, setCurrentMonth] = useState(date.month);
+	const [currentYear, setCurrentYear] = useState(date.year);
+
+	const formatDate = () => `${date.monthName[currentMonth]} ${currentYear}`;
 
 	const getMonthDays = (month = date.month, year = date.year) => {
 		let totalDays;
@@ -130,16 +133,44 @@ const CheckinForm = () => {
 				}
 
 				if (cell.textContent === String(date.currentDay) && dayCount <= getMonthDays()) cell.style.color = '#64a5f8'; // $primary-blue
-				if (parseFloat(cell.textContent) < date.currentDay && dayCount <= getMonthDays()) {
-					cell.classList.add('unavailable');
-				}
+				if (parseFloat(cell.textContent) < date.currentDay && dayCount <= getMonthDays()) cell.classList.add('unavailable');
 
+				// Highlight weekends
+				if (c >= 5 && dayCount <= getMonthDays() && parseFloat(cell.textContent) > date.currentDay) cell.style.color = 'red';
 			}
 			tbody.append(row);
 		}
 	}
 
-	useEffect(() => displayMonthDays());
+	const changeMonth = e => {
+
+		// Decrement month
+		if (e.currentTarget.classList.contains('left-arrow')) {
+			setCurrentMonth(currentMonth => currentMonth - 1);
+
+			if (currentMonth <= 0) {
+				setCurrentMonth(11);
+				setCurrentYear(currentYear => currentYear - 1);
+			}
+		}
+
+		// Increment Month
+		if (e.currentTarget.classList.contains('right-arrow')) {
+			setCurrentMonth(currentMonth => currentMonth + 1);
+
+			if (currentMonth >= 11) {
+				setCurrentMonth(0);
+				setCurrentYear(currentYear => currentYear + 1);
+			}
+
+		}
+
+		e.stopPropagation();
+	};
+
+	useEffect(() => {
+		displayMonthDays();
+	}, []);
 
 	return (
 		<div className='form-container'>
@@ -193,9 +224,9 @@ const CheckinForm = () => {
 						<div className='calendar-triangle'></div>
 
 						<div className="calendar-month">
-							<div className="left-arrow"><i className="far fa-arrow-alt-circle-left"></i></div>
-							<p className='date-name mx-3'>{formatDate()}</p>
-							<div className="right-arrow"><i className="far fa-arrow-alt-circle-right"></i></div>
+							<div className="left-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-left"></i></div>
+							<p className='date-name mx-1 text-center'>{formatDate()}</p>
+							<div className="right-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></div>
 						</div>
 
 						<table>
