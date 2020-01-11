@@ -18,7 +18,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import GlobalContextProvider from './context/global/GlobalContext';
-import CheckinContextProvider from './context/checkin/CheckinContext';
 
 import HomePage from './HomePage';
 import ContactPage from './ContactPage';
@@ -33,9 +32,7 @@ const renderApp = el => {
 	if (apps[el]) {
 		ReactDOM.render(
 			<GlobalContextProvider>
-				<CheckinContextProvider>
-					{apps[el]}
-				</CheckinContextProvider>
+				{apps[el]}
 			</GlobalContextProvider>
 			, document.querySelector(`.${el}`));
 	}

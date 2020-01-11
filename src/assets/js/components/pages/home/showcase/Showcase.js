@@ -5,7 +5,7 @@ import SlideshowContextProvider from '../../../../context/slideshow/SlideshowCon
 import SlideshowImage from './SlideshowImage';
 import ShowcaseInfo from './ShowcaseInfo';
 import SlideshowButtons from './SlideshowButtons';
-import CheckinForm from './CheckinForm';
+import CheckinForm from '../../../global_layout/CheckinForm';
 
 const Showcase = () => {
 	return (
@@ -19,7 +19,7 @@ const Showcase = () => {
 				<div className="showcase-container">
 					<ShowcaseInfo />
 					<SlideshowButtons />
-					<CheckinForm />
+					<CheckinForm flights={true} hotels={true} />
 				</div>
 			</section>
 		</SlideshowContextProvider>
