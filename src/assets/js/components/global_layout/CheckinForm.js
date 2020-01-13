@@ -220,34 +220,30 @@ const CheckinForm = ({ flights, hotels }) => {
 
 			if (e.target.classList.contains('previous-month-day')) {
 
-				if (currentYear > date.year) {
+				if (currentYear > date.year && currentMonth === 0) {
 					setCurrentYear(currentYear => currentYear - 1);
 
 					checkinYear = currentYear - 1;
 
-					if (currentMonth === date.month) {
+					setCurrentMonth(11);
 
-						setCurrentMonth(11);
+					checkinMonth = 11;
 
-						checkinMonth = 11;
-					}
-				} else if (currentYear === date.year) {
+				} else if (currentYear >= date.year) {
 
 					setCurrentMonth(currentMonth => currentMonth - 1);
 
 					// state hook is async so it doesn't mutate the value immediately
 					checkinMonth = currentMonth - 1;
 				}
-
-				setFormState(formState => ({ ...formState, checkIn_month: checkinMonth, checkIn_year: checkinYear }));
 			}
 
 			setFormState(formState => ({ ...formState, checkIn_day: selectedDay, checkIn_month: checkinMonth, checkIn_year: checkinYear }));
-			// Format the input 
-			setFormState(formState => ({ ...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 10 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}` }));
+			// Because of the state async problem the data is not mutable
+			// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
+			// Format the input && close the calendar
+			setFormState(formState => ({ ...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 10 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendar_visible: false }));
 		}
-
-		setFormState(formState => ({ ...formState, calendar_visible: false }));
 	}
 
 	const showCalendar = () => setFormState(formState => ({ ...formState, calendar_visible: true }));
