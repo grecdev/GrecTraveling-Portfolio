@@ -108,7 +108,7 @@ const CheckinForm = ({ flights, hotels }) => {
 
 	// Display the calendar
 	const displayMonthDays = () => {
-		const tbody = document.querySelector('.checkin-calendar table tbody');
+		const tbody = document.querySelector('.table-body');
 
 		// Always remove the inner html, because we always add another set of rows / cells
 		if (document.body.contains(tbody)) tbody.innerHTML = '';
@@ -118,10 +118,12 @@ const CheckinForm = ({ flights, hotels }) => {
 
 		for (let r = 0; r < 6; r++) {
 
-			let row = document.createElement('tr');
+			let row = document.createElement('div');
+			row.classList.add('table-row');
 
 			for (let c = 0; c < 7; c++) {
-				let cell = document.createElement('td');
+				let cell = document.createElement('div');
+				cell.classList.add('table-cell');
 
 				// Previous month days
 				if (r === 0 && c < firstDayOfMonth()) {
@@ -162,7 +164,7 @@ const CheckinForm = ({ flights, hotels }) => {
 				// Every day before the current day but in the same month
 				if (r <= 3 && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
 				// Highlight the checkin day
-				// if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays()) cell.classList.add('selected-day');
+				if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected-day');
 			}
 			if (document.body.contains(tbody)) tbody.append(row);
 		}
@@ -209,7 +211,7 @@ const CheckinForm = ({ flights, hotels }) => {
 
 		let selectedDay, checkinMonth, checkinYear, formatedDate;
 
-		if (e.target.tagName === 'TD') {
+		if (e.target.closest('.table-body')) {
 
 			// Can't use event object in state hook
 			selectedDay = parseFloat(e.target.textContent);
@@ -315,15 +317,15 @@ const CheckinForm = ({ flights, hotels }) => {
 									<button type='button' className="increment-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></button>
 								</div>
 
-								<table>
-									<thead>
-										<tr>
-											{date.weekdayName.map((day, index) => <th key={index + 1}>{day}</th>)}
-										</tr>
-									</thead>
-									<tbody id='hotel-checkin-calendar' onClick={selectDate}>
-									</tbody>
-								</table>
+								<div className='table'>
+									<div className='table-head'>
+										<div className='table-row'>
+											{date.weekdayName.map((day, index) => <div className='table-cell' key={index + 1}>{day}</div>)}
+										</div>
+									</div>
+									<div className='table-body' id='hotel-checkin-calendar' onClick={selectDate}>
+									</div>
+								</div>
 							</div>
 						)}
 					</div>

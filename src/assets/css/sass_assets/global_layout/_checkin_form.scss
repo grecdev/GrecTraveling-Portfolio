@@ -97,48 +97,56 @@
 			}
 		}
 
-		table {
+		.table {
 			text-align: center;
 			background: $primary-white;
 			width: 100%;
 		}
 
-		thead {
+		.table-head {
 			background: darken($primary-blue, 10%);
 			color: $primary-white;
+
+			.table-cell {
+				border: none;
+				transition: none;
+			}
 		}
 
-		tr {
+		.table-head .table-cell,
+		.table-cell.unavailable-day,
+		.table-cell.before-current-day,
+		.table-cell.passed-day { pointer-events: none }
+
+		.table-cell:hover {
+			background: #eee;
+			cursor: pointer;
+		}
+
+		.table-cell {
+			transition: background-color 100ms ease-in-out;
+			border: 1px solid #ddd;
+			
+			
+			&.unavailable-day, &.previous-month-day, &.next-month-day { color: #bbb !important }
+			&.weekend-day { color: red }
+			&.before-current-day { font-size: .8rem }
+
+			&.current-day, &.selected-day {
+				background: lighten($primary-blue, 10%);
+				color: $primary-white;
+
+				&:hover { background: $primary-blue }
+			}
+		}
+
+		.table-row {
 			@include flex(row, stretch, stretch);
 
-			th, td {
+			.table-cell {
 				flex: 1;
 				height: 40px;
 				line-height: 40px;
-			}
-
-			th { pointer-events: none }
-
-			td:hover {
-				background: #eee;
-				cursor: pointer;
-			}
-
-			td {
-				transition: background-color 100ms ease-in-out;
-				border: 1px solid #ddd;
-				
-				&.unavailable-day, &.before-current-day, &.passed-day { pointer-events: none }
-				&.unavailable-day, &.previous-month-day, &.next-month-day { color: #bbb !important }
-				&.weekend-day { color: red }
-				&.before-current-day { font-size: .8rem }
-
-				&.current-day, &.selected-day {
-					background: lighten($primary-blue, 10%);
-					color: $primary-white;
-
-					&:hover { background: $primary-blue }
-				}
 			}
 		}
 	}
