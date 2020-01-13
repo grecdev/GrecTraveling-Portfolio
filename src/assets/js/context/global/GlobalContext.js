@@ -41,7 +41,7 @@ class GlobalContextProvider extends Component {
 
 		this.removeTransitions();
 
-		this.headerFixed(e);
+		setTimeout(() => this.headerFixed(e), 100);
 
 		e.stopPropagation();
 	}

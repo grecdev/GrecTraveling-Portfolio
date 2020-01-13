@@ -14,26 +14,28 @@
 
 import '../css/style.scss';
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 import GlobalContextProvider from './context/global/GlobalContext';
 
-import HomePage from './HomePage';
-import ContactPage from './ContactPage';
+const HomePage = lazy(() => import('./HomePage'));
+const ContactPage = lazy(() => import('./ContactPage'));
 
 const apps = {
 	'index': <HomePage />,
 	'contact-page': <ContactPage />
-}
+};
 
 // I use this because, the website use multi html pages
 const renderApp = el => {
 	if (apps[el]) {
 		ReactDOM.render(
-			<GlobalContextProvider>
-				{apps[el]}
-			</GlobalContextProvider>
+			<Suspense fallback={<div>Loading...</div>}>
+				<GlobalContextProvider>
+					{apps[el]}
+				</GlobalContextProvider >
+			</Suspense>
 			, document.querySelector(`.${el}`));
 	}
 }

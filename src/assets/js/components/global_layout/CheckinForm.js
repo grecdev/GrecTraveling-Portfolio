@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const CheckinForm = ({ flights, hotels }) => {
@@ -6,16 +6,16 @@ const CheckinForm = ({ flights, hotels }) => {
 	// To better see it in the devtools
 	const [formState, setFormState] = useState({
 		hotel_destination: '',
-		checkIn_formatedDate: '',
 		checkIn_day: null,
 		checkIn_month: null,
 		checkIn_year: null,
-		checkOut_formatedDate: '',
+		hotel_checkIn: '',
 		checkOut_day: null,
 		checkOut_month: null,
 		checkOut_year: null,
+		checkOut_formatedDate: '',
 		people: 1,
-		calendar_visible: false
+		calendar_visible: true
 	});
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
@@ -67,7 +67,7 @@ const CheckinForm = ({ flights, hotels }) => {
 	let [currentMonth, setCurrentMonth] = useState(date.month);
 	let [currentYear, setCurrentYear] = useState(date.year);
 
-	const formatDate = () => `${date.monthName[currentMonth]} ${currentYear}`;
+	const formatCalendarMonth = () => `${date.monthName[currentMonth]} ${currentYear}`;
 
 	const getMonthDays = (month = currentMonth, year = currentYear) => {
 		let totalDays;
@@ -111,7 +111,7 @@ const CheckinForm = ({ flights, hotels }) => {
 		const tbody = document.querySelector('.checkin-calendar table tbody');
 
 		// Always remove the inner html, because we always add another set of rows / cells
-		tbody.innerHTML = '';
+		if (document.body.contains(tbody)) tbody.innerHTML = '';
 
 		let prevMonthDays = getPreviousMonthDays();
 		let dayCount = 1;
@@ -126,8 +126,8 @@ const CheckinForm = ({ flights, hotels }) => {
 				// Previous month days
 				if (r === 0 && c < firstDayOfMonth()) {
 
-					if (currentMonth === date.month) cell.classList.add('unavailable-day');
-					else cell.classList.add('available-day');
+					if (currentMonth === date.month && currentYear === date.year) cell.classList.add('unavailable-day');
+					else cell.classList.add('previous-month-day');
 
 					// Get the total days of previous month
 					// Get the first day of current month, then decrement the first day with the cells coresponding the previous month days
@@ -139,7 +139,7 @@ const CheckinForm = ({ flights, hotels }) => {
 					// Following month days
 				} else if (dayCount > getMonthDays()) {
 
-					cell.classList.add('available-day');
+					cell.classList.add('next-month-day');
 
 					dayCount++;
 					// for each day count decrement the total days of the current month
@@ -162,9 +162,9 @@ const CheckinForm = ({ flights, hotels }) => {
 				// Every day before the current day but in the same month
 				if (r <= 3 && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
 				// Highlight the checkin day
-				if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear) cell.classList.add('selected-day');
+				// if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays()) cell.classList.add('selected-day');
 			}
-			tbody.append(row);
+			if (document.body.contains(tbody)) tbody.append(row);
 		}
 	}
 
@@ -199,27 +199,59 @@ const CheckinForm = ({ flights, hotels }) => {
 			};
 		}
 
-		// On each click re-render the tbody
+		// On each click display the tbody
 		displayMonthDays();
 
 		e.stopPropagation();
 	};
 
 	const selectDate = e => {
+
+		let selectedDay, checkinMonth, checkinYear, formatedDate;
+
 		if (e.target.tagName === 'TD') {
-			let formatInputDate = `${parseFloat(e.target.textContent) < 10 ? 0 + e.target.textContent : e.target.textContent} / ${currentMonth < 10 && 0 + String(currentMonth + 1)} / ${currentYear}`;
 
-			// Because we can't use event object in the useState hook
-			let selectedDay = parseFloat(e.target.textContent);
+			// Can't use event object in state hook
+			selectedDay = parseFloat(e.target.textContent);
+			checkinMonth = currentMonth;
+			checkinYear = currentYear;
 
-			setFormState(formState => ({ ...formState, checkIn_formatedDate: formatInputDate, calendar_visible: false, checkIn_day: selectedDay, checkIn_month: currentMonth, checkIn_year: currentYear }));
+			if (e.target.classList.contains('previous-month-day')) {
+
+				if (currentYear > date.year) {
+					setCurrentYear(currentYear => currentYear - 1);
+
+					checkinYear = currentYear - 1;
+
+					if (currentMonth === date.month) {
+
+						setCurrentMonth(11);
+
+						checkinMonth = 11;
+					}
+				} else if (currentYear === date.year) {
+
+					setCurrentMonth(currentMonth => currentMonth - 1);
+
+					// state hook is async so it doesn't mutate the value immediately
+					checkinMonth = currentMonth - 1;
+				}
+
+				setFormState(formState => ({ ...formState, checkIn_month: checkinMonth, checkIn_year: checkinYear }));
+			}
+
+			setFormState(formState => ({ ...formState, checkIn_day: selectedDay, checkIn_month: checkinMonth, checkIn_year: checkinYear }));
+			// Format the input 
+			setFormState(formState => ({ ...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 10 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}` }));
 		}
+
+		setFormState(formState => ({ ...formState, calendar_visible: false }));
 	}
 
 	const showCalendar = () => setFormState(formState => ({ ...formState, calendar_visible: true }));
 
 	useEffect(() => {
-		document.body.contains(document.querySelector('.checkin-calendar')) && displayMonthDays();
+		displayMonthDays();
 	});
 
 	return (
@@ -271,7 +303,7 @@ const CheckinForm = ({ flights, hotels }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_checkIn">Check-In:</label>
-						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' onClick={showCalendar} onChange={handleChange} value={formState.checkIn_formatedDate} readOnly />
+						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' onClick={showCalendar} value={formState.hotel_checkIn} readOnly />
 
 						{formState.calendar_visible && (
 							<div className="checkin-calendar">
@@ -279,7 +311,7 @@ const CheckinForm = ({ flights, hotels }) => {
 
 								<div className="calendar-month">
 									<button type='button' className="decrement-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-left"></i></button>
-									<p className='date-name mx-1 text-center'>{formatDate()}</p>
+									<p className='date-name mx-1 text-center'>{formatCalendarMonth()}</p>
 									<button type='button' className="increment-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></button>
 								</div>
 
@@ -289,7 +321,7 @@ const CheckinForm = ({ flights, hotels }) => {
 											{date.weekdayName.map((day, index) => <th key={index + 1}>{day}</th>)}
 										</tr>
 									</thead>
-									<tbody onClick={selectDate} >
+									<tbody id='hotel-checkin-calendar' onClick={selectDate}>
 									</tbody>
 								</table>
 							</div>

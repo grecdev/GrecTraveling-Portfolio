@@ -62,12 +62,11 @@
 
 	/** Calendar **/
 	.checkin-calendar {
-		background: $primary-white;
 		box-shadow: 0 0 10px 5px $primary-dark;
 		position: absolute;
 		width: 350px;
-		bottom: -350px;
-		@include flex(column, stretch, center);
+		bottom: -330px;
+		@include flex(column, stretch, stretch);
 
 		.calendar-triangle {
 			position: absolute;
@@ -80,8 +79,7 @@
 
 		.calendar-month {
 			@include flex(row, center, center);
-			width: 100%;
-			padding: .5rem;
+			padding: .5rem 0;
 			background: darken($primary-blue, 10%);
 			color: $primary-white;
 
@@ -100,8 +98,9 @@
 		}
 
 		table {
-			width: 100%;
 			text-align: center;
+			background: $primary-white;
+			width: 100%;
 		}
 
 		thead {
@@ -110,15 +109,17 @@
 		}
 
 		tr {
+			@include flex(row, stretch, stretch);
 
 			th, td {
-				padding: .5rem 0;
-				width: 30px;
+				flex: 1;
+				height: 40px;
+				line-height: 40px;
 			}
 
 			th { pointer-events: none }
 
-			td:not(.passed-day):hover {
+			td:hover {
 				background: #eee;
 				cursor: pointer;
 			}
@@ -127,8 +128,8 @@
 				transition: background-color 100ms ease-in-out;
 				border: 1px solid #ddd;
 				
-				&.unavailable-day, &.before-current-day { pointer-events: none }
-				&.unavailable-day, &.available-day { color: #bbb !important }
+				&.unavailable-day, &.before-current-day, &.passed-day { pointer-events: none }
+				&.unavailable-day, &.previous-month-day, &.next-month-day { color: #bbb !important }
 				&.weekend-day { color: red }
 				&.before-current-day { font-size: .8rem }
 
