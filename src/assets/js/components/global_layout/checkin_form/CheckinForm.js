@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import Calendar from './Calendar';
+
 const CheckinForm = ({ flights, hotels }) => {
 
 	// To better see it in the devtools
@@ -13,9 +15,10 @@ const CheckinForm = ({ flights, hotels }) => {
 		checkOut_day: null,
 		checkOut_month: null,
 		checkOut_year: null,
-		checkOut_formatedDate: '',
+		hotel_checkOut: '',
 		people: 1,
-		calendar_visible: true
+		calendarCheckin_visible: false,
+		calendarCheckout_visible: false
 	});
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
@@ -157,14 +160,19 @@ const CheckinForm = ({ flights, hotels }) => {
 
 				// Current day
 				if (parseFloat(cell.textContent) === date.currentDay && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day) cell.classList.add('current-day');
+
 				// Every day before current month
 				if (currentYear < date.year) cell.classList.add('unavailable-day');
+
 				// Highlight weekends
 				if (c >= 5 && parseFloat(cell.textContent) <= getMonthDays() && currentMonth >= date.month && currentYear >= date.year) cell.classList.add('weekend-day');
+
 				// Every day before the current day but in the same month
 				if (r <= 3 && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
+
 				// Highlight the checkin day
 				if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected-day');
+
 			}
 			if (document.body.contains(tbody)) tbody.append(row);
 		}
@@ -209,15 +217,14 @@ const CheckinForm = ({ flights, hotels }) => {
 
 	const selectDate = e => {
 
-		let selectedDay, checkinMonth, checkinYear, formatedDate;
+		let selectedDay, checkinMonth, checkinYear;
 
-		if (e.target.closest('.table-body')) {
+		// Can't use event object in state hook
+		selectedDay = parseFloat(e.target.textContent);
+		checkinMonth = currentMonth;
+		checkinYear = currentYear;
 
-			// Can't use event object in state hook
-			selectedDay = parseFloat(e.target.textContent);
-			checkinMonth = currentMonth;
-			checkinYear = currentYear;
-
+		if (!e.target.classList.contains('table-row')) {
 			if (e.target.classList.contains('previous-month-day')) {
 
 				if (currentYear > date.year && currentMonth === 0) {
@@ -238,15 +245,56 @@ const CheckinForm = ({ flights, hotels }) => {
 				}
 			}
 
+			if (e.target.classList.contains('next-month-day')) {
+				if (currentYear >= date.year && currentMonth === 11) {
+					setCurrentYear(currentYear => currentYear + 1);
+
+					checkinYear = currentYear + 1;
+
+					setCurrentMonth(0);
+
+					checkinMonth = 0;
+
+				} else if (currentYear >= date.year) {
+
+					setCurrentMonth(currentMonth => currentMonth + 1);
+
+					// state hook is async so it doesn't mutate the value immediately
+					checkinMonth = currentMonth + 1;
+				}
+			}
+
 			setFormState(formState => ({ ...formState, checkIn_day: selectedDay, checkIn_month: checkinMonth, checkIn_year: checkinYear }));
 			// Because of the state async problem the data is not mutable
 			// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
 			// Format the input && close the calendar
-			setFormState(formState => ({ ...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 10 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendar_visible: false }));
+			setFormState(formState => ({ ...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 10 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendarCheckin_visible: false }));
 		}
+
 	}
 
-	const showCalendar = () => setFormState(formState => ({ ...formState, calendar_visible: true }));
+	const showCalendar = e => {
+
+		// So we have only 1 calendar displayed
+		if (e.target.dataset.calendarToggle === 'on') {
+
+			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckin_visible: true, calendarCheckout_visible: false }));
+			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckout_visible: true, calendarCheckin_visible: false }));
+
+			document.querySelectorAll('[data-calendar-toggle]').forEach(input => input.setAttribute('data-calendar-toggle', 'on'));
+			e.target.setAttribute('data-calendar-toggle', 'off');
+
+		} else if (e.target.dataset.calendarToggle === 'off') {
+
+			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckin_visible: false }));
+			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckout_visible: false }));
+
+			document.querySelectorAll('[data-calendar-toggle]').forEach(input => input.setAttribute('data-calendar-toggle', 'on'));
+			e.target.setAttribute('data-calendar-toggle', 'on');
+		}
+
+		e.stopPropagation();
+	};
 
 	useEffect(() => {
 		displayMonthDays();
@@ -301,34 +349,26 @@ const CheckinForm = ({ flights, hotels }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_checkIn">Check-In:</label>
-						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' onClick={showCalendar} value={formState.hotel_checkIn} readOnly />
+						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' data-calendar-toggle='on' onClick={showCalendar} value={formState.hotel_checkIn} readOnly />
 
-						{formState.calendar_visible && (
-							<div className="checkin-calendar">
-								<div className='calendar-triangle'></div>
-
-								<div className="calendar-month">
-									<button type='button' className="decrement-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-left"></i></button>
-									<p className='date-name mx-1 text-center'>{formatCalendarMonth()}</p>
-									<button type='button' className="increment-month calendar-arrow" onClick={changeMonth}><i className="far fa-arrow-alt-circle-right"></i></button>
-								</div>
-
-								<div className='table'>
-									<div className='table-head'>
-										<div className='table-row'>
-											{date.weekdayName.map((day, index) => <div className='table-cell' key={index + 1}>{day}</div>)}
-										</div>
-									</div>
-									<div className='table-body' id='hotel-checkin-calendar' onClick={selectDate}>
-									</div>
-								</div>
-							</div>
-						)}
+						{formState.calendarCheckin_visible && <Calendar
+							formatCalendarMonth={formatCalendarMonth}
+							weekdayName={date.weekdayName}
+							selectDate={selectDate}
+							changeMonth={changeMonth}
+						/>}
 					</div>
 
 					<div className="form-box">
 						<label htmlFor="hotel_checkOut">Check-Out:</label>
-						<input type="text" id='hotel_checkOut' placeholder='DD / MM / YY' name='hotel_checkOut' value={formState.checkOut_date} readOnly />
+						<input type="text" id='hotel_checkOut' placeholder='DD / MM / YY' name='hotel_checkOut' data-calendar-toggle='on' onClick={showCalendar} value={formState.hotel_checkOut} readOnly />
+
+						{formState.calendarCheckout_visible && <Calendar
+							formatCalendarMonth={formatCalendarMonth}
+							weekdayName={date.weekdayName}
+							selectDate={selectDate}
+							changeMonth={changeMonth}
+						/>}
 					</div>
 
 					<div className="form-box">

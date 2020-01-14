@@ -5,7 +5,7 @@ import SlideshowContextProvider from '../../../../context/slideshow/SlideshowCon
 import SlideshowImage from './SlideshowImage';
 import ShowcaseInfo from './ShowcaseInfo';
 import SlideshowButtons from './SlideshowButtons';
-import CheckinForm from '../../../global_layout/CheckinForm';
+import CheckinForm from '../../../global_layout/checkin_form/CheckinForm';
 
 const Showcase = () => {
 	return (

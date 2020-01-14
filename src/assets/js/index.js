@@ -35,7 +35,7 @@ const renderApp = el => {
 				<GlobalContextProvider>
 					{apps[el]}
 				</GlobalContextProvider >
-			</Suspense>
+				</Suspense>
 			, document.querySelector(`.${el}`));
 	}
 }
