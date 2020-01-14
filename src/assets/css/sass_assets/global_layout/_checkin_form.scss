@@ -131,9 +131,10 @@
 			&.weekend-day { color: red }
 			&.before-current-day { font-size: .8rem }
 
-			&.current-day, &.selected-day {
+			&.current-day, &.checkIn-day, &.checkOut-day {
 				background: lighten($primary-blue, 10%);
 				color: $primary-white;
+				border: none;
 
 				&:hover { background: $primary-blue }
 			}

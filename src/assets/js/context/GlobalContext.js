@@ -4,7 +4,7 @@ export const GlobalContext = createContext();
 
 class GlobalContextProvider extends Component {
 
-	getImage = image => require(`../../../media/${image}`);
+	getImage = image => require(`../../media/${image}`);
 
 	// Remove the unwanted page load transitions for animated elements
 	removeTransitions = () => document.body.classList.remove('preload');
@@ -56,12 +56,14 @@ class GlobalContextProvider extends Component {
 
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.loadEvent);
+		// document.addEventListener('click', this.clickEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('DOMContentLoaded', this.loadEvent);
+		// document.removeEventListener('click', this.clickEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
 	}

@@ -17,7 +17,8 @@ import '../css/style.scss';
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
-import GlobalContextProvider from './context/global/GlobalContext';
+import GlobalContextProvider from './context/GlobalContext';
+import FormContextProvider from './context/FormContext';
 
 const HomePage = lazy(() => import('./HomePage'));
 const ContactPage = lazy(() => import('./ContactPage'));
@@ -33,9 +34,11 @@ const renderApp = el => {
 		ReactDOM.render(
 			<Suspense fallback={<div>Loading...</div>}>
 				<GlobalContextProvider>
-					{apps[el]}
+					<FormContextProvider>
+						{apps[el]}
+					</FormContextProvider>
 				</GlobalContextProvider >
-				</Suspense>
+			</Suspense>
 			, document.querySelector(`.${el}`));
 	}
 }

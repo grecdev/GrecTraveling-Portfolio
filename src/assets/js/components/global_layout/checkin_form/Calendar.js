@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 
-const Calendar = ({ formatCalendarMonth, weekdayName, selectDate, changeMonth }) => {
+import { FormContext } from '../../../context/FormContext';
+
+const Calendar = () => {
+
+	const {formatCalendarMonth, weekdayName, selectDate, changeMonth} = useContext(FormContext);
+	
 	return (
 		<div className="checkin-calendar">
 			<div className='calendar-triangle'></div>
@@ -25,11 +30,5 @@ const Calendar = ({ formatCalendarMonth, weekdayName, selectDate, changeMonth })
 	)
 }
 
-Calendar.propTypes = {
-	formatCalendarMonth: PropTypes.func.isRequired,
-	weekdayName: PropTypes.array.isRequired,
-	selectDate: PropTypes.func.isRequired,
-	changeMonth: PropTypes.func.isRequired
-}
 
 export default Calendar;

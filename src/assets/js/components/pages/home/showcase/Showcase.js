@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SlideshowContextProvider from '../../../../context/slideshow/SlideshowContext';
+import SlideshowContextProvider from '../../../../context/SlideshowContext';
 
 import SlideshowImage from './SlideshowImage';
 import ShowcaseInfo from './ShowcaseInfo';
