@@ -129,12 +129,11 @@
 			
 			&.unavailable-day, &.previous-month-day, &.next-month-day { color: #bbb !important }
 			&.weekend-day { color: red }
-			&.before-current-day { font-size: .8rem }
+			&.before-current-day, &.unavailable-day { font-size: .8rem }
 
 			&.current-day, &.checkIn-day, &.checkOut-day {
 				background: lighten($primary-blue, 10%);
 				color: $primary-white;
-				border: none;
 
 				&:hover { background: $primary-blue }
 			}
