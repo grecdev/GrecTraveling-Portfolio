@@ -1,7 +1,9 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
 	devtool: 'none',
 	entry: {
-		main: ['@babel/polyfill', './src/assets/js/index.js'] // Which file we want to use to be our source file, entry point, that have modern JS
+		main: ['@babel/polyfill', './src/assets/js/index.js'], // Which file we want to use to be our source file, entry point, that have modern JS
 	},
 	module: {
 		rules: [
@@ -31,5 +33,12 @@ module.exports = {
 				}
 			}
 		]
-	}
+	},
+	plugins: [
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'disabled',
+			generateStatsFile: true,
+			statsOptions: { source: false }
+		})
+	]
 };

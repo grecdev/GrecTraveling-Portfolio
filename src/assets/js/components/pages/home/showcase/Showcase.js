@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SlideshowContextProvider from '../../../../context/slideshow/SlideshowContext';
+import SlideshowContextProvider from '../../../../context/SlideshowContext';
 
 import SlideshowImage from './SlideshowImage';
 import ShowcaseInfo from './ShowcaseInfo';
 import SlideshowButtons from './SlideshowButtons';
-import CheckinForm from './CheckinForm';
+import CheckinForm from '../../../global_layout/checkin_form/CheckinForm';
 
 const Showcase = () => {
 	return (
@@ -19,7 +19,7 @@ const Showcase = () => {
 				<div className="showcase-container">
 					<ShowcaseInfo />
 					<SlideshowButtons />
-					<CheckinForm />
+					<CheckinForm flights={true} hotels={true} />
 				</div>
 			</section>
 		</SlideshowContextProvider>

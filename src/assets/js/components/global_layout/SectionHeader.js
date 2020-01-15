@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { GlobalContext } from '../../context/global/GlobalContext';
+import { GlobalContext } from '../../context/GlobalContext';
 
 const SectionHeader = ({ image, title }) => {
 

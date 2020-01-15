@@ -9,7 +9,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(config, {
-	devtool: 'none', // It removes eval, makes it easier to understand
 	mode: 'production', // development means: STOP MINIFIED
 	output: {
 		// Output folder
