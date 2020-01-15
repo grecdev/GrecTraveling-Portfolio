@@ -1,5 +1,3 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 module.exports = {
 	devtool: 'none',
 	entry: {
@@ -33,12 +31,5 @@ module.exports = {
 				}
 			}
 		]
-	},
-	plugins: [
-		new BundleAnalyzerPlugin({
-			analyzerMode: 'disabled',
-			generateStatsFile: true,
-			statsOptions: { source: false }
-		})
-	]
+	}
 };

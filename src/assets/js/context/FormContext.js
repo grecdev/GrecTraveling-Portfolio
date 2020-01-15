@@ -17,6 +17,7 @@ export const FormContextProvider = (props) => {
 		people: 1,
 		calendarCheckIn_visible: false,
 		calendarCheckOut_visible: false,
+		peopleSelection_visible: false
 	});
 
 	const date = {
@@ -52,6 +53,20 @@ export const FormContextProvider = (props) => {
 	let [currentYear, setCurrentYear] = useState(date.year);
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
+
+	const closeFormMenus = e => {
+
+		if (!e.target.closest('.people-selection') || !e.target.closest('.checkin-calendar')) setFormState(formState => ({
+			...formState,
+			peopleSelection_visible: false,
+			calendarCheckIn_visible: false,
+			calendarCheckOut_visible: false
+		}));
+
+		if (e.target.tagName === 'INPUT') return false;
+		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+
+	};
 
 	// Show / Hide checkin form
 	const displayForm = e => {
@@ -141,7 +156,7 @@ export const FormContextProvider = (props) => {
 
 					// Following month days
 				} else if (dayCount > getMonthDays()) {
-					
+
 					cell.classList.add('next-month-day');
 
 					dayCount++;
@@ -348,7 +363,7 @@ export const FormContextProvider = (props) => {
 			}
 
 			// Is same as clicking on the input field, we need to toggle it on again
-			document.querySelectorAll('[data-calendar-toggle]').forEach(input => input.setAttribute('data-calendar-toggle', 'on'));
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
 	}
 
@@ -373,24 +388,43 @@ export const FormContextProvider = (props) => {
 		}
 
 		// So we have only 1 calendar displayed
-		if (e.target.dataset.calendarToggle === 'on') {
+		if (e.target.dataset.menuToggle === 'on') {
 
-			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckIn_visible: true, calendarCheckOut_visible: false }));
-			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckOut_visible: true, calendarCheckIn_visible: false }));
+			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckIn_visible: true, calendarCheckOut_visible: false, peopleSelection_visible: false }));
+			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckOut_visible: true, calendarCheckIn_visible: false, peopleSelection_visible: false }));
 
-			document.querySelectorAll('[data-calendar-toggle]').forEach(input => input.setAttribute('data-calendar-toggle', 'on'));
-			e.target.setAttribute('data-calendar-toggle', 'off');
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+			e.target.setAttribute('data-menu-toggle', 'off');
 
-		} else if (e.target.dataset.calendarToggle === 'off') {
+		} else if (e.target.dataset.menuToggle === 'off') {
 
 			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckIn_visible: false }));
 			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckOut_visible: false }));
 
-			document.querySelectorAll('[data-calendar-toggle]').forEach(input => input.setAttribute('data-calendar-toggle', 'on'));
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
 
 		e.stopPropagation();
 	};
+
+	const showPeopleSelection = e => {
+
+		if (e.target.dataset.menuToggle === 'on') {
+
+			setFormState(formState => ({ ...formState, peopleSelection_visible: true, calendarCheckIn_visible: false, calendarCheckOut_visible: false }));
+
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+			e.target.setAttribute('data-menu-toggle', 'off');
+
+		} else if (e.target.dataset.menuToggle === 'off') {
+
+			setFormState(formState => ({ ...formState, peopleSelection_visible: false }));
+
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+		}
+
+		e.stopPropagation();
+	}
 
 	// If we set the checkin day above the checkout day
 	const resetCalendar = () => {
@@ -426,7 +460,9 @@ export const FormContextProvider = (props) => {
 			handleChange,
 			formatCalendarMonth,
 			selectDate,
-			changeMonth
+			changeMonth,
+			showPeopleSelection,
+			closeFormMenus
 		}}>
 			{props.children}
 		</FormContext.Provider>

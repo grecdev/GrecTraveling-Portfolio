@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(config, {
 	mode: 'production', // development means: STOP MINIFIED
@@ -63,7 +64,12 @@ module.exports = merge(config, {
 					'*.scss'
 				]
 			}
-		])
+		]),
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'disabled',
+			generateStatsFile: true,
+			statsOptions: { source: false }
+		})
 	],
 	module: {
 		rules: [
