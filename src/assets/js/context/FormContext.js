@@ -54,6 +54,20 @@ export const FormContextProvider = (props) => {
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
 
+	const closeFormMenus = e => {
+
+		if (!e.target.closest('.people-selection') || !e.target.closest('.checkin-calendar')) setFormState(formState => ({
+			...formState,
+			peopleSelection_visible: false,
+			calendarCheckIn_visible: false,
+			calendarCheckOut_visible: false
+		}));
+
+		if (e.target.tagName === 'INPUT') return false;
+		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+
+	};
+
 	// Show / Hide checkin form
 	const displayForm = e => {
 		if (e.target.tagName === 'A') {
@@ -408,7 +422,7 @@ export const FormContextProvider = (props) => {
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
-		
+
 		e.stopPropagation();
 	}
 
@@ -447,7 +461,8 @@ export const FormContextProvider = (props) => {
 			formatCalendarMonth,
 			selectDate,
 			changeMonth,
-			showPeopleSelection
+			showPeopleSelection,
+			closeFormMenus
 		}}>
 			{props.children}
 		</FormContext.Provider>
