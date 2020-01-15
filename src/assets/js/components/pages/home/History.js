@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { GlobalContext } from '../../../context/global/GlobalContext';
+import { GlobalContext } from '../../../context/GlobalContext';
 
 const History = () => {
 
