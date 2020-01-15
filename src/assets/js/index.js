@@ -33,11 +33,11 @@ const renderApp = el => {
 	if (apps[el]) {
 		ReactDOM.render(
 			<Suspense fallback={<div>Loading...</div>}>
-				<GlobalContextProvider>
-					<FormContextProvider>
+				<FormContextProvider>
+					<GlobalContextProvider>
 						{apps[el]}
-					</FormContextProvider>
-				</GlobalContextProvider >
+					</GlobalContextProvider >
+				</FormContextProvider>
 			</Suspense>
 			, document.querySelector(`.${el}`));
 	}

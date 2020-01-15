@@ -2,7 +2,11 @@ import React, { Component, createContext } from 'react';
 
 export const GlobalContext = createContext();
 
+import {FormContext} from './FormContext';
+
 class GlobalContextProvider extends Component {
+
+	static contextType = FormContext;
 
 	getImage = image => require(`../../media/${image}`);
 
@@ -54,21 +58,31 @@ class GlobalContextProvider extends Component {
 		e.stopPropagation();
 	}
 
+	clickEvent = e => {
+
+		const {closeFormMenus} = this.context;
+
+		closeFormMenus(e);
+
+		e.stopPropagation();
+	}
+
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.loadEvent);
-		// document.addEventListener('click', this.clickEvent);
+		document.addEventListener('click', this.clickEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('DOMContentLoaded', this.loadEvent);
-		// document.removeEventListener('click', this.clickEvent);
+		document.removeEventListener('click', this.clickEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
 	}
 
 	render() {
+
 		return (
 			<GlobalContext.Provider value={{
 				...this.state,

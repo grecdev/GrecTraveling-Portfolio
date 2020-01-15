@@ -242,6 +242,14 @@ a, button, input, textarea {
 		color: $primary-white;
 
 		&:hover { background: lighten($primary-blue, 5%) }
+
+		&-reverse {
+			background: $primary-white;
+			color: $primary-blue;
+			border: 1.5px solid $primary-blue;
+
+			&:hover { background: #F0F0F0 }
+		}
 	}
 
 	&-yellow {
