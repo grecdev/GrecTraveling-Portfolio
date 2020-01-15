@@ -54,7 +54,7 @@
 		}
 	}
 
-	button {
+	form > button {
 		color: $primary-white;
 		font-size: 2rem;
 		cursor: pointer;
@@ -72,9 +72,9 @@
 			position: absolute;
 			top: -17px;
 			left: 40px;
+			border-style: solid;
 			border-color: transparent transparent darken($primary-blue, 10%) transparent;
 			border-width: 0px 12px 17px 12px;
-			border-style: solid;
 		}
 
 		.calendar-month {
@@ -148,5 +148,49 @@
 				line-height: 40px;
 			}
 		}
+	}
+
+	/** People selection **/
+	.people-selection {
+		background: $primary-white;
+		position: absolute;
+		top: 80px;
+		left: 0;
+		box-shadow: 0 0 10px 2px $primary-blue;
+		width: 350px;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: -17px;
+			left: 20px;
+			border-style: solid;
+			border-color: transparent transparent $primary-white transparent;
+			border-width: 0px 12px 17px 12px;
+		}
+
+		&-box, &-buttons { @include flex(row, space-between, center) }
+
+		&-box {
+			border-bottom: 1px solid $primary-blue;
+			padding-bottom: .5rem;
+
+			p { font-size: .8rem }
+
+			&:last-child { border: none }
+		}
+
+		&-buttons {
+
+			span { margin: 0 .7rem }
+			
+			button {
+				font-size: .6rem;
+				padding: .3rem .8rem;
+				@include flex(column, center, center);
+			}
+		}
+
+		button { width: 100% }
 	}
 }

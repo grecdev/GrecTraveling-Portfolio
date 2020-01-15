@@ -56,19 +56,18 @@ class GlobalContextProvider extends Component {
 
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.loadEvent);
-		// document.addEventListener('click', this.clickEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('DOMContentLoaded', this.loadEvent);
-		// document.removeEventListener('click', this.clickEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
 	}
 
 	render() {
+
 		return (
 			<GlobalContext.Provider value={{
 				...this.state,

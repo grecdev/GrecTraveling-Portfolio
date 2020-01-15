@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FormContext } from '../../../context/FormContext';
 
 import Calendar from './Calendar';
+import PeopleSelection from './PeopleSelection';
 
 const CheckinForm = ({ flights, hotels }) => {
 
@@ -14,9 +15,11 @@ const CheckinForm = ({ flights, hotels }) => {
 		people,
 		calendarCheckIn_visible,
 		calendarCheckOut_visible,
+		peopleSelection_visible,
 		handleChange,
 		displayForm,
-		showCalendar } = useContext(FormContext);
+		showCalendar,
+		showPeopleSelection } = useContext(FormContext);
 
 	return (
 		<div className='form-container'>
@@ -67,24 +70,26 @@ const CheckinForm = ({ flights, hotels }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_checkIn">Check-In:</label>
-						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' data-calendar-toggle='on' onClick={showCalendar} value={hotel_checkIn} readOnly />
+						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' data-menu-toggle='on' onClick={showCalendar} value={hotel_checkIn} readOnly />
 
 						{calendarCheckIn_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
 						<label htmlFor="hotel_checkOut">Check-Out:</label>
-						<input type="text" id='hotel_checkOut' placeholder='DD / MM / YY' name='hotel_checkOut' data-calendar-toggle='on' onClick={showCalendar} value={hotel_checkOut} readOnly />
+						<input type="text" id='hotel_checkOut' placeholder='DD / MM / YY' name='hotel_checkOut' data-menu-toggle='on' onClick={showCalendar} value={hotel_checkOut} readOnly />
 
 						{calendarCheckOut_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
 						<label htmlFor="hotel_people">People:</label>
-						<input type="text" id='hotel_people' name='hotel_people' onChange={handleChange} readOnly value={people} />
+						<input type="text" id='hotel_people' name='hotel_people' onClick={showPeopleSelection} data-menu-toggle='on' readOnly value={people} />
+
+						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
-					<button type='submit'><i className="fas fa-search"></i></button>
+					<button type='button'><i className="fas fa-search"></i></button>
 				</form>
 			)}
 		</div>
