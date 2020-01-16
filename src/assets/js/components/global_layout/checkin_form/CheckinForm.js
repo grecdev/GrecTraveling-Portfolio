@@ -10,9 +10,11 @@ const CheckinForm = ({ flights, hotels }) => {
 
 	const {
 		hotel_destination,
-		hotel_checkIn,
-		hotel_checkOut,
-		people,
+		flying_from,
+		flying_to,
+		checkIn_date,
+		checkOut_date,
+		peopleTotal,
 		calendarCheckIn_visible,
 		calendarCheckOut_visible,
 		peopleSelection_visible,
@@ -24,36 +26,42 @@ const CheckinForm = ({ flights, hotels }) => {
 	return (
 		<div className='form-container'>
 			<div className="checkin-header" onClick={displayForm}>
-				{flights && <a data-checkin-type='flights'>Flights</a>}
-				{hotels && <a data-checkin-type='hotels' className='active-checkin'>Hotels</a>}
+				{flights && <a data-checkin-type='flights' className='active-form'>Flights</a>}
+				{hotels && <a data-checkin-type='hotels'>Hotels</a>}
 			</div>
 
 			{flights && (
-				<form name='flights' id='flights' className='p-1 checkin-form display-none'>
+				<form name='flights' className='p-1 checkin-form display-flex'>
 
 					<div className="form-box">
-						<label htmlFor="from">Flying from:</label>
-						<input type="text" id='from' placeholder='Location' name='flying-from' />
+						<label htmlFor="flying_from">Flying from:</label>
+						<input type="text" id='flying_from' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="to">To:</label>
-						<input type="text" id='to' placeholder='Location' name='flying-to' />
+						<label htmlFor="flying_to">To:</label>
+						<input type="text" id='flying_to' placeholder='Location' name='flying_to' onChange={handleChange} value={flying_to} />
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="departing">Departing:</label>
-						<input type="text" id='departing' placeholder='DD / MM / YY' name='departing' />
+						<label htmlFor="departing-checkin">Departing:</label>
+						<input type="text" id='departing-checkin' placeholder='DD / MM / YY' name='departing-checkin' data-menu-toggle='on' onClick={showCalendar} value={checkIn_date} readOnly />
+
+						{calendarCheckIn_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="returning">Returning:</label>
-						<input type="text" id='returning' placeholder='DD / MM / YY' name='returning' />
+						<label htmlFor="returning-checkout">Returning:</label>
+						<input type="text" id='returning-checkout' placeholder='DD / MM / YY' name='returning-checkout' data-menu-toggle='on' onClick={showCalendar} value={checkOut_date} readOnly />
+
+						{calendarCheckOut_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="passengers">Passengers:</label>
-						<input type="text" id='passengers' value={1} readOnly name='passengers' />
+						<label htmlFor="flight-passengers">Passengers:</label>
+						<input type="text" id='flight-passengers' name='flight-passengers' data-menu-toggle='on' onClick={showPeopleSelection} value={peopleTotal} readOnly/>
+
+						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
 					<button type='submit'><i className="fas fa-search"></i></button>
@@ -61,7 +69,7 @@ const CheckinForm = ({ flights, hotels }) => {
 			)}
 
 			{hotels && (
-				<form name='hotels' id='hotels' className='p-1 checkin-form display-flex'>
+				<form name='hotels' className='p-1 checkin-form display-none'>
 
 					<div className="form-box">
 						<label htmlFor="hotel_destination">City or Hotel name (optional):</label>
@@ -69,22 +77,22 @@ const CheckinForm = ({ flights, hotels }) => {
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="hotel_checkIn">Check-In:</label>
-						<input type="text" id='hotel_checkIn' placeholder='DD / MM / YY' name='hotel_checkIn' data-menu-toggle='on' onClick={showCalendar} value={hotel_checkIn} readOnly />
+						<label htmlFor="hotel-checkin">Check-In:</label>
+						<input type="text" id='hotel-checkin' placeholder='DD / MM / YY' name='hotel-checkin' data-menu-toggle='on' onClick={showCalendar} value={checkIn_date} readOnly />
 
 						{calendarCheckIn_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="hotel_checkOut">Check-Out:</label>
-						<input type="text" id='hotel_checkOut' placeholder='DD / MM / YY' name='hotel_checkOut' data-menu-toggle='on' onClick={showCalendar} value={hotel_checkOut} readOnly />
+						<label htmlFor="hotel-checkout">Check-Out:</label>
+						<input type="text" id='hotel-checkout' placeholder='DD / MM / YY' name='hotel-checkout' data-menu-toggle='on' onClick={showCalendar} value={checkOut_date} readOnly />
 
 						{calendarCheckOut_visible && <Calendar />}
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="hotel_people">People:</label>
-						<input type="text" id='hotel_people' name='hotel_people' onClick={showPeopleSelection} data-menu-toggle='on' readOnly value={people} />
+						<label htmlFor="hotel-people">People:</label>
+						<input type="text" id='hotel-people' name='hotel-people' data-menu-toggle='on' onClick={showPeopleSelection} value={peopleTotal} readOnly />
 
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>

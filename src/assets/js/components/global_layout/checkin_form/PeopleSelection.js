@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { FormContext } from '../../../context/FormContext';
 
 const PeopleSelection = () => {
+
+	const {
+		selectPeople,
+		adults,
+		youth,
+		children,
+		infants
+	} = useContext(FormContext);
+
 	return (
-		<div className='people-selection p-1'>
+		<div className='people-selection p-1' onClick={selectPeople}>
 
 			<div className="people-selection-box my-1">
 				<div className="people-selection-info">
@@ -11,9 +22,11 @@ const PeopleSelection = () => {
 				</div>
 
 				<div className="people-selection-buttons">
-					<button type='button' className="btn btn-blue decrement-people"><i className="fas fa-minus"></i></button>
-					<span className='adults'>1</span>
-					<button type='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></button>
+					<a aria-label='button' className={
+						`btn btn-blue decrement-people ${adults > 0 ? '' : 'people-btn-disabled'}`
+					}><i className="fas fa-minus"></i></a>
+					<span id='adults'>{adults}</span>
+					<a aria-label='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></a>
 				</div>
 			</div>
 
@@ -24,9 +37,11 @@ const PeopleSelection = () => {
 				</div>
 
 				<div className="people-selection-buttons">
-					<button type='button' className="btn btn-blue decrement-people"><i className="fas fa-minus"></i></button>
-					<span className='adults'>1</span>
-					<button type='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></button>
+					<a aria-label='button' className={
+						`btn btn-blue decrement-people ${youth > 0 ? '' : 'people-btn-disabled'}`
+					}><i className="fas fa-minus"></i></a>
+					<span id='youth'>{youth}</span>
+					<a aria-label='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></a>
 				</div>
 			</div>
 
@@ -37,9 +52,11 @@ const PeopleSelection = () => {
 				</div>
 
 				<div className="people-selection-buttons">
-					<button type='button' className="btn btn-blue decrement-people"><i className="fas fa-minus"></i></button>
-					<span className='adults'>1</span>
-					<button type='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></button>
+					<a aria-label='button' className={
+						`btn btn-blue decrement-people ${children > 0 ? '' : 'people-btn-disabled'}`
+					}><i className="fas fa-minus"></i></a>
+					<span id='children'>{children}</span>
+					<a aria-label='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></a>
 				</div>
 			</div>
 
@@ -50,9 +67,11 @@ const PeopleSelection = () => {
 				</div>
 
 				<div className="people-selection-buttons">
-					<button type='button' className="btn btn-blue decrement-people"><i className="fas fa-minus"></i></button>
-					<span className='adults'>1</span>
-					<button type='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></button>
+					<a aria-label='button' className={
+						`btn btn-blue decrement-people ${infants > 0 ? '' : 'people-btn-disabled'}`
+					}><i className="fas fa-minus"></i></a>
+					<span id='infants'>{infants}</span>
+					<a aria-label='button' className="btn btn-blue  increment-people"><i className="fas fa-plus"></i></a>
 				</div>
 			</div>
 

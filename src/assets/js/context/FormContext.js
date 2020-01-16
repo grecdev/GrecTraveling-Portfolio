@@ -4,21 +4,30 @@ export const FormContext = createContext();
 
 export const FormContextProvider = (props) => {
 
-	const [formState, setFormState] = useState({
+	// Sometimes we reset the entire form :)
+	const initialState = {
 		hotel_destination: '',
+		flying_from: '',
+		flying_to: '',
 		checkIn_day: undefined,
 		checkIn_month: undefined,
 		checkIn_year: undefined,
-		hotel_checkIn: '',
+		checkIn_date: '',
 		checkOut_day: undefined,
 		checkOut_month: undefined,
 		checkOut_year: undefined,
-		hotel_checkOut: '',
-		people: 1,
+		checkOut_date: '',
+		peopleTotal: 1,
+		adults: 1,
+		youth: 0,
+		children: 0,
+		infants: 0,
 		calendarCheckIn_visible: false,
 		calendarCheckOut_visible: false,
 		peopleSelection_visible: false
-	});
+	}
+
+	const [formState, setFormState] = useState(initialState);
 
 	const date = {
 		currentDay: new Date().getDate(),
@@ -56,36 +65,40 @@ export const FormContextProvider = (props) => {
 
 	const closeFormMenus = e => {
 
-		if (!e.target.closest('.people-selection') || !e.target.closest('.checkin-calendar')) setFormState(formState => ({
+		// Checking for ids
+		const regex = /checkin|checkout|people|passengers/gi;
+
+		if (!e.target.closest('.people-selection') && !e.target.closest('.checkin-calendar')) setFormState(formState => ({
 			...formState,
 			peopleSelection_visible: false,
 			calendarCheckIn_visible: false,
 			calendarCheckOut_visible: false
 		}));
 
-		if (e.target.tagName === 'INPUT') return false;
+		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id)) return false;
 		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
-
 	};
 
 	// Show / Hide checkin form
 	const displayForm = e => {
 		if (e.target.tagName === 'A') {
+
 			const formType = e.target.dataset.checkinType;
 
 			document.querySelectorAll('.checkin-form').forEach(form => form.classList.replace('display-flex', 'display-none'));
-			document.getElementById(formType).classList.replace('display-none', 'display-flex');
+			document.querySelector(`form[name=${formType}]`).classList.replace('display-none', 'display-flex');
 
-			document.querySelectorAll('.active-checkin').forEach(btn => btn.classList.remove('active-checkin'));
-			e.target.classList.add('active-checkin');
+			document.querySelectorAll('.active-form').forEach(btn => btn.classList.remove('active-form'));
+			e.target.classList.add('active-form');
 
-			setFormState(formState => ({ ...formState, calendarCheckIn_visible: false, calendarCheckOut_visible: false }));
+			setFormState(initialState);
 		}
 	};
 
 	const formatCalendarMonth = () => `${date.monthName[currentMonth]} ${currentYear}`;
 
 	const getMonthDays = (month = currentMonth, year = currentYear) => {
+
 		let totalDays;
 
 		// From our date.monthName
@@ -103,9 +116,12 @@ export const FormContextProvider = (props) => {
 		let prevMonth, prevYear;
 
 		if (currentMonth > 1) {
+
 			prevMonth = currentMonth - 1
 			prevYear = currentYear;
+
 		} else {
+
 			prevMonth = 11;
 			prevYear = currentYear - 1;
 		}
@@ -166,6 +182,7 @@ export const FormContextProvider = (props) => {
 					row.append(cell);
 				}
 				else {
+
 					cell.textContent = dayCount;
 					row.append(cell);
 					dayCount++;
@@ -190,8 +207,10 @@ export const FormContextProvider = (props) => {
 				// If we have the same checkin / checkout day
 				if (parseFloat(cell.textContent) === formState.checkOut_day && formState.checkOut_month === currentMonth && formState.checkOut_year === currentYear && parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('checkIn-day', 'checkOut-day');
 
-				// So we don't select a day that is past the checkin day
+				// So we don't select a day that is before the checkin day
 				if (((!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < formState.checkIn_day) || (cell.classList.contains('previous-month-day') && parseFloat(cell.textContent) >= formState.checkIn_day)) && currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible) cell.classList.add('before-current-day');
+
+				if (parseFloat(cell.textContent) < formState.checkIn_day && cell.classList.contains('previous-month-day') && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible && (formState.checkIn_month + 1) === currentMonth) cell.classList.add('before-current-day');
 			}
 
 			if (document.body.contains(tbody)) tbody.append(row);
@@ -214,6 +233,7 @@ export const FormContextProvider = (props) => {
 
 			// So we don't go past the current month (if you want to see if the passed months are correct displayed disable this)
 			if (currentMonth === date.month && currentYear === date.year) {
+
 				setCurrentMonth(date.month);
 				setCurrentYear(date.year);
 			}
@@ -224,9 +244,11 @@ export const FormContextProvider = (props) => {
 
 		// Increment Month
 		if (e.currentTarget.classList.contains('increment-month')) {
+
 			setCurrentMonth(currentMonth => currentMonth + 1);
 
 			if (currentMonth >= 11) {
+
 				setCurrentMonth(0);
 				setCurrentYear(currentYear => currentYear + 1);
 			};
@@ -256,6 +278,7 @@ export const FormContextProvider = (props) => {
 				if (e.target.classList.contains('previous-month-day')) {
 
 					if (currentYear > date.year && currentMonth === 0) {
+
 						setCurrentYear(currentYear => currentYear - 1);
 
 						checkInYear = currentYear - 1;
@@ -275,6 +298,7 @@ export const FormContextProvider = (props) => {
 
 				if (e.target.classList.contains('next-month-day')) {
 					if (currentYear >= date.year && currentMonth === 11) {
+
 						setCurrentYear(currentYear => currentYear + 1);
 
 						checkInYear = currentYear + 1;
@@ -302,7 +326,7 @@ export const FormContextProvider = (props) => {
 				// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
 				// Format the input && close the calendar
 				setFormState(formState => ({
-					...formState, hotel_checkIn: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 9 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendarCheckIn_visible: false
+					...formState, checkIn_date: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 9 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendarCheckIn_visible: false
 				}));
 			}
 
@@ -311,6 +335,7 @@ export const FormContextProvider = (props) => {
 				if (e.target.classList.contains('previous-month-day')) {
 
 					if (currentYear > date.year && currentMonth === 0) {
+
 						setCurrentYear(currentYear => currentYear - 1);
 
 						checkOutYear = currentYear - 1;
@@ -330,6 +355,7 @@ export const FormContextProvider = (props) => {
 
 				if (e.target.classList.contains('next-month-day')) {
 					if (currentYear >= date.year && currentMonth === 11) {
+
 						setCurrentYear(currentYear => currentYear + 1);
 
 						checkOutYear = currentYear + 1;
@@ -358,7 +384,7 @@ export const FormContextProvider = (props) => {
 				// Format the input && close the calendar
 				setFormState(formState => ({
 					...formState,
-					hotel_checkOut: `${formState.checkOut_day < 10 ? 0 + formState.checkOut_day.toString() : formState.checkOut_day} / ${formState.checkOut_month < 9 ? 0 + (formState.checkOut_month + 1).toString() : formState.checkOut_month + 1} / ${formState.checkOut_year}`, calendarCheckOut_visible: false
+					checkOut_date: `${formState.checkOut_day < 10 ? 0 + formState.checkOut_day.toString() : formState.checkOut_day} / ${formState.checkOut_month < 9 ? 0 + (formState.checkOut_month + 1).toString() : formState.checkOut_month + 1} / ${formState.checkOut_year}`, calendarCheckOut_visible: false
 				}));
 			}
 
@@ -369,19 +395,19 @@ export const FormContextProvider = (props) => {
 
 	const showCalendar = e => {
 
-		if (formState.hotel_checkIn.length === 0 && formState.hotel_checkOut.length === 0) {
+		if (formState.checkIn_date.length === 0 && formState.checkOut_date.length === 0) {
 
 			setCurrentMonth(date.month);
 			setCurrentYear(date.year);
 		}
 
 		// So if we show again the calendar display the checkin selected month, and not the month that we increment / decrement
-		if (e.target.id.toLowerCase().includes('checkin') && formState.hotel_checkIn.length > 0) {
+		if (e.target.id.toLowerCase().includes('checkin') && formState.checkIn_date.length > 0) {
 
 			setCurrentMonth(formState.checkIn_month);
 			setCurrentYear(formState.checkIn_year);
 
-		} else if (e.target.id.toLowerCase().includes('checkout') && formState.hotel_checkOut.length > 0) {
+		} else if (e.target.id.toLowerCase().includes('checkout') && formState.checkOut_date.length > 0) {
 
 			setCurrentMonth(formState.checkOut_month);
 			setCurrentYear(formState.checkOut_year);
@@ -426,6 +452,43 @@ export const FormContextProvider = (props) => {
 		e.stopPropagation();
 	}
 
+	const selectPeople = e => {
+
+		if (e.target.tagName === 'A') {
+
+			if (e.target.classList.contains('decrement-people')) {
+
+				const decrementButtonValue = e.target.nextElementSibling.id;
+
+				if (formState[decrementButtonValue] > 0) {
+
+					setFormState((formState) => ({ ...formState, peopleTotal: formState.peopleTotal - 1, [decrementButtonValue]: formState[decrementButtonValue] - 1 }));
+
+				} else setFormState((formState) => ({ ...formState, [decrementButtonValue]: 0 }));
+			}
+
+			if (e.target.classList.contains('increment-people')) {
+
+				const incrementPeopleType = e.target.previousElementSibling.id;
+
+				if (formState[incrementPeopleType] >= 0) {
+
+					setFormState((formState) => ({ ...formState, peopleTotal: formState.peopleTotal + 1, [incrementPeopleType]: formState[incrementPeopleType] + 1 }));
+
+				}
+			}
+		}
+
+		if (e.target.tagName === 'BUTTON') {
+
+			setFormState(formState => ({ ...formState, peopleSelection_visible: false }));
+
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+		}
+
+		e.stopPropagation();
+	}
+
 	// If we set the checkin day above the checkout day
 	const resetCalendar = () => {
 
@@ -434,7 +497,7 @@ export const FormContextProvider = (props) => {
 			setFormState(formState => (
 				{
 					...formState,
-					hotel_checkOut: '',
+					checkOut_date: '',
 					checkOut_day: undefined,
 					checkOut_month: undefined,
 					checkOut_year: undefined
@@ -462,7 +525,8 @@ export const FormContextProvider = (props) => {
 			selectDate,
 			changeMonth,
 			showPeopleSelection,
-			closeFormMenus
+			closeFormMenus,
+			selectPeople
 		}}>
 			{props.children}
 		</FormContext.Provider>

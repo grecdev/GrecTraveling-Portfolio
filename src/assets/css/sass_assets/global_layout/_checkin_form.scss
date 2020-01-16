@@ -21,7 +21,7 @@
 
 			&:hover { background: darken($primary-blue, 5%) }
 
-			&.active-checkin { background: rgba($primary-dark, .7) }
+			&.active-form { background: rgba($primary-dark, .7) }
 		}
 	}
 
@@ -48,9 +48,12 @@
 			transition: border-color 500ms ease-in-out;
 			width: 100%;
 
-			&#hotel_checkIn,
-			&#hotel_checkOut,
-			&#hotel_people { cursor: pointer }
+			&#hotel-checkin,
+			&#hotel-checkout,
+			&#hotel-people,
+			&#departing-checkin,
+			&#returning-checkout,
+			&#flight-passengers { cursor: pointer }
 		}
 	}
 
@@ -181,13 +184,21 @@
 		}
 
 		&-buttons {
-
+			width: 36%;
+			
 			span { margin: 0 .7rem }
 			
-			button {
+			a {
 				font-size: .6rem;
 				padding: .3rem .8rem;
 				@include flex(column, center, center);
+
+				// Better for JS event
+				i { pointer-events: none }
+
+				&.people-btn-disabled {
+					background: lighten($primary-blue, 17%);
+				}
 			}
 		}
 
