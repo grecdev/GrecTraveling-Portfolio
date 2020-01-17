@@ -134,11 +134,11 @@
 			&.weekend-day { color: red }
 			&.before-current-day, &.unavailable-day { font-size: .8rem }
 
-			&.current-day, &.checkIn-day, &.checkOut-day {
-				background: lighten($primary-blue, 10%);
-				color: $primary-white;
+			&.current-day, &.checkIn-day, &.checkOut-day, &.selected {
+				background: lighten($primary-blue, 10%) !important;
+				color: $primary-white !important;
 
-				&:hover { background: $primary-blue }
+				&:hover { background: $primary-blue !important }
 			}
 		}
 
@@ -149,6 +149,20 @@
 				flex: 1;
 				height: 40px;
 				line-height: 40px;
+				position: relative;
+
+				span { position: absolute }
+
+				span:first-child {
+					top: -5px;
+    			right: 8px;
+				}
+
+				span:nth-child(2) {
+					bottom: -10px;
+					left: 5px;
+					font-size: .6rem;
+				}
 			}
 		}
 	}

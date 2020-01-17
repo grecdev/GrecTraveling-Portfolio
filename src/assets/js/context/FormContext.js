@@ -166,7 +166,7 @@ export const FormContextProvider = (props) => {
 					// Get the total days of previous month
 					// Get the first day of current month, then decrement the first day with the cells coresponding the previous month days
 					// At final increment with 1
-					cell.textContent = prevMonthDays - (firstDayOfMonth() - c) + 1;
+					cell.innerHTML = `<span>${prevMonthDays - (firstDayOfMonth() - c) + 1}</span>`;
 
 					row.append(cell);
 
@@ -177,13 +177,13 @@ export const FormContextProvider = (props) => {
 
 					dayCount++;
 					// for each day count decrement the total days of the current month
-					cell.textContent = (dayCount - getMonthDays()) - 1;
+					cell.innerHTML = `<span>${(dayCount - getMonthDays()) - 1}</span>`;
 
 					row.append(cell);
 				}
 				else {
 
-					cell.textContent = dayCount;
+					cell.innerHTML = `<span>${dayCount}</span>`;
 					row.append(cell);
 					dayCount++;
 				}
@@ -201,8 +201,16 @@ export const FormContextProvider = (props) => {
 				if (!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
 
 				// Highlight the checkin / checkout day
-				if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('checkIn-day');
-				if (parseFloat(cell.textContent) === formState.checkOut_day && formState.checkOut_month === currentMonth && formState.checkOut_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('checkOut-day');
+				if (parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) {
+					cell.classList.add('checkIn-day');
+					// Nice ux
+					cell.innerHTML += '<span><i class="fas fa-plane-departure"></i><span>';
+				}
+				if (parseFloat(cell.textContent) === formState.checkOut_day && formState.checkOut_month === currentMonth && formState.checkOut_year === currentYear && parseFloat(cell.textContent) <= getMonthDays() && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) {
+					cell.classList.add('checkOut-day');
+					// Nice ux
+					cell.innerHTML += '<span><i class="fas fa-plane-arrival"></i><span>';
+				}
 
 				// If we have the same checkin / checkout day
 				if (parseFloat(cell.textContent) === formState.checkOut_day && formState.checkOut_month === currentMonth && formState.checkOut_year === currentYear && parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('checkIn-day', 'checkOut-day');
@@ -211,6 +219,23 @@ export const FormContextProvider = (props) => {
 				if (((!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < formState.checkIn_day) || (cell.classList.contains('previous-month-day') && parseFloat(cell.textContent) >= formState.checkIn_day)) && currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible) cell.classList.add('before-current-day');
 
 				if (parseFloat(cell.textContent) < formState.checkIn_day && cell.classList.contains('previous-month-day') && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible && (formState.checkIn_month + 1) === currentMonth) cell.classList.add('before-current-day');
+
+				// Days between checkin - checkout
+				// In the same month
+				if (parseFloat(cell.textContent) > formState.checkIn_day && parseFloat(cell.textContent) < formState.checkOut_day	&& !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && formState.checkIn_month >= currentMonth && formState.checkOut_month <= currentMonth && (formState.checkIn_year === currentYear || formState.checkOut_year === currentYear)) cell.classList.add('selected');
+				
+				// If we have the checkout day past the checkin month
+				if(currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.checkOut_month > formState.checkIn_month && formState.checkIn_day <= parseFloat(cell.textContent) && !cell.classList.contains('unavailable-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
+				if(currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.checkOut_month > formState.checkIn_month && formState.checkIn_day >= parseFloat(cell.textContent) && cell.classList.contains('next-month-day')) cell.classList.add('selected');
+				
+				// If we have the checkin day before the checkout month
+				if(currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && formState.checkOut_month > formState.checkIn_month && formState.checkOut_day >= parseFloat(cell.textContent) && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
+				if(currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && formState.checkOut_month > formState.checkIn_month && formState.checkOut_day <= parseFloat(cell.textContent) && !cell.classList.contains('next-month-day') && cell.classList.contains('previous-month-day')) cell.classList.add('selected');
+
+				// Between the checkin month and checkout month highlight all days
+				if(formState.checkOut_month > formState.checkIn_month && currentMonth < formState.checkOut_month && currentMonth > formState.checkIn_month && currentYear === formState.checkOut_year) cell.classList.add('selected');	
+
+				if(formState.checkOut_month > formState.checkIn_month && currentMonth === formState.checkOut_month && currentMonth > formState.checkIn_month && currentYear === formState.checkOut_year && parseFloat(cell.textContent) <= formState.checkOut_day && !cell.classList.contains('next-month-day')) cell.classList.add('selected');
 			}
 
 			if (document.body.contains(tbody)) tbody.append(row);
