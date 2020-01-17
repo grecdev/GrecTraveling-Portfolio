@@ -22,8 +22,10 @@ export const FormContextProvider = (props) => {
 		youth: 0,
 		children: 0,
 		infants: 0,
-		calendarCheckIn_visible: false,
-		calendarCheckOut_visible: false,
+		hotelCalendarCheckIn_visible: false,
+		hotelCalendarCheckOut_visible: false,
+		flightCalendarCheckIn_visible: false,
+		flightCalendarCheckOut_visible: false,
 		peopleSelection_visible: false
 	}
 
@@ -70,18 +72,20 @@ export const FormContextProvider = (props) => {
 
 		if (!e.target.closest('.people-selection') && !e.target.closest('.checkin-calendar')) setFormState(formState => ({
 			...formState,
-			peopleSelection_visible: false,
-			calendarCheckIn_visible: false,
-			calendarCheckOut_visible: false
+			hotelCalendarCheckIn_visible: false,
+			hotelCalendarCheckOut_visible: false,
+			flightCalendarCheckIn_visible: false,
+			flightCalendarCheckOut_visible: false,
+			peopleSelection_visible: false
 		}));
 
-		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id)) return false;
+		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id) || regex.test(e.target.getAttribute('for'))) return false;
 		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 	};
 
 	// Show / Hide checkin form
 	const displayForm = e => {
-		if (e.target.tagName === 'A') {
+		if (e.target.tagName === 'A' && !e.target.classList.contains('active-form')) {
 
 			const formType = e.target.dataset.checkinType;
 
@@ -216,28 +220,13 @@ export const FormContextProvider = (props) => {
 				if (parseFloat(cell.textContent) === formState.checkOut_day && formState.checkOut_month === currentMonth && formState.checkOut_year === currentYear && parseFloat(cell.textContent) === formState.checkIn_day && formState.checkIn_month === currentMonth && formState.checkIn_year === currentYear && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('checkIn-day', 'checkOut-day');
 
 				// So we don't select a day that is before the checkin day
-				if (((!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < formState.checkIn_day) || (cell.classList.contains('previous-month-day') && parseFloat(cell.textContent) >= formState.checkIn_day)) && currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible) cell.classList.add('before-current-day');
+				if (((!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < formState.checkIn_day) || (cell.classList.contains('previous-month-day') && parseFloat(cell.textContent) >= formState.checkIn_day)) && currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.hotelCalendarCheckOut_visible) cell.classList.add('before-current-day');
 
-				if (parseFloat(cell.textContent) < formState.checkIn_day && cell.classList.contains('previous-month-day') && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible && (formState.checkIn_month + 1) === currentMonth) cell.classList.add('before-current-day');
+				if (parseFloat(cell.textContent) < formState.checkIn_day && cell.classList.contains('previous-month-day') && currentYear === formState.checkIn_year && formState.hotelCalendarCheckOut_visible && (formState.checkIn_month + 1) === currentMonth) cell.classList.add('before-current-day');
 
 				// Days between checkin - checkout
-				// In the same month
-				if (parseFloat(cell.textContent) > formState.checkIn_day && parseFloat(cell.textContent) < formState.checkOut_day	&& !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && formState.checkIn_month >= currentMonth && formState.checkOut_month <= currentMonth && (formState.checkIn_year === currentYear || formState.checkOut_year === currentYear)) cell.classList.add('selected');
-				
-				// If we have the checkout day past the checkin month
-				if(currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.checkOut_month > formState.checkIn_month && formState.checkIn_day <= parseFloat(cell.textContent) && !cell.classList.contains('unavailable-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
-				if(currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.checkOut_month > formState.checkIn_month && formState.checkIn_day >= parseFloat(cell.textContent) && cell.classList.contains('next-month-day')) cell.classList.add('selected');
-				
-				// If we have the checkin day before the checkout month
-				if(currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && formState.checkOut_month > formState.checkIn_month && formState.checkOut_day >= parseFloat(cell.textContent) && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
-				if(currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && formState.checkOut_month > formState.checkIn_month && formState.checkOut_day <= parseFloat(cell.textContent) && !cell.classList.contains('next-month-day') && cell.classList.contains('previous-month-day')) cell.classList.add('selected');
-
-				// Between the checkin month and checkout month highlight all days
-				if(formState.checkOut_month > formState.checkIn_month && currentMonth < formState.checkOut_month && currentMonth > formState.checkIn_month && currentYear === formState.checkOut_year) cell.classList.add('selected');	
-
-				if(formState.checkOut_month > formState.checkIn_month && currentMonth === formState.checkOut_month && currentMonth > formState.checkIn_month && currentYear === formState.checkOut_year && parseFloat(cell.textContent) <= formState.checkOut_day && !cell.classList.contains('next-month-day')) cell.classList.add('selected');
+				// if(parseFloat(cell.textContent) >= formState.checkIn_day && parseFloat(cell.textContent) <= formState.checkOut_day && !cell.classList.contains('unavailable-day')) cell.classList.add('selected');
 			}
-
 			if (document.body.contains(tbody)) tbody.append(row);
 		}
 	}
@@ -264,7 +253,7 @@ export const FormContextProvider = (props) => {
 			}
 
 			// So we don't go past the checkin day
-			if (currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.calendarCheckOut_visible) setCurrentMonth(formState.checkIn_month);
+			if (currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.hotelCalendarCheckOut_visible) setCurrentMonth(formState.checkIn_month);
 		}
 
 		// Increment Month
@@ -298,7 +287,7 @@ export const FormContextProvider = (props) => {
 
 		if (!e.target.classList.contains('table-row')) {
 
-			if (formState.calendarCheckIn_visible) {
+			if (formState.hotelCalendarCheckIn_visible || formState.flightCalendarCheckIn_visible) {
 
 				if (e.target.classList.contains('previous-month-day')) {
 
@@ -351,11 +340,14 @@ export const FormContextProvider = (props) => {
 				// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
 				// Format the input && close the calendar
 				setFormState(formState => ({
-					...formState, checkIn_date: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 9 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`, calendarCheckIn_visible: false
+					...formState,
+					checkIn_date: `${formState.checkIn_day < 10 ? 0 + formState.checkIn_day.toString() : formState.checkIn_day} / ${formState.checkIn_month < 9 ? 0 + (formState.checkIn_month + 1).toString() : formState.checkIn_month + 1} / ${formState.checkIn_year}`,
+					hotelCalendarCheckIn_visible: false,
+					flightCalendarCheckIn_visible: false
 				}));
 			}
 
-			if (formState.calendarCheckOut_visible) {
+			if (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible) {
 
 				if (e.target.classList.contains('previous-month-day')) {
 
@@ -409,7 +401,9 @@ export const FormContextProvider = (props) => {
 				// Format the input && close the calendar
 				setFormState(formState => ({
 					...formState,
-					checkOut_date: `${formState.checkOut_day < 10 ? 0 + formState.checkOut_day.toString() : formState.checkOut_day} / ${formState.checkOut_month < 9 ? 0 + (formState.checkOut_month + 1).toString() : formState.checkOut_month + 1} / ${formState.checkOut_year}`, calendarCheckOut_visible: false
+					checkOut_date: `${formState.checkOut_day < 10 ? 0 + formState.checkOut_day.toString() : formState.checkOut_day} / ${formState.checkOut_month < 9 ? 0 + (formState.checkOut_month + 1).toString() : formState.checkOut_month + 1} / ${formState.checkOut_year}`,
+					hotelCalendarCheckOut_visible: false,
+					flightCalendarCheckOut_visible: false
 				}));
 			}
 
@@ -441,19 +435,18 @@ export const FormContextProvider = (props) => {
 		// So we have only 1 calendar displayed
 		if (e.target.dataset.menuToggle === 'on') {
 
-			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckIn_visible: true, calendarCheckOut_visible: false, peopleSelection_visible: false }));
-			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckOut_visible: true, calendarCheckIn_visible: false, peopleSelection_visible: false }));
+			e.target.id === 'hotel-checkin' && setFormState(formState => ({ ...formState, hotelCalendarCheckIn_visible: true }));
+
+			e.target.id === 'hotel-checkout' && setFormState(formState => ({ ...formState, hotelCalendarCheckOut_visible: true }));
+
+			e.target.id === 'departing-checkin' && setFormState(formState => ({ ...formState, flightCalendarCheckIn_visible: true }));
+
+			e.target.id === 'returning-checkout' && setFormState(formState => ({ ...formState, flightCalendarCheckOut_visible: true }));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 			e.target.setAttribute('data-menu-toggle', 'off');
 
-		} else if (e.target.dataset.menuToggle === 'off') {
-
-			e.target.id.toLowerCase().includes('checkin') && setFormState(formState => ({ ...formState, calendarCheckIn_visible: false }));
-			e.target.id.toLowerCase().includes('checkout') && setFormState(formState => ({ ...formState, calendarCheckOut_visible: false }));
-
-			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
-		}
+		} else if (e.target.dataset.menuToggle === 'off') document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 
 		e.stopPropagation();
 	};
@@ -462,7 +455,7 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
-			setFormState(formState => ({ ...formState, peopleSelection_visible: true, calendarCheckIn_visible: false, calendarCheckOut_visible: false }));
+			setFormState(formState => ({ ...formState, peopleSelection_visible: true }));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 			e.target.setAttribute('data-menu-toggle', 'off');
@@ -531,7 +524,11 @@ export const FormContextProvider = (props) => {
 		}
 	}
 
-	useEffect(() => displayMonthDays());
+	useEffect(() => {
+
+		if (document.body.contains(document.querySelector('.table-body'))) displayMonthDays();
+
+	});
 
 	useEffect(() => {
 

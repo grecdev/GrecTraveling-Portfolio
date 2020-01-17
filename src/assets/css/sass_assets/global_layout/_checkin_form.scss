@@ -132,7 +132,7 @@
 			
 			&.unavailable-day, &.previous-month-day, &.next-month-day { color: #bbb !important }
 			&.weekend-day { color: red }
-			&.before-current-day, &.unavailable-day { font-size: .8rem }
+			&.before-current-day, &.unavailable-day { font-size: .8rem !important }
 
 			&.current-day, &.checkIn-day, &.checkOut-day, &.selected {
 				background: lighten($primary-blue, 10%) !important;
@@ -149,19 +149,33 @@
 				flex: 1;
 				height: 40px;
 				line-height: 40px;
+				font-size: .95rem;
 				position: relative;
 
-				span { position: absolute }
+				span {
+					position: absolute;
+					pointer-events: none;
 
-				span:first-child {
-					top: -5px;
-    			right: 8px;
-				}
+					&:first-child {
+						top: -5px;
+						right: 8px;
+					}
 
-				span:nth-child(2) {
-					bottom: -10px;
-					left: 5px;
-					font-size: .6rem;
+					&:nth-child(2),
+					&:nth-child(3) {
+						font-size: .55rem;
+						color: $primary-dark;
+					}
+
+					&:nth-child(2) {
+						bottom: -12px;
+    				left: 6px;
+					}
+
+					&:nth-child(3) {
+						bottom: -12px;
+						right: 5px;
+					}
 				}
 			}
 		}
@@ -210,9 +224,7 @@
 				// Better for JS event
 				i { pointer-events: none }
 
-				&.people-btn-disabled {
-					background: lighten($primary-blue, 17%);
-				}
+				&.people-btn-disabled { background: lighten($primary-blue, 17%) }
 			}
 		}
 
