@@ -10,7 +10,7 @@ export class SlideshowContextProvider extends Component {
 		changingTime: 7000,
 		transitionTime: 2000,
 		images: ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg']
-	}
+	};
 
 	setPos = () => {
 		if (this.state.currentPos < this.state.images.length - 1) this.setState(prevState => ({ currentPos: prevState.currentPos + this.state.incrementPos }));

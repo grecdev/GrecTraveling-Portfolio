@@ -2,7 +2,7 @@ import React, { Component, createContext } from 'react';
 
 export const GlobalContext = createContext();
 
-import {FormContext} from './FormContext';
+import { FormContext } from './FormContext';
 
 class GlobalContextProvider extends Component {
 
@@ -60,9 +60,16 @@ class GlobalContextProvider extends Component {
 
 	clickEvent = e => {
 
-		const {closeFormMenus} = this.context;
+		const {
+			closeFormMenus,
+			hotelCalendarCheckIn_visible,
+			hotelCalendarCheckOut_visible,
+			flightCalendarCheckIn_visible,
+			flightCalendarCheckOut_visible,
+			peopleSelection_visible } = this.context;
 
-		closeFormMenus(e);
+		// Because global click on document can overwrite other click events
+		if (hotelCalendarCheckIn_visible || hotelCalendarCheckOut_visible || flightCalendarCheckIn_visible || flightCalendarCheckOut_visible || peopleSelection_visible) closeFormMenus(e);
 
 		e.stopPropagation();
 	}
@@ -86,7 +93,8 @@ class GlobalContextProvider extends Component {
 		return (
 			<GlobalContext.Provider value={{
 				...this.state,
-				getImage: this.getImage
+				getImage: this.getImage,
+				getRef: this.getRef
 			}}>
 				{this.props.children}
 			</GlobalContext.Provider>

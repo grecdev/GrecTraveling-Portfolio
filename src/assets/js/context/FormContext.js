@@ -87,7 +87,7 @@ export const FormContextProvider = (props) => {
 			peopleSelection_visible: false
 		}));
 
-		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id) || regex.test(e.target.getAttribute('for'))) return false;
+		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id) || regex.test(e.target.getAttribute('for')) || e.target.closest('.slideshow-buttons')) return false;
 		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 	};
 

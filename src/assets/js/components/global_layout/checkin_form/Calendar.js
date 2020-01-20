@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 
 import { FormContext } from '../../../context/FormContext';
 
 const Calendar = () => {
 
-	const {formatCalendarMonth, weekdayName, selectDate, changeMonth} = useContext(FormContext);
-	
+	const { formatCalendarMonth, weekdayName, selectDate, changeMonth } = useContext(FormContext);
+
 	return (
 		<div className="checkin-calendar">
 			<div className='calendar-triangle'></div>

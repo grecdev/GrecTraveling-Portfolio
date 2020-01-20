@@ -34,10 +34,9 @@ const SlideshowButtons = () => {
 
 			disableSelection();
 		}
-
 	}
 
-	// Dynamically add buttons acording to how manny slides the cliens wants
+	// Dynamically add buttons acording to how manny slides the user wants
 	return (
 		<div className='slideshow-buttons' onClick={selectSlide}>
 			{images.map((img, index) => <button id={index} key={index} data-event-toggle='true' className='slideshow-btn my-1' type='button'></button>)}
