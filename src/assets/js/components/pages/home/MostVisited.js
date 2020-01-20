@@ -24,7 +24,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Barcelona</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='barcelona' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 
@@ -41,7 +40,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Roma</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='roma' className='btn btn-blue'>See more</a>
 						</div>
 
 					</div>
@@ -58,7 +56,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Maldive</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='maldive' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 
@@ -74,7 +71,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Vietnam</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='vietnam' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 
@@ -90,7 +86,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Dubai</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='dubai' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 
@@ -106,7 +101,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Taj Mahal</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='taj-mahal' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 
@@ -122,7 +116,6 @@ const MostVisited = () => {
 							<h4 className='mb-1'>Austria</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
 
-							<a data-place='austria' className='btn btn-blue'>See more</a>
 						</div>
 					</div>
 

@@ -23,25 +23,26 @@ const CheckinForm = ({ flights, hotels }) => {
 		handleChange,
 		displayForm,
 		showCalendar,
-		showPeopleSelection } = useContext(FormContext);
+		showPeopleSelection,
+		filterSearch } = useContext(FormContext);
 
 	return (
 		<div className='form-container'>
 			<div className="checkin-header" onClick={displayForm}>
 				{flights && <a data-checkin-type='flights' className='active-form'>Flights</a>}
-				{hotels && <a data-checkin-type='hotels' >Hotels</a>}
+				{hotels && <a data-checkin-type='hotels'>Hotels</a>}
 			</div>
 
 			{flights && (
-				<form name='flights' className='p-1 checkin-form display-flex'>
+				<form name='flights' className='p-1 checkin-form display-flex' onSubmit={filterSearch}>
 
 					<div className="form-box">
-						<label htmlFor="flying_from">Flying from:</label>
+						<label htmlFor="flying_from">Flying from (optional):</label>
 						<input type="text" id='flying_from' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="flying_to">To:</label>
+						<label htmlFor="flying_to">To (optional):</label>
 						<input type="text" id='flying_to' placeholder='Location' name='flying_to' onChange={handleChange} value={flying_to} />
 					</div>
 
@@ -66,16 +67,16 @@ const CheckinForm = ({ flights, hotels }) => {
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
-					<button type='submit'><i className="fas fa-search"></i></button>
+					<button><i className="fas fa-search"></i></button>
 				</form>
 			)}
 
 			{hotels && (
-				<form name='hotels' className='p-1 checkin-form display-none'>
+				<form name='hotels' className='p-1 checkin-form display-none' onSubmit={filterSearch}>
 
 					<div className="form-box">
-						<label htmlFor="hotel_destination">City or Hotel name (optional):</label>
-						<input type="text" id='hotel_destination' placeholder='Enter a destination or hotel name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
+						<label htmlFor="hotel_destination">City or Country (optional):</label>
+						<input type="text" id='hotel_destination' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
 					</div>
 
 					<div className="form-box">
@@ -99,7 +100,7 @@ const CheckinForm = ({ flights, hotels }) => {
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
-					<button type='button'><i className="fas fa-search"></i></button>
+					<button><i className="fas fa-search"></i></button>
 				</form>
 			)}
 		</div>
