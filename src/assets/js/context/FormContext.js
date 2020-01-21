@@ -253,11 +253,13 @@ export const FormContextProvider = (props) => {
 
 				if (formState.checkOut_year > formState.checkIn_year && currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && parseFloat(cell.textContent) >= formState.checkIn_day && !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 
-				// If checkout year is above checkin year, in the checkin year
+				// If checkout year is above checkin year, in the checkout year
 				if (formState.checkOut_year > formState.checkIn_year && currentMonth < formState.checkOut_month && currentYear === formState.checkOut_year && !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 
 				if (formState.checkOut_year > formState.checkIn_year && currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && parseFloat(cell.textContent) <= formState.checkOut_day && !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 
+				// If checkout year is above checkin year, between the years
+				if(formState.checkOut_year > formState.checkIn_year && currentYear < formState.checkOut_year && currentYear > formState.checkIn_year&& !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 			}
 			if (document.body.contains(tbody)) tbody.append(row);
 		}
@@ -285,7 +287,7 @@ export const FormContextProvider = (props) => {
 			}
 
 			// So we don't go past the checkin day
-			if (currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && formState.hotelCalendarCheckOut_visible) setCurrentMonth(formState.checkIn_month);
+			if (currentMonth === formState.checkIn_month && currentYear === formState.checkIn_year && (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible)) setCurrentMonth(formState.checkIn_month);
 		}
 
 		// Increment Month
@@ -595,9 +597,8 @@ export const FormContextProvider = (props) => {
 			flightsDb = flightsDb.filter(flight => flight.departureMonth >= (formState.checkIn_month + 1) && flight.returningMonth <= (formState.checkOut_month + 1));
 
 			// // By people available
-			// flightsDb = flightsDb.filter(flight => formState.peopleTotal >= flight.people);
+			flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
 
-			console.log(flightsDb);
 			setDatabase(database => ({ ...database, filtered_flights: flightsDb }));
 		}
 

@@ -25,14 +25,13 @@ class GlobalContextProvider extends Component {
 
 	parallaxBackground = (e) => {
 
+		const pos = Math.floor(window.pageYOffset);
+
 		if (e.type === 'scroll' || e.type === 'DOMContentLoaded') {
 			document.querySelectorAll('.bg-parallax').forEach(bg => {
 
-				const elHeight = Math.floor(parseFloat(window.getComputedStyle(bg).height));
-
-				const posY = Math.floor(bg.getBoundingClientRect().top - elHeight) / 3;
-
-				bg.style.backgroundPositionY = `${posY}px`;
+				if (bg.classList.contains('faq-image')) bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
+				if (bg.id.includes('contact-us')) bg.style.backgroundPositionY = `${-(pos * 0.2)}px`;
 
 			});
 		}
@@ -41,7 +40,9 @@ class GlobalContextProvider extends Component {
 	}
 
 	loadEvent = e => {
-		this.parallaxBackground(e);
+
+		// Because it doesn't get the DOM elements immediately
+		setTimeout(() => this.parallaxBackground(e), 150);
 
 		this.removeTransitions();
 

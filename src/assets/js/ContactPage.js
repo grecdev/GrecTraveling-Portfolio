@@ -5,6 +5,7 @@ import ContactForm from './components/pages/contact/ContactForm';
 import Faq from './components/pages/contact/Faq';
 
 class ContactPage extends Component {
+
 	render() {
 		return (
 			<>
