@@ -49,7 +49,8 @@ const SlideshowImage = () => {
 		}, changingTime);
 
 		return () => clearInterval(interval);
-	});
+
+	}, [currentPos]);
 
 	return (
 

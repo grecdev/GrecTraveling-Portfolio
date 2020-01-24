@@ -7,8 +7,8 @@ export class SlideshowContextProvider extends Component {
 	state = {
 		incrementPos: 1,
 		currentPos: 1,
-		changingTime: 7000,
-		transitionTime: 2000,
+		changingTime: 5000,
+		transitionTime: 2200,
 		images: ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg']
 	};
 
@@ -26,6 +26,17 @@ export class SlideshowContextProvider extends Component {
 			setTimeout(() => btn.setAttribute('data-event-toggle', 'true'), this.state.transitionTime);
 		});
 	}
+
+	resetSlideshow = e => {
+
+		this.setState({ currentPos: 1 });
+
+		e.stopPropagation();
+	}
+
+	componentDidMount() { window.addEventListener('blur', this.resetSlideshow) }
+
+	componentWillUnmount() { window.removeEventListener('blur', this.resetSlideshow) }
 
 	render() {
 

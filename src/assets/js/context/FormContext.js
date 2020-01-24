@@ -1,8 +1,11 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, useContext } from 'react';
 
 export const FormContext = createContext();
+import { GlobalContext } from './GlobalContext';
 
 export const FormContextProvider = (props) => {
+
+	const { getFormState, outerClick } = useContext(GlobalContext);
 
 	// Sometimes we reset the entire form :)
 	const initialState = {
@@ -22,11 +25,11 @@ export const FormContextProvider = (props) => {
 		youth: 0,
 		children: 0,
 		infants: 0,
-		hotelCalendarCheckIn_visible: false,
-		hotelCalendarCheckOut_visible: false,
 		flightCalendarCheckIn_visible: false,
 		flightCalendarCheckOut_visible: false,
-		peopleSelection_visible: false
+		hotelCalendarCheckIn_visible: false,
+		hotelCalendarCheckOut_visible: false,
+		peopleSelection_visible: false,
 	}
 
 	const [formState, setFormState] = useState(initialState);
@@ -73,22 +76,16 @@ export const FormContextProvider = (props) => {
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
 
-	const closeFormMenus = e => {
+	const closeFormMenus = () => {
 
-		// Checking for ids
-		const regex = /checkin|checkout|people|passengers/gi;
-
-		if (!e.target.closest('.people-selection') && !e.target.closest('.checkin-calendar')) setFormState(formState => ({
+		setFormState(formState => ({
 			...formState,
 			hotelCalendarCheckIn_visible: false,
 			hotelCalendarCheckOut_visible: false,
 			flightCalendarCheckIn_visible: false,
 			flightCalendarCheckOut_visible: false,
-			peopleSelection_visible: false
+			peopleSelection_visible: false,
 		}));
-
-		if (e.target.closest('.people-selection') || e.target.closest('.checkin-calendar') || regex.test(e.target.id) || regex.test(e.target.getAttribute('for')) || e.target.closest('.slideshow-buttons')) return false;
-		else document.querySelectorAll('[data-menu-toggle').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 	};
 
 	// Show / Hide checkin form
@@ -259,7 +256,7 @@ export const FormContextProvider = (props) => {
 				if (formState.checkOut_year > formState.checkIn_year && currentMonth === formState.checkOut_month && currentYear === formState.checkOut_year && parseFloat(cell.textContent) <= formState.checkOut_day && !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 
 				// If checkout year is above checkin year, between the years
-				if(formState.checkOut_year > formState.checkIn_year && currentYear < formState.checkOut_year && currentYear > formState.checkIn_year&& !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
+				if (formState.checkOut_year > formState.checkIn_year && currentYear < formState.checkOut_year && currentYear > formState.checkIn_year && !cell.classList.contains('unavailable-day') && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day')) cell.classList.add('selected');
 			}
 			if (document.body.contains(tbody)) tbody.append(row);
 		}
@@ -469,21 +466,26 @@ export const FormContextProvider = (props) => {
 			setCurrentYear(formState.checkOut_year);
 		}
 
-		// So we have only 1 calendar displayed
 		if (e.target.dataset.menuToggle === 'on') {
 
-			e.target.id === 'hotel-checkin' && setFormState(formState => ({ ...formState, hotelCalendarCheckIn_visible: true }));
+			closeFormMenus();
 
-			e.target.id === 'hotel-checkout' && setFormState(formState => ({ ...formState, hotelCalendarCheckOut_visible: true }));
-
+			// So we have only 1 calendar displayed
 			e.target.id === 'departing-checkin' && setFormState(formState => ({ ...formState, flightCalendarCheckIn_visible: true }));
-
 			e.target.id === 'returning-checkout' && setFormState(formState => ({ ...formState, flightCalendarCheckOut_visible: true }));
+
+			e.target.id === 'hotel-checkin' && setFormState(formState => ({ ...formState, hotelCalendarCheckIn_visible: true }));
+			e.target.id === 'hotel-checkout' && setFormState(formState => ({ ...formState, hotelCalendarCheckOut_visible: true }));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 			e.target.setAttribute('data-menu-toggle', 'off');
 
-		} else if (e.target.dataset.menuToggle === 'off') document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+		} else if (e.target.dataset.menuToggle === 'off') {
+
+			closeFormMenus();
+
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+		}
 
 		e.stopPropagation();
 	};
@@ -492,6 +494,8 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
+			closeFormMenus();
+
 			setFormState(formState => ({ ...formState, peopleSelection_visible: true }));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
@@ -499,7 +503,7 @@ export const FormContextProvider = (props) => {
 
 		} else if (e.target.dataset.menuToggle === 'off') {
 
-			setFormState(formState => ({ ...formState, peopleSelection_visible: false }));
+			closeFormMenus();
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
@@ -536,7 +540,10 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.tagName === 'BUTTON') {
 
-			setFormState(formState => ({ ...formState, peopleSelection_visible: false }));
+			setFormState(formState => ({
+				...formState,
+				peopleSelection_visible: false
+			}));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
@@ -668,11 +675,7 @@ export const FormContextProvider = (props) => {
 
 	};
 
-	useEffect(() => {
-
-		document.body.contains(document.querySelector('.table-body')) && displayMonthDays();
-
-	});
+	useEffect(() => { document.body.contains(document.querySelector('.table-body')) && displayMonthDays() });
 
 	useEffect(() => {
 
@@ -693,6 +696,20 @@ export const FormContextProvider = (props) => {
 
 	}, []);
 
+	// To use state in global context ( for click outside )
+	useEffect(() => {
+
+		getFormState(formState);
+
+	}, [formState]);
+
+	// To check if we click outside of the components
+	useEffect(() => {
+
+		outerClick && closeFormMenus();
+
+	}, [outerClick]);
+
 	return (
 		<FormContext.Provider value={{
 			...formState,
@@ -704,7 +721,6 @@ export const FormContextProvider = (props) => {
 			selectDate,
 			changeMonth,
 			showPeopleSelection,
-			closeFormMenus,
 			selectPeople,
 			filterSearch
 		}}>

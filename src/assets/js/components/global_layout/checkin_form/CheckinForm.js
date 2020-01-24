@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormContext } from '../../../context/FormContext';
+import { GlobalContext } from '../../../context/GlobalContext';
 
 import Calendar from './Calendar';
 import PeopleSelection from './PeopleSelection';
@@ -62,7 +63,7 @@ const CheckinForm = ({ flights, hotels }) => {
 
 					<div className="form-box">
 						<label htmlFor="flight-passengers">Passengers:</label>
-						<input type="text" id='flight-passengers' name='flight-passengers' data-menu-toggle='on' onClick={showPeopleSelection} value={peopleTotal} readOnly />
+						<input type="text" id='flight-passengers' name='flight-passengers' onClick={showPeopleSelection} data-menu-toggle='on' value={peopleTotal} readOnly />
 
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>

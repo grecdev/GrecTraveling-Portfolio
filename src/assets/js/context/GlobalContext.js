@@ -1,92 +1,120 @@
 import React, { Component, createContext } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from "react-router-dom";
 
 export const GlobalContext = createContext();
 
-import { FormContext } from './FormContext';
-
 class GlobalContextProvider extends Component {
 
-	static contextType = FormContext;
+	static propTypes = {
+		match: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
+		history: PropTypes.object.isRequired
+	};
+
+	state = {
+		location: this.props.location.pathname,
+		outerClick: false,
+		documentLoaded: false,
+		formState: undefined
+	}
 
 	getImage = image => require(`../../media/${image}`);
 
 	// Remove the unwanted page load transitions for animated elements
-	removeTransitions = () => document.body.classList.remove('preload');
+	removeTransitions = () => document.body.classList.remove('remove-transitions');
 
-	headerFixed = e => {
+	headerFixed = () => {
 		const pos = window.pageYOffset;
 
-		pos > 1 ? document.querySelector('header').classList.add('header-fixed') : document.querySelector('header').classList.remove('header-fixed');
+		if (this.state.location === '/') {
+			pos > 1 ? document.querySelector('header').classList.add('header-fixed') : document.querySelector('header').classList.remove('header-fixed');
+		}
 
-		if (document.body.id !== 'index') document.querySelector('header').classList.add('header-fixed');
-
-		if (e.type === 'scroll') window.requestAnimationFrame(this.headerFixed);
+		window.requestAnimationFrame(this.headerFixed);
 	}
 
-	parallaxBackground = (e) => {
+	parallaxBackground = () => {
 
 		const pos = Math.floor(window.pageYOffset);
 
-		if (e.type === 'scroll' || e.type === 'DOMContentLoaded') {
-			document.querySelectorAll('.bg-parallax').forEach(bg => {
+		document.querySelectorAll('.bg-parallax').forEach(bg => {
 
-				if (bg.classList.contains('faq-image')) bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
-				if (bg.id.includes('contact-us')) bg.style.backgroundPositionY = `${-(pos * 0.2)}px`;
+			if (bg.classList.contains('faq-image')) bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
+			if (bg.id.includes('contact-us')) bg.style.backgroundPositionY = `${(pos * 0.3)}px`;
 
-			});
-		}
+		});
 
-		if (e.type === 'scroll') requestAnimationFrame(this.parallaxBackground);
+		window.requestAnimationFrame(this.parallaxBackground);
 	}
 
 	loadEvent = e => {
 
-		// Because it doesn't get the DOM elements immediately
-		setTimeout(() => this.parallaxBackground(e), 150);
+		// When we can't access some DOM elements
+		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: !prevState.documentLoaded }));
+
+		this.parallaxBackground();
 
 		this.removeTransitions();
 
-		setTimeout(() => this.headerFixed(e), 150);
+		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 
 		e.stopPropagation();
 	}
 
 	scrollEvent = e => {
-		this.headerFixed(e);
+		this.headerFixed();
 
-		this.parallaxBackground(e);
+		this.parallaxBackground();
 
 		e.stopPropagation();
 	}
+
+	hideMenus = e => {
+		// Checking for ids
+		const regex = /checkin|checkout|people|passengers/gi;
+
+		if ((!e.target.closest('.calendar') && !e.target.closest('.people-selection')) && (!regex.test(e.target.id) && !regex.test(e.target.getAttribute('for')))) {
+			this.setState({ outerClick: true });
+
+			setTimeout(() => this.setState({ outerClick: false }), 1);
+			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+		}
+	}
+
+	getFormState = formState => this.setState({ formState: formState });
 
 	clickEvent = e => {
 
-		const {
-			closeFormMenus,
-			hotelCalendarCheckIn_visible,
-			hotelCalendarCheckOut_visible,
-			flightCalendarCheckIn_visible,
-			flightCalendarCheckOut_visible,
-			peopleSelection_visible } = this.context;
-
-		// Because global click on document can overwrite other click events
-		if (hotelCalendarCheckIn_visible || hotelCalendarCheckOut_visible || flightCalendarCheckIn_visible || flightCalendarCheckOut_visible || peopleSelection_visible) closeFormMenus(e);
+		this.hideMenus(e);
 
 		e.stopPropagation();
 	}
 
+	getRef = ref => this.setState({ ref: ref });
+
 	componentDidMount() {
+		document.addEventListener('mousedown', this.clickEvent);
 		document.addEventListener('DOMContentLoaded', this.loadEvent);
-		document.addEventListener('click', this.clickEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
+		document.removeEventListener('mousedown', this.clickEvent);
 		document.removeEventListener('DOMContentLoaded', this.loadEvent);
-		document.removeEventListener('click', this.clickEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
+	}
+
+	componentDidUpdate(prevProps) {
+
+		// Checkin for pages
+		if (this.props.location !== prevProps.location) {
+			this.setState({ location: this.props.location.pathname });
+
+			this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+		}
 	}
 
 	render() {
@@ -95,7 +123,10 @@ class GlobalContextProvider extends Component {
 			<GlobalContext.Provider value={{
 				...this.state,
 				getImage: this.getImage,
-				getRef: this.getRef
+				headerFixed: this.headerFixed,
+				getRef: this.getRef,
+				getFormState: this.getFormState,
+				resetOuterClick: this.resetOuterClick
 			}}>
 				{this.props.children}
 			</GlobalContext.Provider>
@@ -103,4 +134,4 @@ class GlobalContextProvider extends Component {
 	}
 }
 
-export default GlobalContextProvider;
+export default withRouter(GlobalContextProvider);

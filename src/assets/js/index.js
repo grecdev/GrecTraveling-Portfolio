@@ -16,31 +16,20 @@ import '../css/style.scss';
 
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
 
 import GlobalContextProvider from './context/GlobalContext';
-import FormContextProvider from './context/FormContext';
+const FormContextProvider = lazy(() => import('./context/FormContext'));
+const App = lazy(() => import('./App'));
 
-const HomePage = lazy(() => import('./HomePage'));
-const ContactPage = lazy(() => import('./ContactPage'));
-
-const apps = {
-	'index': <HomePage />,
-	'contact-page': <ContactPage />
-};
-
-// I use this because, the website use multi html pages
-const renderApp = el => {
-	if (apps[el]) {
-		ReactDOM.render(
+ReactDOM.render(
+	<HashRouter>
+		<GlobalContextProvider>
 			<Suspense fallback={<div>Loading...</div>}>
 				<FormContextProvider>
-					<GlobalContextProvider>
-						{apps[el]}
-					</GlobalContextProvider >
+					<App />
 				</FormContextProvider>
 			</Suspense>
-			, document.querySelector(`.${el}`));
-	}
-}
-
-renderApp(document.body.id);
+		</GlobalContextProvider>
+	</HashRouter >
+	, document.getElementById('root'));

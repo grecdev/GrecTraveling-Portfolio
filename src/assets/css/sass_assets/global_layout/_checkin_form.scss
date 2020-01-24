@@ -39,6 +39,7 @@
 		label {
 			margin-bottom: .5rem;
 			color: $primary-white;
+			user-select: none;
 		}
 
 		input {
@@ -64,7 +65,7 @@
 	}
 
 	/** Calendar **/
-	.checkin-calendar {
+	.calendar {
 		box-shadow: 0 0 10px 5px $primary-dark;
 		position: absolute;
 		width: 350px;

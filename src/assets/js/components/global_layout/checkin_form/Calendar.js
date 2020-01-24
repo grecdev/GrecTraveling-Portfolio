@@ -1,13 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 
 import { FormContext } from '../../../context/FormContext';
 
 const Calendar = () => {
 
-	const { formatCalendarMonth, weekdayName, selectDate, changeMonth } = useContext(FormContext);
+	const {
+		formatCalendarMonth,
+		weekdayName,
+		selectDate,
+		changeMonth,
+		hotelCalendarCheckIn_visible,
+		hotelCalendarCheckOut_visible,
+		flightCalendarCheckIn_visible,
+		flightCalendarCheckOut_visible
+	} = useContext(FormContext);
 
 	return (
-		<div className="checkin-calendar">
+		<div className='calendar'>
 			<div className='calendar-triangle'></div>
 
 			<div className="calendar-month">

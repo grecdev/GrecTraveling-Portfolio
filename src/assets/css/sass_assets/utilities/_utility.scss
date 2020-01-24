@@ -40,10 +40,6 @@ body {
 	padding-bottom: $footer-height;
 
 	&.header-padding { padding-top: $header-height }
-
-	&.preload * {
-		transition: none !important;
-	}
 }
 
 ol, ul {
@@ -208,6 +204,9 @@ a, button, input, textarea {
 .text-center { text-align: center }
 .text-right { text-align: right }
 
+/* Spacing */
+.header-spacing { padding-top: 61px }
+
 /** Overlay effect **/
 .overlay {
 	position: relative;
@@ -258,3 +257,5 @@ a, button, input, textarea {
 		&:hover { background: lighten($primary-yellow, 5%) }
 	}
 }
+
+.remove-transitions * {	transition: none !important }

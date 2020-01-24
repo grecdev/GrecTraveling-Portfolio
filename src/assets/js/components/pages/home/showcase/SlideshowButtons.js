@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 
 import { SlideshowContext } from '../../../../context/SlideshowContext';
+import { GlobalContext } from '../../../../context/GlobalContext';
 
 const SlideshowButtons = () => {
 
@@ -34,6 +35,8 @@ const SlideshowButtons = () => {
 
 			disableSelection();
 		}
+
+		e.stopPropagation();
 	}
 
 	// Dynamically add buttons acording to how manny slides the user wants
