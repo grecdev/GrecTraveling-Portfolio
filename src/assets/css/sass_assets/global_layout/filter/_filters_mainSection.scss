@@ -1,0 +1,48 @@
+#filters-main-section {
+
+	#filters-container {
+		@include flex(row, space-between, flex-start);
+		background: #ddd;
+	}
+
+	aside { background: $primary-white }
+
+	#filter-search-section { width: 20% }
+	#filter-items-wrapper { width: 78% }
+
+	#filters-empty-wrapper {
+
+		.filters-empty-container {
+			@include flex(row, space-between, stretch);
+			counter-reset: step;
+
+			.filters-empty-box {
+				border: 1.5px solid $primary-blue;
+				position: relative;
+				width: 30%;
+
+				h3 { font-size: 1.2rem }
+
+				.description {
+					font-size: .9rem;
+					font-style: italic;
+				}
+
+				&::before {
+					counter-increment: step;
+					content: counter(step);
+					position: absolute;
+					top: -5%;
+					left: -3%;
+					width: 35px;
+					height: 35px;
+					@include flex(column, center, center);
+					border-radius: 50%;
+					background: $primary-blue;
+					color: $primary-white;
+					font-size: 1.2rem;
+				}
+			}
+		}
+	}
+}

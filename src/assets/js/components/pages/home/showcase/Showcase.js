@@ -19,7 +19,7 @@ const Showcase = () => {
 				<div className="showcase-container">
 					<ShowcaseInfo />
 					<SlideshowButtons />
-					<CheckinForm flights={true} hotels={true} />
+					<CheckinForm flights={true} hotels={true} multiple={true} />
 				</div>
 			</section>
 		</SlideshowContextProvider>

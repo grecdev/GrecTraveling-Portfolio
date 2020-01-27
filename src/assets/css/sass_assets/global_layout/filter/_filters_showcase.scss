@@ -1,0 +1,15 @@
+#filters-showcase {
+	min-height: 40vh;
+	color: $primary-white;
+	@include flex(column, center, center);
+
+	&.flights { background: url('../media/flights-showcase.jpg') no-repeat center/cover }
+
+	.filters-showcase-container {
+		position: relative;
+		z-index: 1;
+		@include flex(column, center, center);
+		
+		.form-container { background: $primary-dark }
+	}
+}

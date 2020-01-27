@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import { GlobalContext } from '../../context/GlobalContext';
 
@@ -15,10 +15,10 @@ const Header = () => {
 
 	return (
 		<header id='header' className='p-1'>
-			<div id="logo">
+			<Link to='/' id="logo">
 				<img src={getImage('header-logo.svg')} alt='header-logo' />
 				<span>GrecTraveling</span>
-			</div>
+			</Link>
 
 			<nav id='desktop-navbar'>
 				<NavLink exact to='/' activeClassName='active-page'>Home</NavLink>

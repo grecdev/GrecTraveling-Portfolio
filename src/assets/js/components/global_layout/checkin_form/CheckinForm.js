@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormContext } from '../../../context/FormContext';
-import { GlobalContext } from '../../../context/GlobalContext';
 
 import Calendar from './Calendar';
 import PeopleSelection from './PeopleSelection';
 
-const CheckinForm = ({ flights, hotels }) => {
+const CheckinForm = ({ flights, hotels, multiple }) => {
 
 	const {
 		hotel_destination,
@@ -29,21 +28,23 @@ const CheckinForm = ({ flights, hotels }) => {
 
 	return (
 		<div className='form-container'>
-			<div className="checkin-header" onClick={displayForm}>
-				{flights && <a data-checkin-type='flights' className='active-form'>Flights</a>}
-				{hotels && <a data-checkin-type='hotels'>Hotels</a>}
-			</div>
+			{multiple && (
+				<div className="checkin-header" onClick={displayForm}>
+					{flights && <a data-checkin-type='flights' className='active-form'>Flights</a>}
+					{hotels && <a data-checkin-type='hotels'>Hotels</a>}
+				</div>
+			)}
 
 			{flights && (
 				<form name='flights' className='p-1 checkin-form display-flex' onSubmit={filterSearch}>
 
 					<div className="form-box">
-						<label htmlFor="flying_from">Flying from (optional):</label>
+						<label htmlFor="flying_from">Flying from:</label>
 						<input type="text" id='flying_from' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
 					</div>
 
 					<div className="form-box">
-						<label htmlFor="flying_to">To (optional):</label>
+						<label htmlFor="flying_to">To:</label>
 						<input type="text" id='flying_to' placeholder='Location' name='flying_to' onChange={handleChange} value={flying_to} />
 					</div>
 
@@ -68,7 +69,7 @@ const CheckinForm = ({ flights, hotels }) => {
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
-					<button><i className="fas fa-search"></i></button>
+					<button type='submit'><i className="fas fa-search"></i></button>
 				</form>
 			)}
 
@@ -76,7 +77,7 @@ const CheckinForm = ({ flights, hotels }) => {
 				<form name='hotels' className='p-1 checkin-form display-none' onSubmit={filterSearch}>
 
 					<div className="form-box">
-						<label htmlFor="hotel_destination">City or Country (optional):</label>
+						<label htmlFor="hotel_destination">City or Country:</label>
 						<input type="text" id='hotel_destination' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
 					</div>
 
@@ -101,7 +102,7 @@ const CheckinForm = ({ flights, hotels }) => {
 						{peopleSelection_visible && <PeopleSelection />}
 					</div>
 
-					<button><i className="fas fa-search"></i></button>
+					<button type='submit'><i className="fas fa-search"></i></button>
 				</form>
 			)}
 		</div>
@@ -110,7 +111,8 @@ const CheckinForm = ({ flights, hotels }) => {
 
 CheckinForm.propTypes = {
 	flights: PropTypes.bool.isRequired,
-	hotels: PropTypes.bool.isRequired
+	hotels: PropTypes.bool.isRequired,
+	multiple: PropTypes.bool.isRequired
 }
 
 export default CheckinForm;

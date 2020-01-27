@@ -1,11 +1,12 @@
 import React, { useState, createContext, useEffect, useContext } from 'react';
 
 export const FormContext = createContext();
+
 import { GlobalContext } from './GlobalContext';
 
 export const FormContextProvider = (props) => {
 
-	const { getFormState, outerClick } = useContext(GlobalContext);
+	const { outerClick, location, changePage } = useContext(GlobalContext);
 
 	// Sometimes we reset the entire form :)
 	const initialState = {
@@ -29,7 +30,7 @@ export const FormContextProvider = (props) => {
 		flightCalendarCheckOut_visible: false,
 		hotelCalendarCheckIn_visible: false,
 		hotelCalendarCheckOut_visible: false,
-		peopleSelection_visible: false,
+		peopleSelection_visible: false
 	}
 
 	const [formState, setFormState] = useState(initialState);
@@ -38,8 +39,7 @@ export const FormContextProvider = (props) => {
 		hotels_db: [],
 		filtered_hotels: [],
 		flights_db: [],
-		filtered_flights: [],
-		flight_landing: ''
+		filtered_flights: []
 	});
 
 	const date = {
@@ -68,6 +68,20 @@ export const FormContextProvider = (props) => {
 			'Fri',
 			'Sat',
 			'Sun'
+		],
+		monthAbbr: [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec'
 		]
 	};
 
@@ -603,9 +617,14 @@ export const FormContextProvider = (props) => {
 			// By checkin / checkout month
 			flightsDb = flightsDb.filter(flight => flight.departureMonth >= (formState.checkIn_month + 1) && flight.returningMonth <= (formState.checkOut_month + 1));
 
-			// // By people available
+			// By people available
 			flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
 
+			// if (location !== '/flights' && formState.flying_from.length > 0 && formState.flying_to.length > 0 && formState.checkIn_date.length > 0 && formState.checkOut_date.length > 0) changePage('/flights');
+
+			if (location !== '/flights') changePage('/flights');
+
+			console.log(flightsDb);
 			setDatabase(database => ({ ...database, filtered_flights: flightsDb }));
 		}
 
@@ -620,6 +639,11 @@ export const FormContextProvider = (props) => {
 			// By people available
 			hotelsDb = hotelsDb.filter(hotel => hotel.people <= formState.peopleTotal);
 
+			// if (location !== '/hotels' && formState.hotel_destination.length > 0 && formState.checkIn_date.length > 0 && formState.checkOut_date.length > 0) changePage('/hotels');
+
+			if (location !== '/hotels') changePage('/hotels');
+
+			console.log(hotelsDb);
 			setDatabase(database => ({ ...database, filtered_hotels: hotelsDb }));
 		}
 
@@ -696,13 +720,6 @@ export const FormContextProvider = (props) => {
 
 	}, []);
 
-	// To use state in global context ( for click outside )
-	useEffect(() => {
-
-		getFormState(formState);
-
-	}, [formState]);
-
 	// To check if we click outside of the components
 	useEffect(() => {
 
@@ -710,10 +727,18 @@ export const FormContextProvider = (props) => {
 
 	}, [outerClick]);
 
+	// If we go back on the home page, i want the form to be reseted (personal prefference)
+	useEffect(() => {
+
+		location === '/' && setFormState(initialState);
+
+	}, [location]);
+
 	return (
 		<FormContext.Provider value={{
 			...formState,
 			...date,
+			...database,
 			displayForm,
 			showCalendar,
 			handleChange,

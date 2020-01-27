@@ -5,6 +5,9 @@ import { GlobalContext } from './context/GlobalContext';
 
 import HomePage from './components/pages/HomePage';
 import ContactPage from './components/pages/ContactPage';
+import FlightsPage from './components/pages/FlightsPage';
+import HotelsPage from './components/pages/HotelsPage';
+import NotFoundPage from './components/pages/NotFoundPage';
 
 import Footer from './components/global_layout/Footer';
 import Header from './components/global_layout/Header';
@@ -31,10 +34,10 @@ export class App extends Component {
 				<Switch>
 					<Route exact strict path={'/'} component={HomePage} />
 					<Route exact strict path={'/contact'} component={ContactPage} />
+					<Route exact strict path={'/flights'} component={FlightsPage} />
+					<Route exact strict path={'/hotels'} component={HotelsPage} />
 
-					<Route>
-						<h1>404 PAGE NOT FOUND</h1>
-					</Route>
+					<Route component={NotFoundPage} />
 				</Switch>
 				<Footer />
 			</>

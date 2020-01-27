@@ -1,0 +1,95 @@
+.filter-item-flights {
+	@include flex(row, space-between, stretch);
+	border-bottom: 1px solid $primary-dark;
+	padding: .5rem 0;
+
+	&:last-child { border: none }
+
+	> div:first-child {
+		width: 50%;
+		@include flex(column, center, stretch);
+	}
+	
+	.filter-item-header {
+		@include flex(row, space-between, center);
+		
+		.flight-locations {
+			@include flex(row, stretch, center);
+			width: 70%;
+
+			div {
+				width: 40%;
+				height: 3px;
+				background: $primary-blue;
+				border-radius: $border-radius-primary;
+
+				img {
+					width: 20px;
+					margin: 0 auto;
+					top: 48%;
+					transform: translateY(-48%);
+					position: relative;
+				}
+			}
+
+			span:first-child,
+			span:nth-child(3) {
+				font-size: 1.2rem;
+				font-weight: bold;
+			}
+		}
+
+		.flight-type {
+			font-size: .85rem;
+
+			.flight-stops { font-weight: bold }
+			.flight-class { font-size: .75rem }
+		}
+	}
+
+	.flight-item-interval {
+		@include flex(row, flex-start, center);
+		width: 47%;
+
+		span:first-child,
+		span:nth-child(3) { font-weight: bold }
+
+		div img { width: 15px }
+
+		span:last-child {
+			@include flex(row, space-between, center);
+			margin-left: .4rem;
+
+			i {
+				margin-right: .3rem;
+				font-size: 1.2rem;
+			}
+		}
+	}
+
+	.flight-locations,
+	.flight-item-interval {
+
+		span:last-child {
+			color: $primary-gray;
+			font-size: .8rem;
+		}
+	}
+
+	.flight-item-price {
+		width: 35%;
+		position: relative;
+		@include flex(column, center, center);
+		border-left: 1px solid $primary-dark;
+		
+		.price {
+			font-size: 1.3rem;
+			font-weight: bold;
+			
+			span {
+				font-size: 1rem;
+				font-weight: 300;
+			}
+		}
+	}
+}

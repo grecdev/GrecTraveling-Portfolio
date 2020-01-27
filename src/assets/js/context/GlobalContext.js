@@ -24,6 +24,9 @@ class GlobalContextProvider extends Component {
 	// Remove the unwanted page load transitions for animated elements
 	removeTransitions = () => document.body.classList.remove('remove-transitions');
 
+	// For react-router-dom version ^4
+	changePage = page => this.props.history.push(page);
+
 	headerFixed = () => {
 		const pos = window.pageYOffset;
 
@@ -55,7 +58,7 @@ class GlobalContextProvider extends Component {
 
 		this.parallaxBackground();
 
-		this.removeTransitions();
+		setTimeout(() => this.removeTransitions(), 150);
 
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 
@@ -82,16 +85,12 @@ class GlobalContextProvider extends Component {
 		}
 	}
 
-	getFormState = formState => this.setState({ formState: formState });
-
 	clickEvent = e => {
 
 		this.hideMenus(e);
 
 		e.stopPropagation();
 	}
-
-	getRef = ref => this.setState({ ref: ref });
 
 	componentDidMount() {
 		document.addEventListener('mousedown', this.clickEvent);
@@ -119,14 +118,15 @@ class GlobalContextProvider extends Component {
 
 	render() {
 
+		const { getImage, headerFixed, resetOuterClick, changePage } = this;
+
 		return (
 			<GlobalContext.Provider value={{
 				...this.state,
-				getImage: this.getImage,
-				headerFixed: this.headerFixed,
-				getRef: this.getRef,
-				getFormState: this.getFormState,
-				resetOuterClick: this.resetOuterClick
+				getImage,
+				headerFixed,
+				resetOuterClick,
+				changePage
 			}}>
 				{this.props.children}
 			</GlobalContext.Provider>

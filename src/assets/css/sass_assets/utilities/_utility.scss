@@ -256,6 +256,13 @@ a, button, input, textarea {
 
 		&:hover { background: lighten($primary-yellow, 5%) }
 	}
+
+	&-pink {
+		background: $primary-pink;
+		color: $primary-white;
+
+		&:hover { background: lighten($primary-pink, 5%) }
+	}
 }
 
 .remove-transitions * {	transition: none !important }
