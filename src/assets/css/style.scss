@@ -9,7 +9,6 @@
 @import './sass_assets/global_layout/checkin_form';
 @import './sass_assets/global_layout/filter/filters_showcase';
 @import './sass_assets/global_layout/filter/filters_mainSection';
-@import './sass_assets/global_layout/filter/filter_itemsFlights';
 
 // Home page
 @import './sass_assets/home_page/showcase';
@@ -21,3 +20,7 @@
 // Contact page
 @import './sass_assets/contact_page/contact_us';
 @import './sass_assets/contact_page/faq';
+
+// Flights page
+@import './sass_assets/flights_page/filter_itemsFlights';
+@import './sass_assets/flights_page/filterFlights';

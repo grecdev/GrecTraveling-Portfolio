@@ -6,7 +6,7 @@
 	&:last-child { border: none }
 
 	> div:first-child {
-		width: 50%;
+		width: 90%;
 		@include flex(column, center, stretch);
 	}
 	
@@ -17,7 +17,7 @@
 			@include flex(row, stretch, center);
 			width: 70%;
 
-			div {
+			div:nth-child(3) {
 				width: 40%;
 				height: 3px;
 				background: $primary-blue;
@@ -37,6 +37,10 @@
 				font-size: 1.2rem;
 				font-weight: bold;
 			}
+
+			.airline-logo {
+				width: 15%;
+			}
 		}
 
 		.flight-type {
@@ -50,6 +54,7 @@
 	.flight-item-interval {
 		@include flex(row, flex-start, center);
 		width: 47%;
+		margin-left: .5rem;
 
 		span:first-child,
 		span:nth-child(3) { font-weight: bold }

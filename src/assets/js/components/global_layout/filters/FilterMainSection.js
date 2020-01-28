@@ -15,13 +15,18 @@ const FilterMainSection = () => {
 
 	return (
 		<main id='filters-main-section'>
-			{filtered_flights.length > 0 || filtered_hotels.length > 0 ? (
+			{/* {filtered_flights.length > 0 || filtered_hotels.length > 0 ? (
 				<section id='filters-container' className="p-2">
 					<FilterSearch flights={filtered_flights.length > 0 && true} hotels={filtered_hotels.length > 0 && true} />
 
 					<FilterItemsWrapper />
 				</section>
-			) : <FilterEmpty />}
+			) : <FilterEmpty />} */}
+			<section id='filters-container' className="p-2">
+				<FilterSearch flights={true} hotels={false} />
+
+				<FilterItemsWrapper />
+			</section>
 		</main>
 	)
 }

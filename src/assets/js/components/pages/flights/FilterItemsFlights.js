@@ -13,7 +13,8 @@ const FilterItemsFlights = () => {
 		peopleTotal,
 		monthAbbr,
 		monthName,
-		weekdayName } = useContext(FormContext);
+		weekdayName,
+		flying_to } = useContext(FormContext);
 
 	const { getImage } = useContext(GlobalContext);
 
@@ -50,6 +51,8 @@ const FilterItemsFlights = () => {
 		return `${intervalHours}h ${intervalMinutes < 10 ? '0' + intervalMinutes : intervalMinutes}min`;
 	}
 
+	const formatLandingDestination = () => flying_to.slice(0, 3).toUpperCase();
+
 	// I do this, so it displays the flights when i change the "DB"
 	// Without `useEffect hook`, it displays whenever some component renders
 	useEffect(() => {
@@ -61,10 +64,11 @@ const FilterItemsFlights = () => {
 					<div className="filter-item-header mb-1">
 
 						<div className="flight-locations">
+							<div className="airline-logo mr-1"><img src={getImage(item.airlinesLogo)} alt='airlines company' /></div>
 							<span>{item.abbr}</span>
 							<div className='mx-1'></div>
-							<span className='mr-1'>MBJ</span>
-							<span>{checkIn_day} {monthAbbr[checkIn_month]} ({formatWeekDay()})</span>
+							<span className='mr-1'>{formatLandingDestination()}</span>
+							<span title='Departure day'>{checkIn_day} {monthAbbr[checkIn_month]} ({formatWeekDay()})</span>
 						</div>
 
 						<div className="flight-type text-right">
@@ -78,7 +82,7 @@ const FilterItemsFlights = () => {
 						<span>{formatTime(item.departureHour, item.departureMinutes)}</span>
 						<div className="mx-1"><img src={getImage('flight-arrow.svg')} alt='flight-arrow' /></div>
 						<span className='mr-1'>{formatTime(item.landingHour, item.landingMinutes)}</span>
-						<span><i className="far fa-clock"></i> {formatIntervalTime(item.departureHour, item.departureMinutes, item.landingHour, item.landingMinutes)}</span>
+						<span title='Trip Duration'><i className="far fa-clock"></i> {formatIntervalTime(item.departureHour, item.departureMinutes, item.landingHour, item.landingMinutes)}</span>
 					</div>
 				</div>
 
