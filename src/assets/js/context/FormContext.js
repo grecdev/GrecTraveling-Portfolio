@@ -36,11 +36,21 @@ export const FormContextProvider = (props) => {
 	const [formState, setFormState] = useState(initialState);
 
 	const [database, setDatabase] = useState({
-		hotels_db: [],
-		filtered_hotels: [],
 		flights_db: [],
-		filtered_flights: []
+		defaultFiltered_flights: [],
+		appliedFiltered_flights: [],
+		hotels_db: [],
+		defaultFiltered_hotels: [],
+		appliedFiltered_hotels: [],
 	});
+
+	const setFilteredDatabase = (db, type) => {
+
+		type === 'flights' && setDatabase(database => ({ ...database, appliedFiltered_flights: db }))
+
+		// type === 'hotels' && setDatabase(database => ({ ...database, filtered_hotels: db }))
+
+	};
 
 	const date = {
 		currentDay: new Date().getDate(),
@@ -117,8 +127,9 @@ export const FormContextProvider = (props) => {
 			setFormState(initialState);
 			setDatabase(database => ({
 				...database,
-				filtered_hotels: [],
-				filtered_flights: []
+				defaultFiltered_flights: [],
+				appliedFiltered_flights: [],
+				defaultFiltered_hotels: []
 			}))
 		}
 	};
@@ -625,7 +636,7 @@ export const FormContextProvider = (props) => {
 			if (location !== '/flights') changePage('/flights');
 
 			console.log(flightsDb);
-			setDatabase(database => ({ ...database, filtered_flights: flightsDb }));
+			setDatabase(database => ({ ...database, defaultFiltered_flights: flightsDb, appliedFiltered_flights: flightsDb }));
 		}
 
 		if (e.target.getAttribute('name') === 'hotels') {
@@ -644,7 +655,7 @@ export const FormContextProvider = (props) => {
 			if (location !== '/hotels') changePage('/hotels');
 
 			console.log(hotelsDb);
-			setDatabase(database => ({ ...database, filtered_hotels: hotelsDb }));
+			setDatabase(database => ({ ...database, defaultFiltered_hotels: hotelsDb }));
 		}
 
 		e.preventDefault();
@@ -747,7 +758,8 @@ export const FormContextProvider = (props) => {
 			changeMonth,
 			showPeopleSelection,
 			selectPeople,
-			filterSearch
+			filterSearch,
+			setFilteredDatabase
 		}}>
 			{props.children}
 		</FormContext.Provider>

@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { GlobalContext } from '../../../context/GlobalContext';
+import { FormContext } from '../../../context/FormContext';
 
 const FilterSearchFlights = () => {
 
 	const { getImage } = useContext(GlobalContext);
+	const { defaultFiltered_flights, setFilteredDatabase } = useContext(FormContext);
 
 	const toggleFilterMenu = e => {
 
@@ -36,6 +38,29 @@ const FilterSearchFlights = () => {
 		e.stopPropagation();
 	}
 
+	const testFilter = e => {
+
+		if (e.type === 'change') {
+
+			let applyFilter = [...defaultFiltered_flights];
+			let inputValue;
+
+			if (e.target.getAttribute('type') === 'radio') inputValue = parseFloat(e.target.value);
+
+			applyFilter = applyFilter.filter(item => item.stops === inputValue);
+
+			console.log(applyFilter, 'applyFilter');
+			setFilteredDatabase(applyFilter, 'flights');
+		}
+
+		e.stopPropagation();
+	}
+
+	useEffect(() => {
+
+
+	});
+
 	return (
 		<div id="filter-search-flights">
 
@@ -52,7 +77,7 @@ const FilterSearchFlights = () => {
 					<div className="filter-search-inputs">
 
 						<label htmlFor='one-stop'>
-							<input id='one-stop' type='radio' name='stops' value='1' />
+							<input id='one-stop' type='radio' name='stops' value='1' onChange={testFilter} />
 							<span></span>
 							One stop
 					</label>
@@ -61,7 +86,7 @@ const FilterSearchFlights = () => {
 					<div className="filter-search-inputs">
 
 						<label htmlFor='two-stops'>
-							<input id='two-stops' type='radio' name='stops' value='2' />
+							<input id='two-stops' type='radio' name='stops' value='2' onChange={testFilter} />
 							<span></span>
 							Two stops
 					</label>

@@ -6,7 +6,7 @@ import { GlobalContext } from '../../../context/GlobalContext';
 const FilterItemsFlights = () => {
 
 	const {
-		filtered_flights,
+		appliedFiltered_flights,
 		checkIn_day,
 		checkIn_month,
 		checkIn_year,
@@ -57,10 +57,10 @@ const FilterItemsFlights = () => {
 	// Without `useEffect hook`, it displays whenever some component renders
 	useEffect(() => {
 
-		setFlights(filtered_flights.map((item) => (
+		setFlights(appliedFiltered_flights.map((item) => (
 			<div className='filter-item-flights' key={item.id}>
 
-				<div className='mr-1'>
+				<div>
 					<div className="filter-item-header mb-1">
 
 						<div className="flight-locations">
@@ -95,7 +95,7 @@ const FilterItemsFlights = () => {
 			</div>
 		)));
 
-	}, [filtered_flights]);
+	}, [appliedFiltered_flights]);
 
 	return flights;
 }

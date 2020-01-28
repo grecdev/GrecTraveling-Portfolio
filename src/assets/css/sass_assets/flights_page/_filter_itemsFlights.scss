@@ -8,6 +8,7 @@
 	> div:first-child {
 		width: 90%;
 		@include flex(column, center, stretch);
+		margin-right: 3rem;
 	}
 	
 	.filter-item-header {
