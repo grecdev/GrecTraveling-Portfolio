@@ -473,10 +473,22 @@ export const FormContextProvider = (props) => {
 
 	const showCalendar = e => {
 
-		if (formState.checkIn_date.length === 0 && formState.checkOut_date.length === 0) {
+		if (e.target.id.toLowerCase().includes('checkin') && formState.checkIn_date.length === 0) {
 
 			setCurrentMonth(date.month);
 			setCurrentYear(date.year);
+		}
+
+		if (e.target.id.toLowerCase().includes('checkout') && formState.checkOut_date.length === 0) {
+
+			setCurrentMonth(date.month);
+			setCurrentYear(date.year);
+		}
+
+		if (e.target.id.toLowerCase().includes('checkout') && formState.checkIn_date.length > 0 && formState.checkOut_date.length === 0) {
+
+			setCurrentMonth(formState.checkIn_month);
+			setCurrentYear(formState.checkIn_year);
 		}
 
 		// So if we show again the calendar display the checkin selected month, and not the month that we increment / decrement
@@ -635,8 +647,12 @@ export const FormContextProvider = (props) => {
 
 			if (location !== '/flights') changePage('/flights');
 
-			console.log(flightsDb);
-			setDatabase(database => ({ ...database, defaultFiltered_flights: flightsDb, appliedFiltered_flights: flightsDb }));
+			// console.log(flightsDb);
+			setDatabase(database => ({
+				...database,
+				defaultFiltered_flights: flightsDb,
+				appliedFiltered_flights: flightsDb
+			}));
 		}
 
 		if (e.target.getAttribute('name') === 'hotels') {
