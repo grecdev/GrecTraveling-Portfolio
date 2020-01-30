@@ -40,7 +40,7 @@
 		label {
 			margin-bottom: .5rem;
 			color: $primary-white;
-			user-select: none;
+			@include user-select;
 		}
 
 		input {

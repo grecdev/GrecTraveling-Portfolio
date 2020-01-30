@@ -40,6 +40,7 @@
 			a:nth-child(2) {
 				font-size: .75rem;
 				color: $primary-blue;
+				@include user-select;
 				
 				&:hover { text-decoration: underline }
 			}
@@ -54,7 +55,7 @@
 			cursor: pointer;
 			padding: .3rem 0 .3rem .3rem;
 			position: relative;
-			user-select: none;
+			@include user-select;
 
 			&:not([for="ticket-price"]):hover { background: rgb(240, 240, 240) }
 
