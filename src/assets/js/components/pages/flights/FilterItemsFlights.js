@@ -7,7 +7,6 @@ const FilterItemsFlights = () => {
 
 	const {
 		appliedFiltered_flights,
-		defaultFiltered_flights,
 		checkIn_day,
 		checkIn_month,
 		checkIn_year,

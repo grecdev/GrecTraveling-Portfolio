@@ -8,7 +8,6 @@ const FilterSearchFlights = () => {
 	const { getImage } = useContext(GlobalContext);
 	const {
 		defaultFiltered_flights,
-		appliedFiltered_flights,
 		setFilteredDatabase
 	} = useContext(FormContext);
 
@@ -125,11 +124,10 @@ const FilterSearchFlights = () => {
 			!isChecked && setFilterValue(filterValue => ({ ...filterValue, airlines: { ...filterValue.airlines, [inputValue_string]: undefined } }));
 		}
 
-
 		e.stopPropagation();
 	}
 
-	const resetFilter = e => {
+	const clearFiltersIndividual = e => {
 
 		const resetType = e.target.dataset.resetFilter;
 
@@ -140,7 +138,7 @@ const FilterSearchFlights = () => {
 				stops: undefined
 			}));
 
-			document.querySelectorAll('input[name="stops"]').forEach(input => input.checked = false)
+			document.querySelectorAll('input[name="stops"]').forEach(input => input.checked = false);
 		}
 
 		if (resetType === 'ticketPrice') {
@@ -157,7 +155,7 @@ const FilterSearchFlights = () => {
 				departureInterval_end: undefined
 			}));
 
-			document.querySelectorAll('input[name="departure-interval"]').forEach(input => input.checked = false)
+			document.querySelectorAll('input[name="departure-interval"]').forEach(input => input.checked = false);
 		}
 
 		if (resetType === 'airlines') {
@@ -172,12 +170,50 @@ const FilterSearchFlights = () => {
 				}
 			}));
 
-			document.querySelectorAll('input[name="airlines"]').forEach(input => input.checked = false)
+			document.querySelectorAll('input[name="airlines"]').forEach(input => input.checked = false);
 		}
 
-		console.log(resetType);
+		if (resetType === 'clear-all') {
+
+			clearFiltersMultiple();
+		}
 
 		e.stopPropagation();
+	}
+
+	// DRY
+	const clearFiltersMultiple = () => {
+
+		setFilterValue(filterValue => ({
+			...filterValue,
+			stops: undefined
+		}));
+
+		document.querySelectorAll('input[name="stops"]').forEach(input => input.checked = false);
+
+		setFilterValue(filterValue => ({ ...filterValue, ticketPrice: undefined }));
+
+		setRangePrice(getMaxPrice());
+
+		setFilterValue(filterValue => ({
+			...filterValue,
+			departureInterval_start: undefined,
+			departureInterval_end: undefined
+		}));
+
+		document.querySelectorAll('input[name="departure-interval"]').forEach(input => input.checked = false);
+
+		setFilterValue(filterValue => ({
+			...filterValue,
+			airlines: {
+				tarom: undefined,
+				unitedAirlines: undefined,
+				finnair: undefined,
+				aeroflot: undefined
+			}
+		}));
+
+		document.querySelectorAll('input[name="airlines"]').forEach(input => input.checked = false);
 	}
 
 	const displayFlights = () => {
@@ -246,6 +282,7 @@ const FilterSearchFlights = () => {
 		if (filterValue.departureInterval_end) appliedFilter = appliedFilter.filter(item => item.intervalEnd === filterValue.departureInterval_end);
 
 		console.log(appliedFilter);
+
 		setFilteredDatabase(appliedFilter, 'flights');
 	}
 
@@ -255,14 +292,30 @@ const FilterSearchFlights = () => {
 
 	}, [filterValue]);
 
+	useEffect(() => {
+
+		clearFiltersMultiple();
+
+	}, [defaultFiltered_flights]);
+
 	return (
 		<div id="filter-search-flights">
+
+			<div className="filter-search-box">
+				<div className="filter-search-header">
+					<h3 className="heading">Filters</h3>
+
+					{
+						filterValue.stops || filterValue.ticketPrice || filterValue.departureInterval_start || filterValue.departureInterval_end || filterValue.airlines.tarom || filterValue.airlines.unitedAirlines || filterValue.airlines.finnair || filterValue.airlines.aeroflot ? <a aria-label='button' data-reset-filter='clear-all' onClick={clearFiltersIndividual} >Clear all</a> : false
+					}
+				</div>
+			</div>
 
 			<div className="filter-search-box">
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Stops</h3>
-					<a aria-label='button' data-reset-filter='stops' onClick={resetFilter} >Clear</a>
+					{filterValue.stops && <a aria-label='button' data-reset-filter='stops' onClick={clearFiltersIndividual} >Clear</a>}
 
 					<a aria-label='button' data-event-toggle='true' onClick={toggleFilterMenu}><i className="fas fa-chevron-up"></i></a>
 				</div>
@@ -292,7 +345,7 @@ const FilterSearchFlights = () => {
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Ticket Price <span className='description'>(for 1 ticket)</span></h3>
-					<a aria-label='button' data-reset-filter='ticketPrice' onClick={resetFilter}>Clear</a>
+					{filterValue.ticketPrice && <a aria-label='button' data-reset-filter='ticketPrice' onClick={clearFiltersIndividual}>Clear</a>}
 
 					<a aria-label='button' onClick={toggleFilterMenu} data-event-toggle='true'><i className="fas fa-chevron-up"></i></a>
 				</div>
@@ -309,7 +362,8 @@ const FilterSearchFlights = () => {
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Departure Time</h3>
-					<a aria-label='button' data-reset-filter='interval' onClick={resetFilter}>Clear</a>
+					{
+						filterValue.departureInterval_start || filterValue.departureInterval_end ? <a aria-label='button' data-reset-filter='interval' onClick={clearFiltersIndividual}>Clear</a> : false}
 
 					<a aria-label='button' data-event-toggle='true' onClick={toggleFilterMenu}><i className="fas fa-chevron-up"></i></a>
 				</div>
@@ -358,7 +412,9 @@ const FilterSearchFlights = () => {
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Airlines</h3>
-					<a aria-label='button' data-reset-filter='airlines' onClick={resetFilter}>Clear</a>
+					{
+						filterValue.airlines.tarom || filterValue.airlines.unitedAirlines || filterValue.airlines.finnair || filterValue.airlines.aeroflot ? <a aria-label='button' data-reset-filter='airlines' onClick={clearFiltersIndividual}>Clear</a> : false
+					}
 
 					<a aria-label='button' data-event-toggle='true' onClick={toggleFilterMenu}><i className="fas fa-chevron-up"></i></a>
 				</div>

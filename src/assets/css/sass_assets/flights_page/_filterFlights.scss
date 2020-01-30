@@ -4,9 +4,9 @@
 		padding: 1rem 0;
 		border-bottom: 1px solid $primary-blue;
 		
-		&:first-child .filter-search-container { height: 85px }
-		&:nth-child(2) .filter-search-container { height: 45px }
-		&:nth-child(3) .filter-search-container { height: 175px }
+		&:nth-child(2) .filter-search-container { height: 85px }
+		&:nth-child(3) .filter-search-container { height: 45px }
+		&:nth-child(4) .filter-search-container { height: 175px }
 		&:last-child .filter-search-container { height: 180px }
 
 		&:last-child {
@@ -22,6 +22,11 @@
 		}
 
 		.filter-search-inputs { margin: .7rem 0 }
+
+		&:first-child .filter-search-header h3 {
+			font-weight: 100;
+			font-size: 1.2rem;
+		}
 		
 		.filter-search-header {
 			@include flex(row, flex-start, center);
@@ -37,7 +42,7 @@
 				}
 			}
 
-			a:nth-child(2) {
+			a[data-reset-filter] {
 				font-size: .75rem;
 				color: $primary-blue;
 				@include user-select;
