@@ -5,7 +5,7 @@ import { FormContext } from '../../../context/FormContext';
 
 const FilterSearchFlights = () => {
 
-	const { getImage, documentLoaded } = useContext(GlobalContext);
+	const { getImage } = useContext(GlobalContext);
 	const {
 		defaultFiltered_flights,
 		appliedFiltered_flights,
@@ -26,7 +26,7 @@ const FilterSearchFlights = () => {
 
 				document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'false'));
 
-				setTimeout(() => document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'true')), 400);
+				setTimeout(() => document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'true')), 350);
 
 			} else {
 
@@ -35,7 +35,7 @@ const FilterSearchFlights = () => {
 
 				document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'false'));
 
-				setTimeout(() => document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'true')), 400);
+				setTimeout(() => document.querySelectorAll('[data-event-toggle]').forEach(event => event.setAttribute('data-event-toggle', 'true')), 350);
 			}
 		}
 
@@ -59,7 +59,6 @@ const FilterSearchFlights = () => {
 	const getMaxPrice = () => appliedFiltered_flights.length !== 0 ? appliedFiltered_flights.map(item => item.price).reduce((a, b) => b) : 0;
 	const getMinPrice = () => appliedFiltered_flights.length !== 0 ? appliedFiltered_flights.map(item => item.price).reduce((a, b) => a) : 0;
 
-	const [value, setValue] = useState(undefined);
 	const [rangePrice, setRangePrice] = useState(0);
 	const [minPrice, setMinPrice] = useState(0);
 	const [maxPrice, setMaxPrice] = useState(0);
@@ -72,26 +71,17 @@ const FilterSearchFlights = () => {
 
 	}, [defaultFiltered_flights]);
 
-	/*
-
-	How it works:
-
-	When we initially submit on the checkin form, we add our flights db for both default filter and applied filter array.
-	In the `FilterItemsFlights` component we always loop trough the applied filter array.
-
-	When we apply a new filter from this component,
-	we apply the default filter array (from checkin form search on the home page ) to the applied filter array.
-	(So we always render / loop in the `FilterItemsFlights` component )
-
-	So each time we set a filter we modify the appliedFilter array, not the default array (from checkin form)
-
-	:)
-	
-	*/
-
 	const initialFilterValue = {
 		stops: undefined,
-		ticketPrice: undefined
+		ticketPrice: undefined,
+		departureInterval_start: undefined,
+		departureInterval_end: undefined,
+		airlines: {
+			tarom: undefined,
+			unitedAirlines: undefined,
+			finnair: undefined,
+			aeroflot: undefined
+		}
 	};
 
 	const [filterValue, setFilterValue] = useState(initialFilterValue);
@@ -99,22 +89,42 @@ const FilterSearchFlights = () => {
 	const applyFilter = e => {
 
 		const inputType = e.target.getAttribute('type');
-		const inputValue = parseFloat(e.target.value);
+		const inputValue_number = parseFloat(e.target.value);
+		const inputValue_string = e.target.value;
 		const inputId = e.target.id;
+		const isChecked = e.target.checked;
 
 		if (inputType === 'range') {
-			setRangePrice(inputValue);
+			setRangePrice(inputValue_number);
 
-			setFilterValue(filterValue => ({...filterValue, ticketPrice: inputValue }));
+			setFilterValue(filterValue => ({ ...filterValue, ticketPrice: inputValue_number }));
 		}
 
-		inputType === 'radio' && setFilterValue(filterValue => ({...filterValue, stops: inputValue }));
+		if (inputType === 'radio') {
 
-		setValue(inputValue);
+			inputId.toLowerCase().includes('stop') && setFilterValue(filterValue => ({ ...filterValue, stops: inputValue_number }));
 
-		// So we know we change the value
-		// setFilterOn(true);
-		// setTimeout(() => setFilterOn(false), 150);
+
+			if (inputId.toLowerCase().includes('departure-interval')) {
+
+				const departureInterval_start = parseFloat(e.target.value.slice(0, 5));
+				const departureInterval_end = parseFloat(e.target.value.slice(6, e.target.value.length));
+
+				setFilterValue(filterValue => ({
+					...filterValue,
+					departureInterval_start: departureInterval_start,
+					departureInterval_end: departureInterval_end
+				}));
+			}
+		}
+
+		if (inputType === 'checkbox') {
+
+			isChecked && setFilterValue(filterValue => ({ ...filterValue, airlines: { ...filterValue.airlines, [inputValue_string]: inputValue_string } }));
+
+			!isChecked && setFilterValue(filterValue => ({ ...filterValue, airlines: { ...filterValue.airlines, [inputValue_string]: undefined } }));
+		}
+
 
 		e.stopPropagation();
 	}
@@ -134,13 +144,70 @@ const FilterSearchFlights = () => {
 
 	const displayFlights = () => {
 
-		let dd = [...defaultFiltered_flights];
+		let appliedFilter = [...defaultFiltered_flights];
 
-		if(filterValue.stops) dd = dd.filter(item => item.stops === filterValue.stops && item);
+		// If we have more than 1 checkbox input active we use these 2 arrays
+		let checkboxArr = [];
+		let newArr = [];
 
-		if(filterValue.ticketPrice) dd = dd.filter(item => item.price <= filterValue.ticketPrice && item);
+		// Add the flights with the specific airline company to the checkBox arr, but use the default array, not the array with another filters active
+		if (filterValue.airlines.tarom) {
 
-		setFilteredDatabase(dd, 'flights');
+			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterValue.airlines.tarom);
+
+			checkboxArr.push(appliedFilter);
+		}
+
+		if (filterValue.airlines.unitedAirlines) {
+
+			appliedFilter = defaultFiltered_flights.filter(item => {
+
+				if (/ /g.test(item.airlines)) {
+
+					// In json api `database` is: "United Airlines"
+					item.airlines.replace(' ', '');
+
+					item.airlines.toLowerCase() === filterValue.airlines.unitedAirlines;
+
+					return item;
+				}
+			});
+
+			checkboxArr.push(appliedFilter);
+		}
+
+		if (filterValue.airlines.finnair) {
+
+			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterValue.airlines.finnair);
+
+			checkboxArr.push(appliedFilter);
+		}
+
+		if (filterValue.airlines.aeroflot) {
+
+			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterValue.airlines.aeroflot);
+
+			checkboxArr.push(appliedFilter);
+		}
+
+		// We need to make the items objects to be in one single array
+		checkboxArr.forEach(item => item.forEach(obj => newArr.push(obj)));
+
+		// Here we check how manny checkbox inputs are active (checked)
+		const multipleCheckbox = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(input => input.checked);
+
+		// If there are more than 1 airline company filter active, we apply the filters to the array with items objects that have multiple airline companies
+		if (multipleCheckbox.length > 1) appliedFilter = [...newArr];
+
+		if (filterValue.stops) appliedFilter = appliedFilter.filter(item => item.stops === filterValue.stops);
+
+		if (filterValue.ticketPrice) appliedFilter = appliedFilter.filter(item => item.price <= filterValue.ticketPrice);
+
+		if (filterValue.departureInterval_start) appliedFilter = appliedFilter.filter(item => item.intervalStart === filterValue.departureInterval_start);
+
+		if (filterValue.departureInterval_end) appliedFilter = appliedFilter.filter(item => item.intervalEnd === filterValue.departureInterval_end);
+
+		setFilteredDatabase(appliedFilter, 'flights');
 	}
 
 	useEffect(() => {
@@ -165,7 +232,7 @@ const FilterSearchFlights = () => {
 					<div className="filter-search-inputs">
 
 						<label htmlFor='one-stop'>
-							<input id='one-stop' type='radio' name='stops' value='1' onChange={applyFilter} />
+							<input id='one-stop' type='radio' name='stops' defaultValue='1' onChange={applyFilter} />
 							<span></span>
 							One stop
 					</label>
@@ -174,7 +241,7 @@ const FilterSearchFlights = () => {
 					<div className="filter-search-inputs">
 
 						<label htmlFor='two-stops'>
-							<input id='two-stops' type='radio' name='stops' value='2' onChange={applyFilter} />
+							<input id='two-stops' type='radio' name='stops' defaultValue='2' onChange={applyFilter} />
 							<span></span>
 							Two stops
 					</label>
@@ -185,7 +252,7 @@ const FilterSearchFlights = () => {
 			<div className="filter-search-box">
 
 				<div className="filter-search-header">
-					<h3 className='heading mr-1'>Ticket Price</h3>
+					<h3 className='heading mr-1'>Ticket Price <span className='description'>(for 1 ticket)</span></h3>
 					<a aria-label='button'>Clear</a>
 
 					<a aria-label='button' onClick={toggleFilterMenu} data-event-toggle='true'><i className="fas fa-chevron-up"></i></a>
@@ -211,36 +278,36 @@ const FilterSearchFlights = () => {
 				<div className="filter-search-container">
 					<div className="filter-search-inputs">
 
-						<label htmlFor='time-interval-1'>
-							<input id='time-interval-1' type='checkbox' name='time-interval' value='1' />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+						<label htmlFor='departure-interval-1'>
+							<input id='departure-interval-1' type='radio' defaultValue='00:00-22:00' name='departure-interval' onChange={applyFilter} />
+							<span></span>
 							00:00 - 22:00
 						</label>
 					</div>
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='time-interval-2'>
-							<input id='time-interval-2' type='checkbox' name='time-interval' value='1' />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+						<label htmlFor='departure-interval-2'>
+							<input id='departure-interval-2' type='radio' defaultValue='04:00-16:00' name='departure-interval' onChange={applyFilter} />
+							<span></span>
 							04:00 - 16:00
 						</label>
 					</div>
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='time-interval-3'>
-							<input id='time-interval-3' type='checkbox' name='time-interval' value='2' />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+						<label htmlFor='departure-interval-3'>
+							<input id='departure-interval-3' type='radio' defaultValue='08:00-20:00' name='departure-interval' onChange={applyFilter} />
+							<span></span>
 							08:00 - 20:00
 						</label>
 					</div>
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='time-interval-4'>
-							<input id='time-interval-4' type='checkbox' name='time-interval' value='2' />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+						<label htmlFor='departure-interval-4'>
+							<input id='departure-interval-4' type='radio' defaultValue='12:00-00:00' name='departure-interval' onChange={applyFilter} />
+							<span></span>
 							12:00 - 00:00
 						</label>
 					</div>
@@ -259,8 +326,8 @@ const FilterSearchFlights = () => {
 
 				<div className="filter-search-container">
 					<div className="filter-search-inputs">
-						<label htmlFor='airlines-1'>
-							<input id='airlines-1' type='checkbox' name='airlines' value='1' />
+						<label htmlFor='tarom-airlines'>
+							<input id='tarom-airlines' type='checkbox' name='airlines' defaultValue='tarom' onChange={applyFilter} />
 							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
 							Tarom
 					</label>
@@ -268,8 +335,8 @@ const FilterSearchFlights = () => {
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='airlines-2'>
-							<input id='airlines-2' type='checkbox' name='airlines' value='1' />
+						<label htmlFor='united-airlines'>
+							<input id='united-airlines' type='checkbox' name='airlines' defaultValue='unitedAirlines' onChange={applyFilter} />
 							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
 							United Airlines
 					</label>
@@ -277,8 +344,8 @@ const FilterSearchFlights = () => {
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='airlines-3'>
-							<input id='airlines-3' type='checkbox' name='airlines' value='2' />
+						<label htmlFor='finnair-airlines'>
+							<input id='finnair-airlines' type='checkbox' name='airlines' defaultValue='finnair' onChange={applyFilter} />
 							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
 							Finnair
 					</label>
@@ -286,8 +353,8 @@ const FilterSearchFlights = () => {
 
 					<div className="filter-search-inputs">
 
-						<label htmlFor='airlines-4'>
-							<input id='airlines-4' type='checkbox' name='airlines' value='2' />
+						<label htmlFor='aeroflot-airlines'>
+							<input id='aeroflot-airlines' type='checkbox' name='airlines' defaultValue='aeroflot' onChange={applyFilter} />
 							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
 							Aeroflot
 					</label>

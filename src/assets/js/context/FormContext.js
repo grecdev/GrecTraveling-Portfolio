@@ -13,15 +13,15 @@ export const FormContextProvider = (props) => {
 		hotel_destination: '',
 		flying_from: '',
 		flying_to: '',
-		checkIn_day: undefined,
-		checkIn_month: undefined,
-		checkIn_year: undefined,
-		checkIn_date: '',
-		checkOut_day: undefined,
-		checkOut_month: undefined,
-		checkOut_year: undefined,
-		checkOut_date: '',
-		peopleTotal: 1,
+		checkIn_day: 20,
+		checkIn_month: 0,
+		checkIn_year: 2020,
+		checkIn_date: 'DEFAULT',
+		checkOut_day: 1,
+		checkOut_month: 3,
+		checkOut_year: 2020,
+		checkOut_date: 'DEFAULT',
+		peopleTotal: 4,
 		adults: 1,
 		youth: 0,
 		children: 0,
@@ -228,7 +228,7 @@ export const FormContextProvider = (props) => {
 				}
 
 				// Current day
-				if (parseFloat(cell.textContent) === date.currentDay && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day) cell.classList.add('current-day');
+				if (parseFloat(cell.textContent) === date.currentDay && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('current-day');
 
 				// Every day before current month
 				if (currentYear < date.year) cell.classList.add('unavailable-day');
