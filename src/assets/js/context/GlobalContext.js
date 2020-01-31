@@ -51,7 +51,7 @@ class GlobalContextProvider extends Component {
 		window.requestAnimationFrame(this.parallaxBackground);
 	}
 
-	loadEvent = e => {
+	contentLoadedEvent = e => {
 
 		// When we can't access some DOM elements
 		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: !prevState.documentLoaded }));
@@ -94,14 +94,14 @@ class GlobalContextProvider extends Component {
 
 	componentDidMount() {
 		document.addEventListener('mousedown', this.clickEvent);
-		document.addEventListener('DOMContentLoaded', this.loadEvent);
+		document.addEventListener('DOMContentLoaded', this.contentLoadedEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('mousedown', this.clickEvent);
-		document.removeEventListener('DOMContentLoaded', this.loadEvent);
+		document.removeEventListener('DOMContentLoaded', this.contentLoadedEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
 	}

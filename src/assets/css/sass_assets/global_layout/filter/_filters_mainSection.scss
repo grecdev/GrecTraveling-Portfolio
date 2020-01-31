@@ -15,13 +15,14 @@
 	#filters-empty-wrapper {
 
 		.filters-empty-container {
-			@include flex(row, space-between, stretch);
+			@include flex(row, center, stretch);
 			counter-reset: step;
 
 			.filters-empty-box {
 				border: 1.5px solid $primary-blue;
 				position: relative;
 				width: 30%;
+				margin: 0 1rem;
 
 				h3 { font-size: 1.2rem }
 
@@ -46,5 +47,13 @@
 				}
 			}
 		}
+	}
+
+	#filter-not-found {
+		@include flex(column, center, center);
+		
+		.not-found-img { width: 35% }
+	
+		.not-found-info .description { font-style: italic }
 	}
 }

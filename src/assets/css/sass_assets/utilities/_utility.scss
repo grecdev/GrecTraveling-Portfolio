@@ -200,9 +200,9 @@ a, button, input, textarea {
 .description { color: $primary-gray }
 
 /* Alignement */
-.text-left { text-align: left }
-.text-center { text-align: center }
-.text-right { text-align: right }
+.text-left { text-align: left !important }
+.text-center { text-align: center !important }
+.text-right { text-align: right !important }
 
 /* Spacing */
 .header-spacing { padding-top: 61px }

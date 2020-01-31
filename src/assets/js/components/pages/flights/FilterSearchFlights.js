@@ -8,7 +8,9 @@ const FilterSearchFlights = () => {
 	const { getImage } = useContext(GlobalContext);
 	const {
 		defaultFiltered_flights,
-		setFilteredDatabase
+		setFilteredDatabase,
+		appliedFiltered_flights,
+		enableLoading
 	} = useContext(FormContext);
 
 	const toggleFilterMenu = e => {
@@ -87,6 +89,8 @@ const FilterSearchFlights = () => {
 
 	const applyFilter = e => {
 
+		enableLoading('filterLoader');
+
 		const inputType = e.target.getAttribute('type');
 		const inputValue_number = parseFloat(e.target.value);
 		const inputValue_string = e.target.value;
@@ -130,6 +134,8 @@ const FilterSearchFlights = () => {
 	const clearFiltersIndividual = e => {
 
 		const resetType = e.target.dataset.resetFilter;
+
+		enableLoading('filterLoader');
 
 		if (resetType === 'stops') {
 
@@ -184,36 +190,12 @@ const FilterSearchFlights = () => {
 	// DRY
 	const clearFiltersMultiple = () => {
 
-		setFilterValue(filterValue => ({
-			...filterValue,
-			stops: undefined
-		}));
-
-		document.querySelectorAll('input[name="stops"]').forEach(input => input.checked = false);
-
-		setFilterValue(filterValue => ({ ...filterValue, ticketPrice: undefined }));
+		setFilterValue(initialFilterValue);
 
 		setRangePrice(getMaxPrice());
 
-		setFilterValue(filterValue => ({
-			...filterValue,
-			departureInterval_start: undefined,
-			departureInterval_end: undefined
-		}));
-
-		document.querySelectorAll('input[name="departure-interval"]').forEach(input => input.checked = false);
-
-		setFilterValue(filterValue => ({
-			...filterValue,
-			airlines: {
-				tarom: undefined,
-				unitedAirlines: undefined,
-				finnair: undefined,
-				aeroflot: undefined
-			}
-		}));
-
-		document.querySelectorAll('input[name="airlines"]').forEach(input => input.checked = false);
+		document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+		document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
 	}
 
 	const displayFlights = () => {
@@ -281,8 +263,6 @@ const FilterSearchFlights = () => {
 
 		if (filterValue.departureInterval_end) appliedFilter = appliedFilter.filter(item => item.intervalEnd === filterValue.departureInterval_end);
 
-		console.log(appliedFilter);
-
 		setFilteredDatabase(appliedFilter, 'flights');
 	}
 
@@ -300,6 +280,12 @@ const FilterSearchFlights = () => {
 
 	return (
 		<div id="filter-search-flights">
+
+			<div className="filter-search-box">
+				<div className="filter-search-header">
+					<p>{appliedFiltered_flights.length} {appliedFiltered_flights.length === 1 ? 'flight' : 'flights'} found</p>
+				</div>
+			</div>
 
 			<div className="filter-search-box">
 				<div className="filter-search-header">

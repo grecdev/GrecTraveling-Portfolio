@@ -30,7 +30,9 @@ export const FormContextProvider = (props) => {
 		flightCalendarCheckOut_visible: false,
 		hotelCalendarCheckIn_visible: false,
 		hotelCalendarCheckOut_visible: false,
-		peopleSelection_visible: false
+		peopleSelection_visible: false,
+		searchLoader: false,
+		filterLoader: false
 	}
 
 	const [formState, setFormState] = useState(initialState);
@@ -100,6 +102,21 @@ export const FormContextProvider = (props) => {
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
 
+	const enableLoading = loaderType => {
+
+		if (loaderType === 'searchLoader') {
+			setFormState(formState => ({ ...formState, searchLoader: true }));
+
+			setTimeout(() => setFormState(formState => ({ ...formState, searchLoader: false })), 1000);
+		}
+
+		if (loaderType === 'filterLoader') {
+			setFormState(formState => ({ ...formState, filterLoader: true }));
+
+			setTimeout(() => setFormState(formState => ({ ...formState, filterLoader: false })), 1000);
+		}
+	}
+
 	const closeFormMenus = () => {
 
 		setFormState(formState => ({
@@ -129,8 +146,9 @@ export const FormContextProvider = (props) => {
 				...database,
 				defaultFiltered_flights: [],
 				appliedFiltered_flights: [],
-				defaultFiltered_hotels: []
-			}))
+				defaultFiltered_hotels: [],
+				appliedFiltered_hotels: [],
+			}));
 		}
 	};
 
@@ -228,7 +246,7 @@ export const FormContextProvider = (props) => {
 				}
 
 				// Current day
-				if (parseFloat(cell.textContent) === date.currentDay && dayCount <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('current-day');
+				if (parseFloat(cell.textContent) === date.currentDay && parseFloat(cell.textContent) <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('current-day');
 
 				// Every day before current month
 				if (currentYear < date.year) cell.classList.add('unavailable-day');
@@ -643,11 +661,17 @@ export const FormContextProvider = (props) => {
 			// By people available
 			flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
 
-			// if (location !== '/flights' && formState.flying_from.length > 0 && formState.flying_to.length > 0 && formState.checkIn_date.length > 0 && formState.checkOut_date.length > 0) changePage('/flights');
+			if (location !== '/flights') {
+				changePage('/flights');
+				enableLoading('searchLoader');
+			}
 
-			if (location !== '/flights') changePage('/flights');
+			if (location === '/flights') {
+				if (database.defaultFiltered_flights.length === 0) enableLoading('searchLoader');
 
-			// console.log(flightsDb);
+				if (database.defaultFiltered_flights.length > 0) enableLoading('filterLoader');
+			}
+
 			setDatabase(database => ({
 				...database,
 				defaultFiltered_flights: flightsDb,
@@ -757,8 +781,23 @@ export const FormContextProvider = (props) => {
 	// If we go back on the home page, i want the form to be reseted (personal prefference)
 	useEffect(() => {
 
-		location === '/' && setFormState(initialState);
+		if (location !== '/flights') {
 
+			setDatabase(database => ({
+				...database,
+				defaultFiltered_flights: [],
+				appliedFiltered_flights: []
+			}))
+		}
+
+		if (location !== '/hotels') {
+
+			setDatabase(database => ({
+				...database,
+				defaultFiltered_hotels: [],
+				appliedFiltered_hotels: []
+			}))
+		}
 	}, [location]);
 
 	return (
@@ -775,7 +814,8 @@ export const FormContextProvider = (props) => {
 			showPeopleSelection,
 			selectPeople,
 			filterSearch,
-			setFilteredDatabase
+			setFilteredDatabase,
+			enableLoading
 		}}>
 			{props.children}
 		</FormContext.Provider>
