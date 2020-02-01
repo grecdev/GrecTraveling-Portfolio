@@ -23,7 +23,7 @@ export class App extends Component {
 			headerFixed
 		} = this.context
 
-		documentLoaded && headerFixed();
+		documentLoaded && headerFixed()
 	}
 
 	render() {

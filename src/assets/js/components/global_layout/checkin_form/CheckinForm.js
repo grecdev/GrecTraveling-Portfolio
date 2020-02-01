@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { FormContext } from '../../../context/FormContext';
 
+import RegexAlert from '../RegexAlert';
+
 import Calendar from './Calendar';
 import PeopleSelection from './PeopleSelection';
 
@@ -19,12 +21,17 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 		hotelCalendarCheckOut_visible,
 		flightCalendarCheckIn_visible,
 		flightCalendarCheckOut_visible,
-		peopleSelection_visible,
+		peopleSelectionFlights_visible,
+		peopleSelectionHotels_visible,
 		handleChange,
 		displayForm,
 		showCalendar,
 		showPeopleSelection,
-		filterSearch } = useContext(FormContext);
+		filterSearch,
+		regexValidation,
+		showRegexAlert,
+		flyingTo_alert
+	} = useContext(FormContext);
 
 	return (
 		<div className='form-container'>
@@ -40,12 +47,14 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="flying_from">Flying from:</label>
-						<input type="text" id='flying_from' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
+						<input type="text" id='flying_from' className='input-correct' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
 					</div>
 
 					<div className="form-box">
 						<label htmlFor="flying_to">To:</label>
-						<input type="text" id='flying_to' placeholder='Location' name='flying_to' onChange={handleChange} value={flying_to} />
+						<input type="text" id='flying_to' placeholder='Location' name='flying_to' onBlur={regexValidation} onChange={handleChange} value={flying_to} />
+
+						{flyingTo_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>
 
 					<div className="form-box">
@@ -64,12 +73,14 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="flight-passengers">Passengers:</label>
-						<input type="text" id='flight-passengers' name='flight-passengers' onClick={showPeopleSelection} data-menu-toggle='on' value={peopleTotal} readOnly />
+						<input type="text" id='flight-passengers' className={peopleTotal > 0 ? 'input-correct' : 'wrong-validation'} name='flight-passengers' onClick={showPeopleSelection} data-menu-toggle='on' value={peopleTotal} readOnly />
 
-						{peopleSelection_visible && <PeopleSelection />}
+						{peopleSelectionFlights_visible && <PeopleSelection />}
 					</div>
 
 					<button type='submit'><i className="fas fa-search"></i></button>
+
+					{showRegexAlert && <RegexAlert text='All input fields are required' />}
 				</form>
 			)}
 
@@ -78,7 +89,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_destination">City or Country:</label>
-						<input type="text" id='hotel_destination' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
+						<input type="text" id='hotel_destination' className='input-correct' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} onBlur={regexValidation} value={hotel_destination} />
 					</div>
 
 					<div className="form-box">
@@ -99,7 +110,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 						<label htmlFor="hotel-people">People:</label>
 						<input type="text" id='hotel-people' name='hotel-people' data-menu-toggle='on' onClick={showPeopleSelection} value={peopleTotal} readOnly />
 
-						{peopleSelection_visible && <PeopleSelection />}
+						{peopleSelectionHotels_visible && <PeopleSelection />}
 					</div>
 
 					<button type='submit'><i className="fas fa-search"></i></button>

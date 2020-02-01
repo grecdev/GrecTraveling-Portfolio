@@ -7,7 +7,7 @@ const SearchLoader = () => {
 	const { getImage } = useContext(GlobalContext);
 
 	return (
-		<div className='search-loader'><img src={getImage('search-loading.svg')} alt='search loader' /></div>
+		<div className='search-loader'><img src={getImage('search-loader.gif')} alt='search loader' /></div>
 	)
 };
 

@@ -18,7 +18,8 @@ const FilterEmpty = ({ flights, hotels }) => {
 							<div className="filters-empty-box p-1 text-center">
 
 								<h3 className='heading mb-1'>Location</h3>
-								<p className='mb-1 description'>Location is optional, but you can search for both input fields ( from / to )</p>
+								<p className='mb-1 description'>"Flying From" input is optional ( disabled in the .js file )</p>
+
 								<p>Locations available:</p>
 								<ul>
 									<li>1. Dubai</li>
@@ -39,6 +40,7 @@ const FilterEmpty = ({ flights, hotels }) => {
 									<li>2. February</li>
 									<li>3. March</li>
 									<li>4. April</li>
+									<li>and above april</li>
 								</ul>
 
 							</div>
@@ -47,7 +49,7 @@ const FilterEmpty = ({ flights, hotels }) => {
 
 								<h3 className='heading mb-1'>Passengers</h3>
 								<p className='mb-1 description'>The flight price is multiplied by the number of passengers</p>
-								<p>Maximum of 4 passengers available</p>
+								<p>Maximum of 4 passengers available (can select above 4)</p>
 
 							</div>
 

@@ -1,7 +1,7 @@
 .form-container {
 	background: rgba($primary-dark, .7);
 	width: 70%;
-	border-bottom: 3px solid darken($primary-blue, 10%);
+	
 	position: relative;
 	color: $primary-dark;
 
@@ -9,7 +9,7 @@
 	
 	.checkin-header {
 		position: absolute;
-		top: -55%;
+		top: -54%;
 		left: 0%;
 		@include flex(row, space-between, center);
 
@@ -26,7 +26,23 @@
 		}
 	}
 
-	form { @include flex(row, space-between, flex-end) }
+	form {
+		@include flex(row, space-between, flex-end);
+		position: relative;
+		border-bottom: 3px solid darken($primary-blue, 10%);
+		transition: border-color 500ms ease-in-out;
+
+		.regex-alert {
+			background: darken($primary-pink, 5%);
+			color: $primary-white;
+			position: absolute;
+			top: 110%;
+			left: 0;
+			width: 100%;
+			border: 2px solid $primary-white;
+			z-index: -1;
+		}
+	}
 
 	.form-box {
 		@include flex(column, flex-start, flex-start);
@@ -56,6 +72,11 @@
 			&#departing-checkin,
 			&#returning-checkout,
 			&#flight-passengers { cursor: pointer }
+		}
+
+		.regex-alert {
+			top: 140%;
+			width: 140%;
 		}
 	}
 
@@ -189,7 +210,6 @@
 		position: absolute;
 		top: 80px;
 		left: 0;
-		box-shadow: 0 0 10px 2px $primary-blue;
 		width: 350px;
 
 		&::before {
@@ -231,5 +251,10 @@
 		}
 
 		button { width: 100% }
+
+		.people-alert {
+			background: $primary-pink;
+			color: $primary-white;
+		}
 	}
 }

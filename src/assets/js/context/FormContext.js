@@ -10,9 +10,9 @@ export const FormContextProvider = (props) => {
 
 	// Sometimes we reset the entire form :)
 	const initialState = {
-		hotel_destination: '',
 		flying_from: '',
 		flying_to: '',
+		hotel_destination: '',
 		checkIn_day: undefined,
 		checkIn_month: undefined,
 		checkIn_year: undefined,
@@ -30,10 +30,19 @@ export const FormContextProvider = (props) => {
 		flightCalendarCheckOut_visible: false,
 		hotelCalendarCheckIn_visible: false,
 		hotelCalendarCheckOut_visible: false,
-		peopleSelection_visible: false,
+		peopleSelectionFlights_visible: false,
+		peopleSelectionHotels_visible: false,
 		searchLoader: false,
 		filterLoader: false
+	};
+
+	const regexStateInitial = {
+		showRegexAlert: false,
+		flyingTo_alert: false,
+		alertRemove: 2000
 	}
+
+	const [regexState, setRegexState] = useState(regexStateInitial);
 
 	const [formState, setFormState] = useState(initialState);
 
@@ -102,6 +111,30 @@ export const FormContextProvider = (props) => {
 
 	const handleChange = e => setFormState({ ...formState, [e.target.id]: e.target.value });
 
+	// Disable for Locations ( to better see the search in action )
+	const regexValidation = e => {
+
+		const regex = {
+			letters: /^[aA-zZ ]{3,}$/g
+		}
+
+		if (regex.letters.test(e.target.value)) {
+
+			e.target.classList.add('input-correct');
+			e.target.classList.remove('wrong-validation');
+
+			if (e.target.id === 'flying_to') setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }))
+		} else {
+
+			e.target.classList.remove('input-correct');
+			e.target.classList.add('wrong-validation');
+
+			if (e.target.id === 'flying_to') setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
+		}
+
+		e.stopPropagation();
+	}
+
 	const enableLoading = loaderType => {
 
 		if (loaderType === 'searchLoader') {
@@ -125,7 +158,8 @@ export const FormContextProvider = (props) => {
 			hotelCalendarCheckOut_visible: false,
 			flightCalendarCheckIn_visible: false,
 			flightCalendarCheckOut_visible: false,
-			peopleSelection_visible: false,
+			peopleSelectionFlights_visible: false,
+			peopleSelectionHotels_visible: false,
 		}));
 	};
 
@@ -149,6 +183,9 @@ export const FormContextProvider = (props) => {
 				defaultFiltered_hotels: [],
 				appliedFiltered_hotels: [],
 			}));
+
+			document.querySelectorAll('input').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
+			document.querySelectorAll('.form-container form').forEach(form => form.style = '');
 		}
 	};
 
@@ -249,10 +286,10 @@ export const FormContextProvider = (props) => {
 				if (parseFloat(cell.textContent) === date.currentDay && parseFloat(cell.textContent) <= getMonthDays() && date.month === currentMonth && date.year === currentYear && !formState.checkIn_day && !cell.classList.contains('next-month-day') && !cell.classList.contains('previous-month-day') && !cell.classList.contains('unavailable-day')) cell.classList.add('current-day');
 
 				// Every day before current month
-				if (currentYear < date.year) cell.classList.add('unavailable-day');
+				if (currentYear < date.year || (currentYear === date.year && currentMonth < date.month)) cell.classList.add('unavailable-day');
 
 				// Highlight weekends
-				if (c >= 5 && parseFloat(cell.textContent) <= getMonthDays() && currentMonth >= date.month && currentYear >= date.year) cell.classList.add('weekend-day');
+				if (c >= 5 && parseFloat(cell.textContent) <= getMonthDays() && currentYear >= date.year) cell.classList.add('weekend-day');
 
 				// Every day before the current day but in the same month
 				if (!cell.classList.contains('next-month-day') && parseFloat(cell.textContent) < date.currentDay && currentMonth === date.month && currentYear === date.year) cell.classList.add('before-current-day');
@@ -471,6 +508,7 @@ export const FormContextProvider = (props) => {
 					checkOut_month: checkOutMonth,
 					checkOut_year: checkOutYear
 				}));
+
 				// Because of the state async problem the data is not mutable
 				// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
 				// Format the input && close the calendar
@@ -484,6 +522,26 @@ export const FormContextProvider = (props) => {
 
 			// Is same as clicking on the input field, we need to toggle it on again
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
+
+			if (formState.flightCalendarCheckIn_visible) {
+
+				document.getElementById('departing-checkin').classList.remove('wrong-validation');
+				document.getElementById('departing-checkin').classList.add('input-correct');
+			}
+
+			if (formState.flightCalendarCheckOut_visible) {
+
+				document.getElementById('returning-checkout').classList.remove('wrong-validation');
+				document.getElementById('returning-checkout').classList.add('input-correct');
+			}
+
+			// if(formState.hotelCalendarCheckIn_visible) {
+
+			// }
+
+			// if(formState.hotelCalendarCheckOut_visible) {
+
+			// }
 		}
 
 		e.stopPropagation();
@@ -551,7 +609,7 @@ export const FormContextProvider = (props) => {
 
 			closeFormMenus();
 
-			setFormState(formState => ({ ...formState, peopleSelection_visible: true }));
+			e.target.id.includes('flight') && setFormState(formState => ({ ...formState, peopleSelectionFlights_visible: true }));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 			e.target.setAttribute('data-menu-toggle', 'off');
@@ -588,7 +646,6 @@ export const FormContextProvider = (props) => {
 				if (formState[incrementPeopleType] >= 0) {
 
 					setFormState((formState) => ({ ...formState, peopleTotal: formState.peopleTotal + 1, [incrementPeopleType]: formState[incrementPeopleType] + 1 }));
-
 				}
 			}
 		}
@@ -597,11 +654,13 @@ export const FormContextProvider = (props) => {
 
 			setFormState(formState => ({
 				...formState,
-				peopleSelection_visible: false
+				peopleSelectionFlights_visible: false,
+				peopleSelectionHotels_visible: false
 			}));
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
+
 
 		e.stopPropagation();
 	}
@@ -647,39 +706,78 @@ export const FormContextProvider = (props) => {
 
 	const filterSearch = e => {
 
+		const regex = {
+			letters: /^[aA-zZ ]{3,}$/g
+		}
+
 		let hotelsDb = [...database.hotels_db];
 		let flightsDb = [...database.flights_db];
 
-		if (e.target.getAttribute('name') === 'flights') {
+		const target = e.target;
+		let formSubmitted = false;
+
+		if (target.getAttribute('name') === 'flights') {
 
 			// Departure destination
 			if (formState.flying_from.length > 0) flightsDb = flightsDb.filter(flight => flight.departure.toLowerCase().includes(formState.flying_from.toLowerCase()));
 
 			// By checkin / checkout month
-			flightsDb = flightsDb.filter(flight => flight.departureMonth >= (formState.checkIn_month + 1) && flight.returningMonth <= (formState.checkOut_month + 1));
+			flightsDb = flightsDb.filter(flight => flight.departureMonth >= formState.checkIn_month && flight.returningMonth <= formState.checkOut_month);
 
 			// By people available
 			flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
 
-			if (location !== '/flights') {
-				changePage('/flights');
-				enableLoading('searchLoader');
+			// formState.flying_from.match(regex.letters) !== null && document.getElementById('flying_from').classList.add('input-correct');
+
+			// When we change the page classes doesn't remain assigned on inputs
+			formState.flying_to.match(regex.letters) !== null && document.getElementById('flying_to').classList.add('input-correct');
+
+			formState.checkIn_date.length > 0 && document.getElementById('departing-checkin').classList.add('input-correct');
+
+			formState.checkOut_date.length > 0 && document.getElementById('returning-checkout').classList.add('input-correct');
+
+			// If all fields are correct
+			if (document.querySelectorAll('form[name="flights"] input').length === document.querySelectorAll('form[name="flights"] input.input-correct').length) {
+
+				if (location !== '/flights') {
+
+					changePage('/flights');
+				}
+
+				if (location === '/flights') {
+
+					if (database.defaultFiltered_flights.length === 0) enableLoading('searchLoader');
+
+					if (database.defaultFiltered_flights.length > 0) enableLoading('filterLoader');
+				}
+
+				formSubmitted = true;
+
+				setDatabase(database => ({
+					...database,
+					defaultFiltered_flights: flightsDb,
+					appliedFiltered_flights: flightsDb
+				}));
+
+			} else {
+
+				setRegexState(regexState => ({ ...regexState, showRegexAlert: true, flyingTo_alert: false }));
+				setTimeout(() => setRegexState(regexState => ({ ...regexState, showRegexAlert: false })), regexState.alertRemove);
+
+				document.querySelectorAll('form[name="flights"] input').forEach(input => {
+					!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
+
+					!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+				});
+
+				target.style.borderColor = '#e2076a';
+				setTimeout(() => target.style = '', regexState.alertRemove);
+
+				formSubmitted = false;
 			}
-
-			if (location === '/flights') {
-				if (database.defaultFiltered_flights.length === 0) enableLoading('searchLoader');
-
-				if (database.defaultFiltered_flights.length > 0) enableLoading('filterLoader');
-			}
-
-			setDatabase(database => ({
-				...database,
-				defaultFiltered_flights: flightsDb,
-				appliedFiltered_flights: flightsDb
-			}));
 		}
 
-		if (e.target.getAttribute('name') === 'hotels') {
+		if (target.getAttribute('name') === 'hotels') {
 
 			// By destination
 			if (formState.hotel_destination.length > 0) hotelsDb = hotelsDb.filter(hotel => hotel.destination.toLowerCase().includes(formState.hotel_destination.toLowerCase()));
@@ -692,14 +790,15 @@ export const FormContextProvider = (props) => {
 
 			// if (location !== '/hotels' && formState.hotel_destination.length > 0 && formState.checkIn_date.length > 0 && formState.checkOut_date.length > 0) changePage('/hotels');
 
-			if (location !== '/hotels') changePage('/hotels');
+			// if (location !== '/hotels') changePage('/hotels');
 
-			console.log(hotelsDb);
 			setDatabase(database => ({ ...database, defaultFiltered_hotels: hotelsDb }));
 		}
 
+		console.log(formSubmitted, 'Form has been submited ?');
 		e.preventDefault();
 		e.stopPropagation();
+		return formSubmitted;
 	}
 
 	const getXhr = (target) => {
@@ -805,6 +904,7 @@ export const FormContextProvider = (props) => {
 			...formState,
 			...date,
 			...database,
+			...regexState,
 			displayForm,
 			showCalendar,
 			handleChange,
@@ -815,7 +915,8 @@ export const FormContextProvider = (props) => {
 			selectPeople,
 			filterSearch,
 			setFilteredDatabase,
-			enableLoading
+			enableLoading,
+			regexValidation
 		}}>
 			{props.children}
 		</FormContext.Provider>

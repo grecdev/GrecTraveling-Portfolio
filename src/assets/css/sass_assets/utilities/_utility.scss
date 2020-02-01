@@ -266,3 +266,12 @@ a, button, input, textarea {
 }
 
 .remove-transitions * {	transition: none !important }
+
+.wrong-validation {
+	border-color: $primary-pink !important;
+	
+	&,
+	&::placeholder { transition: all 200ms ease-in-out }
+
+	&::placeholder { color: $primary-pink !important }
+}

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import {FormContext} from '../../../context/FormContext';
 
 const ContactForm = () => {
+
+	const {regexValidation} = useContext(FormContext);
 
 	return (
 		<section id='contact-us' className='bg-parallax overlay overlay-dark'>
@@ -18,12 +22,12 @@ const ContactForm = () => {
 
 				<form name='contact-us' className='p-3'>
 					<div className="form-box mb-2">
-						<input id='full-name' type="text" placeholder='Full Name' name='full-name' />
-						<input id='email' type="text" placeholder='Email' name='email' />
+						<input id='full-name' type="text" placeholder='Full Name' name='full-name' onBlur={regexValidation}/>
+						<input id='email' type="text" placeholder='Email' name='email' onBlur={regexValidation}/>
 					</div>
 
 					<div className="form-box mb-2">
-						<textarea placeholder='Your message' id='message' name="message" id="message" cols="30" rows="10"></textarea>
+						<textarea placeholder='Your message' id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
 					</div>
 
 					<button className='btn btn-blue' type='submit'>Send Message</button>

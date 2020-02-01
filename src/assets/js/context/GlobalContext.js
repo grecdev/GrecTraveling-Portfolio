@@ -16,7 +16,8 @@ class GlobalContextProvider extends Component {
 		location: this.props.location.pathname,
 		outerClick: false,
 		documentLoaded: false,
-		formState: undefined
+		formState: undefined,
+		pageChanged: false
 	}
 
 	getImage = image => require(`../../media/${image}`);
@@ -108,12 +109,15 @@ class GlobalContextProvider extends Component {
 
 	componentDidUpdate(prevProps) {
 
-		// Checkin for pages
-		if (this.props.location !== prevProps.location) {
+		if(this.props.location !== prevProps.location) {
 			this.setState({ location: this.props.location.pathname });
 
-			this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+			this.setState({pageChanged: true});
+
+			setTimeout(() => this.setState({pageChanged: false}), 150);
 		}
+
+		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 	}
 
 	render() {

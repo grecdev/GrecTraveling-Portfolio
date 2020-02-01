@@ -1,12 +1,5 @@
 .search-loader {
 	padding: 3rem 0;
-	width: 20%;
+	width: 40%;
 	margin: 0 auto;
-	animation: search-loader 3.5s linear infinite;
-	transform: rotate(0deg);
-}
-
-@keyframes search-loader {
-	0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
 }
