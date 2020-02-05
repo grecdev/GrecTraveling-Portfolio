@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-
-const uuidv4 = require('uuid/v4');
+import { Link } from 'react-router-dom';
 
 import { GlobalContext } from '../../../context/GlobalContext';
 import { FormContext } from '../../../context/FormContext';
@@ -8,9 +7,7 @@ import { FormContext } from '../../../context/FormContext';
 const FilterItemsHotels = () => {
 
 	const { getImage } = useContext(GlobalContext);
-	const {
-		appliedFiltered_hotels
-	} = useContext(FormContext);
+	const { appliedFiltered_hotels } = useContext(FormContext);
 
 	const [hotels, setHotels] = useState(null);
 
@@ -18,7 +15,6 @@ const FilterItemsHotels = () => {
 
 		let roomFeedback = [];
 		const totalFeedback = 5;
-		let dd = [];
 
 		const filledStar = '<i class="fas fa-star" ></i >';
 		const emptyStar = '<i class="far fa-star"></i>';
@@ -58,7 +54,7 @@ const FilterItemsHotels = () => {
 						<p>$ {hotel.price}</p>
 					</div>
 
-					<button type='button' className='btn btn-pink'>Book Now</button>
+					<Link to={`/hotels/${hotel.roomName.toLowerCase().replace(/ /g, '-')}`} className='btn btn-pink'>Book Now</Link>
 				</div>
 
 			</div>
@@ -71,6 +67,7 @@ const FilterItemsHotels = () => {
 			document.querySelectorAll('.hotel-review').forEach((review, index) => review.innerHTML = dd[index]);
 
 		}, 1);
+
 
 	}, [appliedFiltered_hotels]);
 

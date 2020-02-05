@@ -62,9 +62,9 @@ export const FormContextProvider = (props) => {
 
 	const setFilteredDatabase = (db, type) => {
 
-		type === 'flights' && setDatabase(database => ({ ...database, appliedFiltered_flights: db }))
+		type === 'flights' && setDatabase(database => ({ ...database, appliedFiltered_flights: db }));
 
-		// type === 'hotels' && setDatabase(database => ({ ...database, filtered_hotels: db }))
+		type === 'hotels' && setDatabase(database => ({ ...database, appliedFiltered_hotels: db }));
 
 	};
 
