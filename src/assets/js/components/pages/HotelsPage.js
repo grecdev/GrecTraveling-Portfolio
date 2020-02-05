@@ -4,6 +4,7 @@ import FilterShowcase from '../global_layout/filters/FilterShowcase';
 import FilterMainSection from '../global_layout/filters/FilterMainSection';
 
 export class HotelsPage extends Component {
+
 	render() {
 		return (
 			<>

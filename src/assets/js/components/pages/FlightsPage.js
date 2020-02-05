@@ -8,7 +8,7 @@ class FlightsPage extends Component {
 	render() {
 		return (
 			<>
-				<FilterShowcase flights={true} hotels={false} text={'Flights Available'} type={'flights'} />
+				<FilterShowcase flights={true} hotels={false} text='Flights Available' type='flights' />
 				<FilterMainSection />
 			</>
 		)

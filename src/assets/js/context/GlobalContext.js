@@ -17,7 +17,9 @@ class GlobalContextProvider extends Component {
 		outerClick: false,
 		documentLoaded: false,
 		formState: undefined,
-		pageChanged: false
+		pageChanged: false,
+		windowBlur: false,
+		pageLoaded: false
 	}
 
 	getImage = image => require(`../../media/${image}`);
@@ -93,11 +95,45 @@ class GlobalContextProvider extends Component {
 		e.stopPropagation();
 	}
 
+	blurEvent = () => {
+
+		document.body.classList.add('remove-transitions');
+		this.setState({ windowBlur: true });
+
+		setTimeout(() => this.setState({ windowBlur: false }), 150);
+	}
+
+	focusEvent = () => {
+
+		setTimeout(() => this.removeTransitions(), 150);
+	}
+
+	enablePreloader = () => {
+
+		document.getElementById('preloader').classList.remove('preloader-hidden', 'display-none');
+
+		setTimeout(() => this.hidePreloader(), 1000);
+	}
+
+	hidePreloader = () => {
+
+		document.getElementById('preloader').classList.add('preloader-hidden');
+		setTimeout(() => document.getElementById('preloader').classList.add('display-none'), 500);
+	}
+
+	loadEvent = () => {
+
+		this.hidePreloader();
+	}
+
 	componentDidMount() {
 		document.addEventListener('mousedown', this.clickEvent);
 		document.addEventListener('DOMContentLoaded', this.contentLoadedEvent);
 
 		window.addEventListener('scroll', this.scrollEvent);
+		window.addEventListener('blur', this.blurEvent);
+		window.addEventListener('focus', this.focusEvent);
+		window.addEventListener('load', this.loadEvent);
 	}
 
 	componentWillUnmount() {
@@ -105,16 +141,21 @@ class GlobalContextProvider extends Component {
 		document.removeEventListener('DOMContentLoaded', this.contentLoadedEvent);
 
 		window.removeEventListener('scroll', this.scrollEvent);
+		window.removeEventListener('blur', this.blurEvent);
+		window.removeEventListener('focus', this.focusEvent);
+		window.removeEventListener('load', this.loadEvent);
 	}
 
 	componentDidUpdate(prevProps) {
 
-		if(this.props.location !== prevProps.location) {
+		if (this.props.location !== prevProps.location) {
 			this.setState({ location: this.props.location.pathname });
 
-			this.setState({pageChanged: true});
+			this.setState({ pageChanged: true });
 
-			setTimeout(() => this.setState({pageChanged: false}), 150);
+			setTimeout(() => this.setState({ pageChanged: false }), 150);
+
+			this.enablePreloader();
 		}
 
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
@@ -122,7 +163,7 @@ class GlobalContextProvider extends Component {
 
 	render() {
 
-		const { getImage, headerFixed, resetOuterClick, changePage } = this;
+		const { getImage, headerFixed, resetOuterClick, changePage, test } = this;
 
 		return (
 			<GlobalContext.Provider value={{

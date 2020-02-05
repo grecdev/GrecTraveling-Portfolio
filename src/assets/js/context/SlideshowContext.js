@@ -2,6 +2,8 @@ import React, { Component, createContext } from 'react';
 
 export const SlideshowContext = createContext();
 
+import { GlobalContext } from './GlobalContext';
+
 export class SlideshowContextProvider extends Component {
 
 	state = {
@@ -11,6 +13,8 @@ export class SlideshowContextProvider extends Component {
 		transitionTime: 2200,
 		images: ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg']
 	};
+
+	static contextType = GlobalContext;
 
 	setPos = () => {
 		if (this.state.currentPos < this.state.images.length - 1) this.setState(prevState => ({ currentPos: prevState.currentPos + this.state.incrementPos }));
@@ -26,17 +30,6 @@ export class SlideshowContextProvider extends Component {
 			setTimeout(() => btn.setAttribute('data-event-toggle', 'true'), this.state.transitionTime);
 		});
 	}
-
-	resetSlideshow = e => {
-
-		this.setState({ currentPos: 1 });
-
-		e.stopPropagation();
-	}
-
-	componentDidMount() { window.addEventListener('blur', this.resetSlideshow) }
-
-	componentWillUnmount() { window.removeEventListener('blur', this.resetSlideshow) }
 
 	render() {
 

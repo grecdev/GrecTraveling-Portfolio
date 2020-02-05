@@ -3,14 +3,15 @@ import { Route, Switch } from 'react-router-dom';
 
 import { GlobalContext } from './context/GlobalContext';
 
+import Preloader from './components/global_layout/Preloader';
+import Footer from './components/global_layout/Footer';
+import Header from './components/global_layout/Header';
+
 import HomePage from './components/pages/HomePage';
 import ContactPage from './components/pages/ContactPage';
 import FlightsPage from './components/pages/FlightsPage';
 import HotelsPage from './components/pages/HotelsPage';
 import NotFoundPage from './components/pages/NotFoundPage';
-
-import Footer from './components/global_layout/Footer';
-import Header from './components/global_layout/Header';
 
 export class App extends Component {
 
@@ -23,13 +24,14 @@ export class App extends Component {
 			headerFixed
 		} = this.context
 
-		documentLoaded && headerFixed()
+		documentLoaded && headerFixed();
 	}
 
 	render() {
 
 		return (
 			<>
+				<Preloader />
 				<Header />
 				<Switch>
 					<Route exact strict path={'/'} component={HomePage} />

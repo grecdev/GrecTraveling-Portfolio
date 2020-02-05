@@ -30,7 +30,7 @@
 		@include flex(row, space-between, flex-end);
 		position: relative;
 		border-bottom: 3px solid darken($primary-blue, 10%);
-		transition: border-color 500ms ease-in-out;
+		transition: border-color 500ms ease-in-out, opacity 1s ease-in-out;
 
 		.regex-alert {
 			background: darken($primary-pink, 5%);
@@ -41,6 +41,13 @@
 			width: 100%;
 			border: 2px solid $primary-white;
 			z-index: -1;
+			padding: 1rem;
+		}
+
+		& > button {
+			color: $primary-white;
+			font-size: 2rem;
+			cursor: pointer;
 		}
 	}
 
@@ -77,13 +84,8 @@
 		.regex-alert {
 			top: 140%;
 			width: 140%;
+			padding: .5rem;
 		}
-	}
-
-	form > button {
-		color: $primary-white;
-		font-size: 2rem;
-		cursor: pointer;
 	}
 
 	/** Calendar **/

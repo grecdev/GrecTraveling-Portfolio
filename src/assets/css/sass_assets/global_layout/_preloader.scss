@@ -1,0 +1,68 @@
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+	background: $primary-white;
+	opacity: 1;
+	transition: opacity 500ms ease-in-out;
+	@include flex(column, center, center);
+
+	&.preloader-hidden { opacity: 0 }
+
+	#plane-body { animation: plane-flying 2s linear infinite alternate }
+
+	#clouds-container {
+
+		#cloud-2, #cloud-4 { transform: translateX(-350px) }
+
+		#cloud-2 { animation: cloud-small-1 2s linear infinite 0.2s}
+		#cloud-4 { animation: cloud-small-1 2.5s linear infinite 0.35s }
+
+		#cloud-3, #cloud-5 { transform: translateX(-100px) }
+
+		#cloud-3 { animation: cloud-small-2 3.5s linear infinite 0.75s }
+		#cloud-5 { animation: cloud-small-2 3s linear infinite 0.55s }
+
+		#cloud-6, #cloud-8 { transform: translateX(-230px)}
+
+		#cloud-6 { animation: cloud-big-1 4s linear infinite 1s }
+		#cloud-8 { animation: cloud-big-1 4.5s linear infinite 1.2s }
+
+		#cloud-1, #cloud-7 { transform: translateX(-470px) }
+
+		#cloud-1 { animation: cloud-big-2 5s linear infinite 2s}
+		#cloud-7 { animation: cloud-big-2 5.5s linear infinite }
+	}
+}
+
+@keyframes plane-flying {
+
+	0% { transform: rotate(-5deg) translate(50px, 0) }
+
+	50% { transform: rotate(-5deg) translate(0, -20px) }
+
+	100% { transform: rotate(-5deg) translate(-50px, 0) }
+}
+
+@keyframes cloud-small-1 {
+
+	to { transform: translateX(350px) }
+}
+
+@keyframes cloud-small-2 {
+
+	to { transform: translateX(450px) }
+}
+
+@keyframes cloud-big-1 {
+
+	to { transform: translateX(400px) }
+}
+
+@keyframes cloud-big-2 {
+
+	to { transform: translateX(150px) }
+}

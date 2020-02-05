@@ -16,14 +16,14 @@ import '../css/style.scss';
 
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 import GlobalContextProvider from './context/GlobalContext';
 const FormContextProvider = lazy(() => import('./context/FormContext'));
 const App = lazy(() => import('./App'));
 
 ReactDOM.render(
-	<HashRouter>
+	<Router>
 		<GlobalContextProvider>
 			<Suspense fallback={<div>Loading...</div>}>
 				<FormContextProvider>
@@ -31,5 +31,5 @@ ReactDOM.render(
 				</FormContextProvider>
 			</Suspense>
 		</GlobalContextProvider>
-	</HashRouter >
+	</Router >
 	, document.getElementById('root'));

@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 
-import PeopleSelectionAlert from './PeopleSelectionAlert';
-
 import { FormContext } from '../../../context/FormContext';
 
 const PeopleSelection = () => {
@@ -14,7 +12,7 @@ const PeopleSelection = () => {
 		children,
 		infants
 	} = useContext(FormContext);
-	
+
 	const style = {
 		colorPink: '#e2076a', // $primary-pink
 		colorBlue: '#64a5f8' // $primary-blue
@@ -36,7 +34,7 @@ const PeopleSelection = () => {
 						`btn btn-blue decrement-people ${adults > 0 ? '' : 'people-btn-disabled'}`
 					}><i className="fas fa-minus"></i></a>
 					<span id='adults'>{adults}</span>
-					<a aria-label='button' className="btn btn-blue  increment-people" style={{backgroundColor: peopleTotal === 0 && style.colorPink}}><i className="fas fa-plus"></i></a>
+					<a aria-label='button' className="btn btn-blue  increment-people" style={{ backgroundColor: peopleTotal === 0 && style.colorPink }}><i className="fas fa-plus"></i></a>
 				</div>
 			</div>
 
@@ -85,9 +83,9 @@ const PeopleSelection = () => {
 				</div>
 			</div>
 
-			<button type='button' style={{ backgroundColor: peopleTotal === 0 && style.colorPink }} className='btn btn-blue display-block mb-1'>Ready</button>
-			
-			{peopleTotal === 0 && <PeopleSelectionAlert text='You need to select at least 1 passenger' /> }
+			<button type='button' style={{ backgroundColor: peopleTotal === 0 && style.colorPink }} data-enabled={peopleTotal === 0 ? 'false' : 'true'} className='btn btn-blue display-block'>{
+				peopleTotal === 0 ? 'You need to select at least 1 passenger' : 'Ready'
+			}</button>
 		</div>
 	)
 }

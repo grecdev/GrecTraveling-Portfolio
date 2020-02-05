@@ -9,42 +9,47 @@ export const FormContextProvider = (props) => {
 	const { outerClick, location, changePage } = useContext(GlobalContext);
 
 	// Sometimes we reset the entire form :)
-	const initialState = {
+	const defaultFormState = {
 		flying_from: '',
 		flying_to: '',
 		hotel_destination: '',
-		checkIn_day: undefined,
-		checkIn_month: undefined,
-		checkIn_year: undefined,
-		checkIn_date: '',
-		checkOut_day: undefined,
-		checkOut_month: undefined,
-		checkOut_year: undefined,
-		checkOut_date: '',
-		peopleTotal: 1,
-		adults: 1,
-		youth: 0,
-		children: 0,
-		infants: 0,
+		checkIn_day: 13,
+		checkIn_month: 1,
+		checkIn_year: 2020,
+		checkIn_date: 'DEFAULT',
+		checkOut_day: 13,
+		checkOut_month: 4,
+		checkOut_year: 2020,
+		checkOut_date: 'DEFAULT',
+		flightsForm_visible: true,
+		hotelsForm_visible: false,
 		flightCalendarCheckIn_visible: false,
 		flightCalendarCheckOut_visible: false,
 		hotelCalendarCheckIn_visible: false,
 		hotelCalendarCheckOut_visible: false,
 		peopleSelectionFlights_visible: false,
 		peopleSelectionHotels_visible: false,
+		peopleTotal: 4,
+		adults: 1,
+		youth: 0,
+		children: 0,
+		infants: 0,
 		searchLoader: false,
 		filterLoader: false
 	};
 
-	const regexStateInitial = {
-		showRegexAlert: false,
+	const [formState, setFormState] = useState(defaultFormState);
+
+	const defaultRegexState = {
+		flightsMultiple_alert: false,
+		hotelsMultiple_alert: false,
 		flyingTo_alert: false,
-		alertRemove: 2000
+		hotelDestination_alert: false,
+		alertRemove: 2000,
+		formChanged: false
 	}
 
-	const [regexState, setRegexState] = useState(regexStateInitial);
-
-	const [formState, setFormState] = useState(initialState);
+	const [regexState, setRegexState] = useState(defaultRegexState);
 
 	const [database, setDatabase] = useState({
 		flights_db: [],
@@ -118,21 +123,64 @@ export const FormContextProvider = (props) => {
 			letters: /^[aA-zZ ]{3,}$/g
 		}
 
-		if (regex.letters.test(e.target.value)) {
+		const target = e.target;
 
-			e.target.classList.add('input-correct');
-			e.target.classList.remove('wrong-validation');
+		if (e.type === 'blur') {
 
-			if (e.target.id === 'flying_to') setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }))
-		} else {
+			if (regex.letters.test(target.value)) {
 
-			e.target.classList.remove('input-correct');
-			e.target.classList.add('wrong-validation');
+				target.classList.add('input-correct');
+				target.classList.remove('wrong-validation');
 
-			if (e.target.id === 'flying_to') setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
+				target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }));
+
+				target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
+
+			} else {
+
+				target.classList.remove('input-correct');
+				target.classList.add('wrong-validation');
+
+				setTimeout(() => {
+					document.querySelector('form[name="flights"]').classList.contains('display-none') && setRegexState(defaultRegexState);
+				}, 100);
+
+				e.target.id === 'flying_to' && setTimeout(() => {
+					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
+				}, 100);
+
+				e.target.id === 'hotel_destination' && setTimeout(() => {
+					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, showRegexAlert: false }));
+				}, 100);
+			}
 		}
 
-		e.stopPropagation();
+		if (e.type === 'keydown') {
+
+			if (e.which === 13) {
+
+				if (regex.letters.test(target.value)) {
+
+					target.classList.add('input-correct');
+					target.classList.remove('wrong-validation');
+
+					target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }));
+
+					target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
+
+				} else {
+
+					target.classList.remove('input-correct');
+					target.classList.add('wrong-validation');
+
+					target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
+
+					target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, showRegexAlert: false }));
+				}
+			}
+
+			e.stopPropagation();
+		}
 	}
 
 	const enableLoading = loaderType => {
@@ -165,17 +213,26 @@ export const FormContextProvider = (props) => {
 
 	// Show / Hide checkin form
 	const displayForm = e => {
-		if (e.target.tagName === 'A' && !e.target.classList.contains('active-form')) {
+		if (e.target.tagName === 'A') {
 
 			const formType = e.target.dataset.checkinType;
 
-			document.querySelectorAll('.checkin-form').forEach(form => form.classList.replace('display-flex', 'display-none'));
-			document.querySelector(`form[name=${formType}]`).classList.replace('display-none', 'display-flex');
+			setFormState(defaultFormState);
 
-			document.querySelectorAll('.active-form').forEach(btn => btn.classList.remove('active-form'));
-			e.target.classList.add('active-form');
+			formType === 'flights' && setFormState(formState => ({
+				...formState,
+				flightsForm_visible: true,
+				hotelsForm_visible: false
+			}));
 
-			setFormState(initialState);
+			formType === 'hotels' && setFormState(formState => ({
+				...formState,
+				flightsForm_visible: false,
+				hotelsForm_visible: true
+			}));
+
+			setRegexState(defaultRegexState);
+
 			setDatabase(database => ({
 				...database,
 				defaultFiltered_flights: [],
@@ -184,8 +241,7 @@ export const FormContextProvider = (props) => {
 				appliedFiltered_hotels: [],
 			}));
 
-			document.querySelectorAll('input').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
-			document.querySelectorAll('.form-container form').forEach(form => form.style = '');
+			document.querySelectorAll('form input').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
 		}
 	};
 
@@ -397,57 +453,58 @@ export const FormContextProvider = (props) => {
 		checkOutMonth = currentMonth;
 		checkOutYear = currentYear;
 
-		if (!e.target.classList.contains('table-row')) {
+		function test(month, year, type) {
 
-			if (formState.hotelCalendarCheckIn_visible || formState.flightCalendarCheckIn_visible) {
+			if (e.target.classList.contains('previous-month-day')) {
 
-				if (e.target.classList.contains('previous-month-day')) {
+				if (currentYear > date.year && currentMonth === 0) {
 
-					if (currentYear > date.year && currentMonth === 0) {
+					setCurrentYear(currentYear => currentYear - 1);
 
-						setCurrentYear(currentYear => currentYear - 1);
+					year = currentYear - 1;
 
-						checkInYear = currentYear - 1;
+					setCurrentMonth(11);
 
-						setCurrentMonth(11);
+					month = 11;
 
-						checkInMonth = 11;
+				} else if (currentYear >= date.year) {
 
-					} else if (currentYear >= date.year) {
+					setCurrentMonth(currentMonth => currentMonth - 1);
 
-						setCurrentMonth(currentMonth => currentMonth - 1);
-
-						// state hook is async so it doesn't mutate the value immediately
-						checkInMonth = currentMonth - 1;
-					}
+					// state hook is async so it doesn't mutate the value immediately
+					month = currentMonth - 1;
 				}
+			}
 
-				if (e.target.classList.contains('next-month-day')) {
-					if (currentYear >= date.year && currentMonth === 11) {
+			if (e.target.classList.contains('next-month-day')) {
+				if (currentYear >= date.year && currentMonth === 11) {
 
-						setCurrentYear(currentYear => currentYear + 1);
+					setCurrentYear(currentYear => currentYear + 1);
 
-						checkInYear = currentYear + 1;
+					year = currentYear + 1;
 
-						setCurrentMonth(0);
+					setCurrentMonth(0);
 
-						checkInMonth = 0;
+					month = 0;
 
-					} else if (currentYear >= date.year) {
+				} else if (currentYear >= date.year) {
 
-						setCurrentMonth(currentMonth => currentMonth + 1);
+					setCurrentMonth(currentMonth => currentMonth + 1);
 
-						// state hook is async so it doesn't mutate the value immediately
-						checkInMonth = currentMonth + 1;
-					}
+					// state hook is async so it doesn't mutate the value immediately
+					month = currentMonth + 1;
 				}
+			}
+
+			if (type === 'checkin') {
 
 				setFormState(formState => ({
 					...formState,
 					checkIn_day: selectedDay,
-					checkIn_month: checkInMonth,
-					checkIn_year: checkInYear
+					checkIn_month: month,
+					checkIn_year: year
 				}));
+
 				// Because of the state async problem the data is not mutable
 				// If i set it in a variable and after that in the state hook it returns the old value not the new as it supposed to be
 				// Format the input && close the calendar
@@ -459,54 +516,13 @@ export const FormContextProvider = (props) => {
 				}));
 			}
 
-			if (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible) {
-
-				if (e.target.classList.contains('previous-month-day')) {
-
-					if (currentYear > date.year && currentMonth === 0) {
-
-						setCurrentYear(currentYear => currentYear - 1);
-
-						checkOutYear = currentYear - 1;
-
-						setCurrentMonth(11);
-
-						checkOutMonth = 11;
-
-					} else if (currentYear >= date.year) {
-
-						setCurrentMonth(currentMonth => currentMonth - 1);
-
-						// state hook is async so it doesn't mutate the value immediately
-						checkOutMonth = currentMonth - 1;
-					}
-				}
-
-				if (e.target.classList.contains('next-month-day')) {
-					if (currentYear >= date.year && currentMonth === 11) {
-
-						setCurrentYear(currentYear => currentYear + 1);
-
-						checkOutYear = currentYear + 1;
-
-						setCurrentMonth(0);
-
-						checkOutMonth = 0;
-
-					} else if (currentYear >= date.year) {
-
-						setCurrentMonth(currentMonth => currentMonth + 1);
-
-						// state hook is async so it doesn't mutate the value immediately
-						checkOutMonth = currentMonth + 1;
-					}
-				}
+			if (type === 'checkout') {
 
 				setFormState(formState => ({
 					...formState,
 					checkOut_day: selectedDay,
-					checkOut_month: checkOutMonth,
-					checkOut_year: checkOutYear
+					checkOut_month: month,
+					checkOut_year: year
 				}));
 
 				// Because of the state async problem the data is not mutable
@@ -519,6 +535,13 @@ export const FormContextProvider = (props) => {
 					flightCalendarCheckOut_visible: false
 				}));
 			}
+		}
+
+		if (!e.target.classList.contains('table-row')) {
+
+			if (formState.hotelCalendarCheckIn_visible || formState.flightCalendarCheckIn_visible) test(checkInMonth, checkInYear, 'checkin');
+
+			if (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible) test(checkOutMonth, checkOutYear, 'checkout')
 
 			// Is same as clicking on the input field, we need to toggle it on again
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
@@ -535,13 +558,17 @@ export const FormContextProvider = (props) => {
 				document.getElementById('returning-checkout').classList.add('input-correct');
 			}
 
-			// if(formState.hotelCalendarCheckIn_visible) {
+			if (formState.hotelCalendarCheckIn_visible) {
 
-			// }
+				document.getElementById('hotel-checkin').classList.remove('wrong-validation');
+				document.getElementById('hotel-checkin').classList.add('input-correct');
+			}
 
-			// if(formState.hotelCalendarCheckOut_visible) {
+			if (formState.hotelCalendarCheckOut_visible) {
 
-			// }
+				document.getElementById('hotel-checkout').classList.remove('wrong-validation');
+				document.getElementById('hotel-checkout').classList.add('input-correct');
+			}
 		}
 
 		e.stopPropagation();
@@ -611,6 +638,8 @@ export const FormContextProvider = (props) => {
 
 			e.target.id.includes('flight') && setFormState(formState => ({ ...formState, peopleSelectionFlights_visible: true }));
 
+			e.target.id.includes('hotel') && setFormState(formState => ({ ...formState, peopleSelectionHotels_visible: true }));
+
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 			e.target.setAttribute('data-menu-toggle', 'off');
 
@@ -650,7 +679,7 @@ export const FormContextProvider = (props) => {
 			}
 		}
 
-		if (e.target.tagName === 'BUTTON') {
+		if (e.target.tagName === 'BUTTON' && e.target.dataset.enabled === 'true') {
 
 			setFormState(formState => ({
 				...formState,
@@ -660,7 +689,6 @@ export const FormContextProvider = (props) => {
 
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
 		}
-
 
 		e.stopPropagation();
 	}
@@ -710,95 +738,146 @@ export const FormContextProvider = (props) => {
 			letters: /^[aA-zZ ]{3,}$/g
 		}
 
-		let hotelsDb = [...database.hotels_db];
 		let flightsDb = [...database.flights_db];
+		let hotelsDb = [...database.hotels_db];
 
 		const target = e.target;
-		let formSubmitted = false;
 
-		if (target.getAttribute('name') === 'flights') {
+		if (e.type === 'submit') {
 
-			// Departure destination
-			if (formState.flying_from.length > 0) flightsDb = flightsDb.filter(flight => flight.departure.toLowerCase().includes(formState.flying_from.toLowerCase()));
+			let formSubmitted = false;
 
-			// By checkin / checkout month
-			flightsDb = flightsDb.filter(flight => flight.departureMonth >= formState.checkIn_month && flight.returningMonth <= formState.checkOut_month);
+			if (target.getAttribute('name') === 'flights') {
 
-			// By people available
-			flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
+				// Departure destination
+				// if (formState.flying_from.length > 0) flightsDb = flightsDb.filter(flight => flight.departure.toLowerCase().includes(formState.flying_from.toLowerCase()));
 
-			// formState.flying_from.match(regex.letters) !== null && document.getElementById('flying_from').classList.add('input-correct');
+				// By checkin / checkout month
+				flightsDb = flightsDb.filter(flight => flight.departureMonth + 1 >= formState.checkIn_month && flight.returningMonth <= formState.checkOut_month + 1);
 
-			// When we change the page classes doesn't remain assigned on inputs
-			formState.flying_to.match(regex.letters) !== null && document.getElementById('flying_to').classList.add('input-correct');
+				// By people available
+				flightsDb = flightsDb.filter(flight => flight.people <= formState.peopleTotal);
 
-			formState.checkIn_date.length > 0 && document.getElementById('departing-checkin').classList.add('input-correct');
+				// When we change the page / the form classes doesn't remain assigned on inputs
+				// formState.flying_from.match(regex.letters) !== null && document.getElementById('flying_from').classList.add('input-correct');
 
-			formState.checkOut_date.length > 0 && document.getElementById('returning-checkout').classList.add('input-correct');
+				formState.flying_to.match(regex.letters) !== null && document.getElementById('flying_to').classList.add('input-correct');
 
-			// If all fields are correct
-			if (document.querySelectorAll('form[name="flights"] input').length === document.querySelectorAll('form[name="flights"] input.input-correct').length) {
+				formState.checkIn_date.length > 0 && document.getElementById('departing-checkin').classList.add('input-correct');
 
-				if (location !== '/flights') {
+				formState.checkOut_date.length > 0 && document.getElementById('returning-checkout').classList.add('input-correct');
 
-					changePage('/flights');
+				// If all fields are correct
+				if (document.querySelectorAll('form[name="flights"] input').length === document.querySelectorAll('form[name="flights"] input.input-correct').length) {
+
+					location !== '/flights' && changePage('/flights');
+
+					if (location === '/flights') {
+
+						if (database.defaultFiltered_flights.length === 0) enableLoading('searchLoader');
+
+						if (database.defaultFiltered_flights.length > 0) enableLoading('filterLoader');
+					}
+
+					formSubmitted = true;
+
+					setDatabase(database => ({
+						...database,
+						defaultFiltered_flights: flightsDb,
+						appliedFiltered_flights: flightsDb
+					}));
+
+				} else {
+
+					setRegexState(defaultRegexState);
+
+					setRegexState(regexState => ({ ...regexState, flightsMultiple_alert: true }));
+					setTimeout(() => setRegexState(regexState => ({ ...regexState, flightsMultiple_alert: false })), regexState.alertRemove);
+
+					document.querySelectorAll('form[name="flights"] input').forEach(input => {
+						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
+
+						!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+					});
+
+					target.style.borderColor = '#e2076a';
+					setTimeout(() => target.style = '', regexState.alertRemove);
+
+					formSubmitted = false;
 				}
-
-				if (location === '/flights') {
-
-					if (database.defaultFiltered_flights.length === 0) enableLoading('searchLoader');
-
-					if (database.defaultFiltered_flights.length > 0) enableLoading('filterLoader');
-				}
-
-				formSubmitted = true;
-
-				setDatabase(database => ({
-					...database,
-					defaultFiltered_flights: flightsDb,
-					appliedFiltered_flights: flightsDb
-				}));
-
-			} else {
-
-				setRegexState(regexState => ({ ...regexState, showRegexAlert: true, flyingTo_alert: false }));
-				setTimeout(() => setRegexState(regexState => ({ ...regexState, showRegexAlert: false })), regexState.alertRemove);
-
-				document.querySelectorAll('form[name="flights"] input').forEach(input => {
-					!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
-
-					!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
-				});
-
-				target.style.borderColor = '#e2076a';
-				setTimeout(() => target.style = '', regexState.alertRemove);
-
-				formSubmitted = false;
 			}
+
+			if (target.getAttribute('name') === 'hotels') {
+
+				// By destination
+				hotelsDb = hotelsDb.filter(hotel => hotel.destination.toLowerCase().includes(formState.hotel_destination.toLowerCase()));
+
+				// By checkin / checkout month
+				hotelsDb = hotelsDb.filter(hotel => hotel.checkInMonth + 1 >= formState.checkIn_month && hotel.checkOutMonth <= formState.checkOut_month + 1);
+
+				// By people available
+				hotelsDb = hotelsDb.filter(hotel => hotel.people <= formState.peopleTotal);
+
+				// When we change the page / the form classes doesn't remain assigned on inputs
+				formState.hotel_destination.match(regex.letters) !== null && document.getElementById('hotel_destination').classList.add('input-correct');
+
+				formState.checkIn_date.length > 0 && document.getElementById('hotel-checkin').classList.add('input-correct');
+
+				formState.checkOut_date.length > 0 && document.getElementById('hotel-checkout').classList.add('input-correct');
+
+				// If all fields are correct
+				if (document.querySelectorAll('form[name="hotels"] input').length === document.querySelectorAll('form[name="hotels"] input.input-correct').length) {
+
+					location !== '/hotels' && changePage('/hotels');
+
+					if (location === '/hotels') {
+
+						if (database.defaultFiltered_hotels.length === 0) enableLoading('searchLoader');
+
+						if (database.defaultFiltered_hotels.length > 0) enableLoading('filterLoader');
+					}
+
+					formSubmitted = true;
+
+					console.log(hotelsDb);
+					setDatabase(database => ({
+						...database,
+						defaultFiltered_hotels: hotelsDb,
+						appliedFiltered_hotels: hotelsDb
+					}));
+
+				} else {
+
+					setRegexState(defaultRegexState);
+
+					setRegexState(regexState => ({ ...regexState, hotelsMultiple_alert: true }));
+					setTimeout(() => setRegexState(regexState => ({ ...regexState, hotelsMultiple_alert: false })), regexState.alertRemove);
+
+					document.querySelectorAll('form[name="hotels"] input').forEach(input => {
+						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
+
+						!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+					});
+
+					target.style.borderColor = '#e2076a';
+					setTimeout(() => target.style = '', regexState.alertRemove);
+
+					formSubmitted = false;
+				}
+			}
+
+			console.log(formSubmitted, 'Form has been submited ?');
+			e.preventDefault();
+			return formSubmitted;
 		}
 
-		if (target.getAttribute('name') === 'hotels') {
+		if (e.type === 'keydown' && e.which === 13 && e.target.value.length === 0) {
 
-			// By destination
-			if (formState.hotel_destination.length > 0) hotelsDb = hotelsDb.filter(hotel => hotel.destination.toLowerCase().includes(formState.hotel_destination.toLowerCase()));
-
-			// By checkin / checkout month
-			hotelsDb = hotelsDb.filter(hotel => hotel.checkInMonth >= (formState.checkIn_month + 1) && hotel.checkOutMonth <= (formState.checkOut_month + 1));
-
-			// By people available
-			hotelsDb = hotelsDb.filter(hotel => hotel.people <= formState.peopleTotal);
-
-			// if (location !== '/hotels' && formState.hotel_destination.length > 0 && formState.checkIn_date.length > 0 && formState.checkOut_date.length > 0) changePage('/hotels');
-
-			// if (location !== '/hotels') changePage('/hotels');
-
-			setDatabase(database => ({ ...database, defaultFiltered_hotels: hotelsDb }));
+			e.preventDefault();
+			return false;
 		}
 
-		console.log(formSubmitted, 'Form has been submited ?');
-		e.preventDefault();
 		e.stopPropagation();
-		return formSubmitted;
 	}
 
 	const getXhr = (target) => {
@@ -880,23 +959,35 @@ export const FormContextProvider = (props) => {
 	// If we go back on the home page, i want the form to be reseted (personal prefference)
 	useEffect(() => {
 
-		if (location !== '/flights') {
+		location !== '/flights' && setDatabase(database => ({
+			...database,
+			defaultFiltered_flights: [],
+			appliedFiltered_flights: []
+		}));
 
-			setDatabase(database => ({
-				...database,
-				defaultFiltered_flights: [],
-				appliedFiltered_flights: []
-			}))
+		location !== '/hotels' && setDatabase(database => ({
+			...database,
+			defaultFiltered_hotels: [],
+			appliedFiltered_hotels: []
+		}));
+
+		setRegexState(defaultRegexState);
+
+		if (location === '/' || location === '/flights') {
+
+			setFormState(formState => ({
+				...formState,
+				flightsForm_visible: true,
+				hotelsForm_visible: false
+			}));
 		}
 
-		if (location !== '/hotels') {
+		location === '/hotels' && setFormState(formState => ({
+			...formState,
+			flightsForm_visible: false,
+			hotelsForm_visible: true
+		}));
 
-			setDatabase(database => ({
-				...database,
-				defaultFiltered_hotels: [],
-				appliedFiltered_hotels: []
-			}))
-		}
 	}, [location]);
 
 	return (

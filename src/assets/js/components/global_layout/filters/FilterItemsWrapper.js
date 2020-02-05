@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-
-import SearchLoader from '../SearchLoader';
+import React, { useContext, useEffect } from 'react';
 
 import FilterNotFound from './FilterNotFound';
 
@@ -13,7 +11,9 @@ import { FormContext } from '../../../context/FormContext';
 const FilterItemsWrapper = () => {
 
 	const { location } = useContext(GlobalContext);
-	const { appliedFiltered_flights } = useContext(FormContext);
+	const {
+		appliedFiltered_flights,
+		appliedFiltered_hotels } = useContext(FormContext);
 
 	const showItems = () => {
 

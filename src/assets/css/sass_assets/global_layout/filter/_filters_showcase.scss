@@ -4,6 +4,7 @@
 	@include flex(column, center, center);
 
 	&.flights { background: url('../media/flights-showcase.jpg') no-repeat center/cover }
+	&.hotels { background: url('../media/hotels-showcase.jpg') no-repeat center/cover }
 
 	.filters-showcase-container {
 		position: relative;

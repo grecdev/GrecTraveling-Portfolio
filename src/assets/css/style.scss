@@ -10,6 +10,7 @@
 @import './sass_assets/global_layout/search_loader';
 @import './sass_assets/global_layout/filter/filters_showcase';
 @import './sass_assets/global_layout/filter/filters_mainSection';
+@import './sass_assets/global_layout/preloader';
 
 // Home page
 @import './sass_assets/home_page/showcase';
@@ -25,3 +26,7 @@
 // Flights page
 @import './sass_assets/flights_page/filter_itemsFlights';
 @import './sass_assets/flights_page/filterFlights';
+
+// Hotels page
+@import './sass_assets/hotels_page/filter_itemsHotels';
+@import './sass_assets/hotels_page/filterHotels';

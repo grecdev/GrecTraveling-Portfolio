@@ -57,7 +57,7 @@ const FilterItemsFlights = () => {
 	// Without `useEffect hook`, it displays whenever some component renders
 	useEffect(() => {
 
-		setFlights(appliedFiltered_flights.map((item) => (
+		setFlights(appliedFiltered_flights.map(item => (
 			<div className='filter-item-flights' key={item.id}>
 
 				<div>

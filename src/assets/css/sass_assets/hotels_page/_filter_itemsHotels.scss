@@ -1,0 +1,53 @@
+.filter-item-hotels {
+	@include flex(row, space-between, stretch);
+	border-bottom: 1px solid $primary-dark;
+	padding-bottom: 2rem;
+	margin-bottom: 2rem;
+
+	&:last-child {
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+
+	.hotel-image {
+		width: 30%;
+		height: 220px;
+
+		img { height: 100% }
+	}
+
+	.hotel-item-content {
+		flex: 1;
+
+		.hotel-review i {
+			color: $primary-yellow;
+			margin: 0 .2rem;
+		}
+
+		.hotel-name {
+			font-weight: bold;
+			font-size: 1.4rem;
+		}
+	}
+
+	.hotel-item-price {
+		align-self: center;
+		background: #fbfbfb;
+		border: 1px solid #ddd;
+
+		.price-header {
+
+			p:first-child {
+				font-weight: 100;
+    		font-size: .9rem;
+			}
+
+			p:last-child {
+				color: $primary-pink;
+				font-size: 1.5rem;
+				font-weight: bold;
+			}
+		}
+	}
+}
