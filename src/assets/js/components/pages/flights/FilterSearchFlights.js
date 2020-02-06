@@ -7,6 +7,7 @@ const FilterSearchFlights = () => {
 
 	const { getImage } = useContext(GlobalContext);
 	const {
+		peopleTotal,
 		defaultFiltered_flights,
 		setFilteredDatabase,
 		appliedFiltered_flights,
@@ -57,8 +58,8 @@ const FilterSearchFlights = () => {
 		- console.log(numbers.reduce((a, b) => a));
 
 	*/
-	const getMaxPrice = () => defaultFiltered_flights.length !== 0 ? defaultFiltered_flights.map(item => item.price).sort((a, b) => a - b).reduce((a, b) => b) : 0;
-	const getMinPrice = () => defaultFiltered_flights.length !== 0 ? defaultFiltered_flights.map(item => item.price).sort((a, b) => a - b).reduce((a, b) => a) : 0;
+	const getMaxPrice = () => appliedFiltered_flights.length !== 0 ? peopleTotal * appliedFiltered_flights.map(item => item.price).sort((a, b) => a - b).reduce((a, b) => b) : 0;
+	const getMinPrice = () => appliedFiltered_flights.length !== 0 ? peopleTotal * appliedFiltered_flights.map(item => item.price).sort((a, b) => a - b).reduce((a, b) => a) : 0;
 
 	const [rangePrice, setRangePrice] = useState(0);
 	const [minPrice, setMinPrice] = useState(0);
@@ -228,7 +229,7 @@ const FilterSearchFlights = () => {
 
 		if (filterState.stops) appliedFilter = appliedFilter.filter(item => item.stops === filterState.stops);
 
-		if (filterState.ticketPrice) appliedFilter = appliedFilter.filter(item => item.price <= filterState.ticketPrice);
+		if (filterState.ticketPrice) appliedFilter = appliedFilter.filter(item => peopleTotal * item.price <= filterState.ticketPrice);
 
 		if (filterState.departureInterval_start) appliedFilter = appliedFilter.filter(item => item.intervalStart === filterState.departureInterval_start);
 
@@ -310,7 +311,7 @@ const FilterSearchFlights = () => {
 			<div className="filter-search-box">
 
 				<div className="filter-search-header">
-					<h3 className='heading mr-1'>Ticket Price <span className='description'>(for 1 ticket)</span></h3>
+					<h3 className='heading mr-1'>Total Ticket Price</h3>
 					{filterState.ticketPrice && <a aria-label='button' data-reset-filter='ticketPrice' onClick={clearFiltersIndividual}>Clear</a>}
 
 					<a aria-label='button' onClick={toggleFilterMenu} data-event-toggle='true'><i className="fas fa-chevron-up"></i></a>

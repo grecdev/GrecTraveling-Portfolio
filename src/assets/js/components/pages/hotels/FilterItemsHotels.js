@@ -7,7 +7,10 @@ import { FormContext } from '../../../context/FormContext';
 const FilterItemsHotels = () => {
 
 	const { getImage } = useContext(GlobalContext);
-	const { appliedFiltered_hotels } = useContext(FormContext);
+	const {
+		appliedFiltered_hotels,
+		peopleTotal,
+		selectedDays } = useContext(FormContext);
 
 	const [hotels, setHotels] = useState(null);
 
@@ -50,11 +53,16 @@ const FilterItemsHotels = () => {
 				<div className="hotel-item-price p-1 text-center">
 
 					<div className="price-header mb-1">
-						<p className='mb-1'>Starts from:</p>
+						<p>Starts from:</p>
 						<p>$ {hotel.price}</p>
 					</div>
 
 					<Link to={`/hotels/${hotel.roomName.toLowerCase().replace(/ /g, '-')}`} className='btn btn-pink'>Book Now</Link>
+
+					<div className='price-info mt-1 text-center'>
+						<p>Price for <span>{peopleTotal} {peopleTotal === 1 ? 'person' : 'persons'}</span></p>
+						<p>for <span>{selectedDays} {selectedDays === 1 ? 'day' : 'days'}</span></p>
+					</div>
 				</div>
 
 			</div>
@@ -67,7 +75,6 @@ const FilterItemsHotels = () => {
 			document.querySelectorAll('.hotel-review').forEach((review, index) => review.innerHTML = dd[index]);
 
 		}, 1);
-
 
 	}, [appliedFiltered_hotels]);
 

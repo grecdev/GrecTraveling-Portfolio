@@ -13,14 +13,15 @@ export const FormContextProvider = (props) => {
 		flying_from: '',
 		flying_to: '',
 		hotel_destination: '',
-		checkIn_day: 13,
-		checkIn_month: 1,
-		checkIn_year: 2020,
-		checkIn_date: 'DEFAULT',
-		checkOut_day: 13,
-		checkOut_month: 4,
-		checkOut_year: 2020,
-		checkOut_date: 'DEFAULT',
+		checkIn_day: undefined,
+		checkIn_month: undefined,
+		checkIn_year: undefined,
+		checkIn_date: '',
+		checkOut_day: undefined,
+		checkOut_month: undefined,
+		checkOut_year: undefined,
+		checkOut_date: '',
+		selectedDays: undefined,
 		flightsForm_visible: true,
 		hotelsForm_visible: false,
 		flightCalendarCheckIn_visible: false,
@@ -29,7 +30,7 @@ export const FormContextProvider = (props) => {
 		hotelCalendarCheckOut_visible: false,
 		peopleSelectionFlights_visible: false,
 		peopleSelectionHotels_visible: false,
-		peopleTotal: 4,
+		peopleTotal: 1,
 		adults: 1,
 		youth: 0,
 		children: 0,
@@ -67,6 +68,22 @@ export const FormContextProvider = (props) => {
 		type === 'hotels' && setDatabase(database => ({ ...database, appliedFiltered_hotels: db }));
 
 	};
+
+	const calculateSelectedDays = () => {
+
+		let dateStart = new Date(`${formState.checkIn_month < 10 ? '0' + formState.checkIn_month : formState.checkIn_month}/${formState.checkIn_day < 10 ? '0' + formState.checkIn_day : formState.checkIn_day}/${formState.checkIn_year}`).getTime();
+
+		let dateEnd = new Date(`${formState.checkOut_month < 10 ? '0' + formState.checkOut_month : formState.checkOut_month}/${formState.checkOut_day < 10 ? '0' + formState.checkOut_day : formState.checkOut_day}/${formState.checkOut_year}`).getTime();
+
+		let time = dateEnd - dateStart;
+
+		let daysSelected = Math.ceil(time / (1000 * 3600 * 24) + 1);
+
+		!isNaN(daysSelected) && setFormState(formState => ({
+			...formState,
+			selectedDays: daysSelected
+		}))
+	}
 
 	const date = {
 		currentDay: new Date().getDate(),
@@ -932,6 +949,8 @@ export const FormContextProvider = (props) => {
 	useEffect(() => {
 
 		resetCalendar();
+
+		calculateSelectedDays();
 
 	}, [formState.checkIn_day, formState.checkOut_day]);
 

@@ -6,6 +6,7 @@ import { FormContext } from '../../../context/FormContext';
 const FilterSearchHotels = () => {
 	const { getImage } = useContext(GlobalContext);
 	const {
+		peopleTotal,
 		defaultFiltered_hotels,
 		setFilteredDatabase,
 		appliedFiltered_hotels,
@@ -56,8 +57,9 @@ const FilterSearchHotels = () => {
 		- console.log(numbers.reduce((a, b) => a));
 
 	*/
-	const getMaxPrice = () => defaultFiltered_hotels.length !== 0 ? defaultFiltered_hotels.map(hotel => hotel.price).sort((a, b) => a - b).reduce((a, b) => b) : 0;
-	const getMinPrice = () => defaultFiltered_hotels.length !== 0 ? defaultFiltered_hotels.map(hotel => hotel.price).sort((a, b) => a - b).reduce((a, b) => a) : 0;
+	const getMaxPrice = () => appliedFiltered_hotels.length !== 0 ? peopleTotal * appliedFiltered_hotels.map(hotel => hotel.price).sort((a, b) => a - b).reduce((a, b) => b) : 0;
+
+	const getMinPrice = () => appliedFiltered_hotels.length !== 0 ? peopleTotal * appliedFiltered_hotels.map(hotel => hotel.price).sort((a, b) => a - b).reduce((a, b) => a) : 0;
 
 	const [rangePrice, setRangePrice] = useState(0);
 	const [minPrice, setMinPrice] = useState(0);
@@ -257,7 +259,7 @@ const FilterSearchHotels = () => {
 
 		appliedFilter = appliedFilter.filter((item, index) => appliedFilter.indexOf(item) === index);
 
-		if (filterState.roomPrice) appliedFilter = appliedFilter.filter(hotel => hotel.price <= filterState.roomPrice);
+		if (filterState.roomPrice) appliedFilter = appliedFilter.filter(hotel => peopleTotal * hotel.price <= filterState.roomPrice);
 
 		setFilteredDatabase(appliedFilter, 'hotels');
 	}
