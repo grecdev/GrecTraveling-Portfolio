@@ -839,7 +839,6 @@ export const FormContextProvider = (props) => {
 
 					formSubmitted = true;
 
-					console.log(hotelsDb);
 					setDatabase(database => ({
 						...database,
 						defaultFiltered_hotels: hotelsDb,

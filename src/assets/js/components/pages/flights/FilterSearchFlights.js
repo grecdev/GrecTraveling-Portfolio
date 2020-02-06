@@ -201,59 +201,30 @@ const FilterSearchFlights = () => {
 	const displayFlights = () => {
 
 		let appliedFilter = [...defaultFiltered_flights];
+		let airlineCompanyCheckbox = false;
 
-		// If we have more than 1 checkbox input active we use these 2 arrays
-		let checkboxArr = [];
-		let newArr = [];
+		// If any airline company is selected
+		Object.values(filterState.airlines).forEach(checkbox => { if (checkbox !== undefined) airlineCompanyCheckbox = true });
 
 		// Add the flights with the specific airline company to the checkBox arr, but use the default array, not the array with applied filters
-		if (filterState.airlines.tarom) {
+		if (airlineCompanyCheckbox) {
 
-			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterState.airlines.tarom);
+			appliedFilter = appliedFilter.filter(item => {
 
-			checkboxArr.push(appliedFilter);
-		}
+				if (item.airlines.toLowerCase() === filterState.airlines.tarom) return item;
 
-		if (filterState.airlines.unitedAirlines) {
+				// In json api `database` is: "United Airlines"
+				if (filterState.airlines.unitedAirlines !== undefined) {
 
-			appliedFilter = defaultFiltered_flights.filter(item => {
 
-				if (/ /g.test(item.airlines)) {
-
-					// In json api `database` is: "United Airlines"
-					item.airlines.replace(' ', '');
-
-					item.airlines.toLowerCase() === filterState.airlines.unitedAirlines;
-
-					return item;
+					if (item.airlines.replace(' ', '').toLowerCase() === filterState.airlines.unitedAirlines.toLowerCase()) return item;
 				}
+
+				if (item.airlines.toLowerCase() === filterState.airlines.finnair) return item;
+
+				if (item.airlines.toLowerCase() === filterState.airlines.aeroflot) return item;
 			});
-
-			checkboxArr.push(appliedFilter);
 		}
-
-		if (filterState.airlines.finnair) {
-
-			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterState.airlines.finnair);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.airlines.aeroflot) {
-
-			appliedFilter = defaultFiltered_flights.filter(item => item.airlines.toLowerCase() === filterState.airlines.aeroflot);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		// We need to make the items objects to be in one single array
-		checkboxArr.forEach(item => item.forEach(obj => newArr.push(obj)));
-
-		// Here we check how manny checkbox inputs are active (checked)
-		const multipleCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(input => input.checked);
-
-		// If there are more than 1 airline company filter active, we apply the filters to the array with multiple airlane companies
-		if (multipleCheckboxes.length > 1) appliedFilter = [...newArr];
 
 		if (filterState.stops) appliedFilter = appliedFilter.filter(item => item.stops === filterState.stops);
 
@@ -262,6 +233,9 @@ const FilterSearchFlights = () => {
 		if (filterState.departureInterval_start) appliedFilter = appliedFilter.filter(item => item.intervalStart === filterState.departureInterval_start);
 
 		if (filterState.departureInterval_end) appliedFilter = appliedFilter.filter(item => item.intervalEnd === filterState.departureInterval_end);
+
+		// So we get unique values
+		appliedFilter = appliedFilter.filter((item, index) => appliedFilter.indexOf(item) === index);
 
 		setFilteredDatabase(appliedFilter, 'flights');
 	}

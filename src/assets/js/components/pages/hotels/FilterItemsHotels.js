@@ -39,7 +39,7 @@ const FilterItemsHotels = () => {
 
 					<div className="hotel-item-header mb-1">
 						<p className='hotel-review mb-1'></p>
-						<p className='hotel-name heading'>{hotel.roomName}</p>
+						<p className='hotel-name heading'>{hotel.roomName} <span className="description">({hotel.destination})</span></p>
 					</div>
 
 					<div className="hotel-item-info">

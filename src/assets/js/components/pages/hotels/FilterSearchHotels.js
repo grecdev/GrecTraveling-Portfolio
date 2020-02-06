@@ -96,30 +96,56 @@ const FilterSearchHotels = () => {
 
 		const inputType = e.target.getAttribute('type');
 		const inputValue_number = parseFloat(e.target.value);
-		const inputValue_string = e.target.value;
-		const inputId = e.target.id;
+		const inputValue_string = e.target.value.toLowerCase();
 		const isChecked = e.target.checked;
 
 		if (inputType === 'range') {
 			setRangePrice(inputValue_number);
 
-			setFilterState(filterState => ({ ...filterState, roomPrice: inputValue_number }));
+			setFilterState(filterState => ({
+				...filterState,
+				roomPrice: inputValue_number
+			}));
 		}
 
 		if (inputType === 'checkbox') {
 
 			if (e.target.name === 'property-type') {
 
-				isChecked && setFilterState(filterState => ({ ...filterState, roomType: { ...filterState.roomType, [inputValue_string]: inputValue_string } }));
+				isChecked && setFilterState(filterState => ({
+					...filterState,
+					roomType: {
+						...filterState.roomType,
+						[inputValue_string]: inputValue_string
+					}
+				}));
 
-				!isChecked && setFilterState(filterState => ({ ...filterState, roomType: { ...filterState.roomType, [inputValue_string]: undefined } }));
+				!isChecked && setFilterState(filterState => ({
+					...filterState,
+					roomType: {
+						...filterState.roomType,
+						[inputValue_string]: undefined
+					}
+				}));
 			}
 
 			if (e.target.name === 'room-feedback') {
 
-				isChecked && setFilterState(filterState => ({ ...filterState, roomFeedback: { ...filterState.roomFeedback, [inputValue_number]: inputValue_number } }));
+				isChecked && setFilterState(filterState => ({
+					...filterState,
+					roomFeedback: {
+						...filterState.roomFeedback,
+						[inputValue_number]: inputValue_number
+					}
+				}));
 
-				!isChecked && setFilterState(filterState => ({ ...filterState, roomFeedback: { ...filterState.roomFeedback, [inputValue_number]: undefined } }));
+				!isChecked && setFilterState(filterState => ({
+					...filterState,
+					roomFeedback: {
+						...filterState.roomFeedback,
+						[inputValue_number]: undefined
+					}
+				}));
 			}
 		}
 
@@ -192,82 +218,44 @@ const FilterSearchHotels = () => {
 
 		let appliedFilter = [...defaultFiltered_hotels];
 
-		// If we have more than 1 checkbox input active we use these 2 arrays
-		let checkboxArr = [];
-		let newArr = [];
-
-		// Add the flights with the specific airline company to the checkBox arr, but use the default array, not the array with applied filters
-		if (filterState.roomType.hotel) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomType.toLowerCase() === filterState.roomType.hotel);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomType.resort) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomType.toLowerCase() === filterState.roomType.resort);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomType.suite) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomType.toLowerCase() === filterState.roomType.suite);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomType.villa) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomType.toLowerCase() === filterState.roomType.villa);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomFeedback[1]) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomFeedback === filterState.roomFeedback[1]);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomFeedback[2]) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomFeedback === filterState.roomFeedback[2]);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomFeedback[3]) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomFeedback === filterState.roomFeedback[3]);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomFeedback[4]) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomFeedback === filterState.roomFeedback[4]);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		if (filterState.roomFeedback[5]) {
-
-			appliedFilter = defaultFiltered_hotels.filter(hotel => hotel.roomFeedback === filterState.roomFeedback[5]);
-
-			checkboxArr.push(appliedFilter);
-		}
-
-		// We need to make the items objects to be in one single array
-		checkboxArr.forEach(item => item.forEach(obj => newArr.push(obj)));
+		let feedbackCheckbox = false;
+		let propertyTypeCheckbox = false;
 
 		// Here we check how manny checkbox inputs are active (checked)
-		const multipleCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(input => input.checked);
+		Object.values(filterState.roomType).forEach(check => { if (check !== undefined) propertyTypeCheckbox = true });
+		Object.values(filterState.roomFeedback).forEach(check => { if (check !== undefined) feedbackCheckbox = true });
 
-		// If there are more than 1 airline company filter active, we apply the filters to the array with multiple airlane companies
-		if (multipleCheckboxes.length > 1) appliedFilter = [...newArr];
+		if (feedbackCheckbox) {
+
+			appliedFilter = appliedFilter.filter(hotel => {
+
+				if (hotel.roomFeedback === filterState.roomFeedback[1]) return hotel;
+
+				if (hotel.roomFeedback === filterState.roomFeedback[2]) return hotel;
+
+				if (hotel.roomFeedback === filterState.roomFeedback[3]) return hotel;
+
+				if (hotel.roomFeedback === filterState.roomFeedback[4]) return hotel;
+
+				if (hotel.roomFeedback === filterState.roomFeedback[5]) return hotel;
+			});
+		}
+
+		if (propertyTypeCheckbox) {
+
+			appliedFilter = appliedFilter.filter(hotel => {
+
+				if (hotel.roomType.toLowerCase() === filterState.roomType.hotel) return hotel;
+
+				if (hotel.roomType.toLowerCase() === filterState.roomType.resort) return hotel;
+
+				if (hotel.roomType.toLowerCase() === filterState.roomType.suite) return hotel;
+
+				if (hotel.roomType.toLowerCase() === filterState.roomType.villa) return hotel;
+			});
+		}
+
+		appliedFilter = appliedFilter.filter((item, index) => appliedFilter.indexOf(item) === index);
 
 		if (filterState.roomPrice) appliedFilter = appliedFilter.filter(hotel => hotel.price <= filterState.roomPrice);
 
