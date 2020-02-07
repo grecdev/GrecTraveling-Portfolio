@@ -61,8 +61,6 @@ class GlobalContextProvider extends Component {
 
 		this.parallaxBackground();
 
-		setTimeout(() => this.removeTransitions(), 150);
-
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 
 		e.stopPropagation();
@@ -123,6 +121,7 @@ class GlobalContextProvider extends Component {
 
 	loadEvent = () => {
 
+		this.removeTransitions();
 		this.hidePreloader();
 	}
 

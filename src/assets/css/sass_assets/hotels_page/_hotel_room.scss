@@ -34,7 +34,6 @@
 	#room-preview .room-preview-wrapper {
 		@include flex(row, space-between, stretch);
 		
-
 		#room-carousel {
 			width: 50%;
 			height: 400px;
@@ -53,6 +52,15 @@
 				transition: all 500ms ease-in-out;
 
 				&.outer-image { opacity: .5}
+
+				&.full-image {
+					width: 100%;
+					margin: 0;
+					left: 0;
+					z-index: 1;
+				}
+
+				&.center-image { opacity: 1 }
 			}
 
 			&-buttons {
@@ -68,6 +76,7 @@
 					cursor: pointer;
 					padding: 1.5rem 1rem;
 					background: rgba($primary-blue, .9);
+					transition: all 150ms ease-in-out;
 
 					&:hover { background: rgba($primary-blue, 1) }
 
@@ -78,13 +87,13 @@
 						opacity: 1;
 					}
 
-					&#left-room-image {
+					&#decrement-room-image {
 						left: 0;
 						border-top-right-radius: $border-radius-primary;
 						border-bottom-right-radius: $border-radius-primary;
 					}
 
-					&#right-room-image {
+					&#increment-room-image {
 						right: 0;
 						border-top-left-radius: $border-radius-primary;
 						border-bottom-left-radius: $border-radius-primary;
