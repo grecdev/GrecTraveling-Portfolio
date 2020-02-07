@@ -983,11 +983,14 @@ export const FormContextProvider = (props) => {
 			appliedFiltered_flights: []
 		}));
 
-		location !== '/hotels' && setDatabase(database => ({
-			...database,
-			defaultFiltered_hotels: [],
-			appliedFiltered_hotels: []
-		}));
+		if (location !== '/hotels' && !location.includes('hotel-room')) {
+
+			setDatabase(database => ({
+				...database,
+				defaultFiltered_hotels: [],
+				appliedFiltered_hotels: []
+			}));
+		}
 
 		setRegexState(defaultRegexState);
 

@@ -8,6 +8,7 @@ import Footer from './components/global_layout/Footer';
 import Header from './components/global_layout/Header';
 
 import HomePage from './components/pages/HomePage';
+import RoomPage from './components/pages/hotels/RoomPage';
 import ContactPage from './components/pages/ContactPage';
 import FlightsPage from './components/pages/FlightsPage';
 import HotelsPage from './components/pages/HotelsPage';
@@ -38,6 +39,7 @@ export class App extends Component {
 					<Route exact strict path={'/contact'} component={ContactPage} />
 					<Route exact strict path={'/flights'} component={FlightsPage} />
 					<Route exact strict path={'/hotels'} component={HotelsPage} />
+					<Route exact strict path={'/hotel-room/:room'} component={RoomPage} />
 
 					<Route component={NotFoundPage} />
 				</Switch>

@@ -1,0 +1,96 @@
+#hotel-room {
+
+	#room-showcase {
+		background: darken($primary-blue, 35%);
+		color: $primary-white;
+
+		.room-showcase-header {
+
+			div {
+				@include flex(row, flex-start, center);
+
+				h1 { font-size: 1.5rem }
+
+				.room-feedback i {
+					color: $primary-yellow;
+					margin: 0 .2rem;
+				}
+			}
+		}
+
+		.room-showcase-header > p, & .container > a {
+			color: #bcd5f5;
+			font-size: .9rem;
+		}
+
+		a {
+
+			&:hover { color: #97afcf }
+
+			i { margin-right: .3rem }
+		}
+	}
+
+	#room-preview .room-preview-wrapper {
+		@include flex(row, space-between, stretch);
+		
+
+		#room-carousel {
+			width: 50%;
+			height: 400px;
+			@include flex(row, space-between, center);
+			position: relative;
+			overflow: hidden;
+				
+			.room-carousel-image {
+				position: absolute;
+				top: 0;
+				left: 8.5%;
+				flex-shrink: 0;
+				width: 80%;
+				height: 100%;
+				margin: 0 .5rem;
+				transition: all 500ms ease-in-out;
+
+				&.outer-image { opacity: .5}
+			}
+
+			&-buttons {
+				position: relative;
+				z-index: 1;
+				width: 100%;
+
+				button {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					display: block;
+					cursor: pointer;
+					padding: 1.5rem 1rem;
+					background: rgba($primary-blue, .9);
+
+					&:hover { background: rgba($primary-blue, 1) }
+
+					i {
+						font-size: 1.1rem;
+						position: relative;
+						z-index: 1;
+						opacity: 1;
+					}
+
+					&#left-room-image {
+						left: 0;
+						border-top-right-radius: $border-radius-primary;
+						border-bottom-right-radius: $border-radius-primary;
+					}
+
+					&#right-room-image {
+						right: 0;
+						border-top-left-radius: $border-radius-primary;
+						border-bottom-left-radius: $border-radius-primary;
+					}
+				}
+			}
+		}
+	}
+}

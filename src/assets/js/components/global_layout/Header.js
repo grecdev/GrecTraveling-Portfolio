@@ -23,7 +23,7 @@ const Header = () => {
 			<nav id='desktop-navbar'>
 				<NavLink exact to='/' activeClassName='active-page'>Home</NavLink>
 				<NavLink to='/flights' activeClassName='active-page'>Flights</NavLink>
-				<NavLink to='/hotels' activeClassName='active-page'>Hotels</NavLink>
+				<NavLink exact to='/hotels' activeClassName='active-page'>Hotels</NavLink>
 				<NavLink to='/contact' activeClassName='active-page'>Contact</NavLink>
 			</nav>
 		</header >

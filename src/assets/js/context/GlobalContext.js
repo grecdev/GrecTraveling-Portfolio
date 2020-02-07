@@ -156,9 +156,9 @@ class GlobalContextProvider extends Component {
 			setTimeout(() => this.setState({ pageChanged: false }), 150);
 
 			this.enablePreloader();
-		}
 
-		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+			this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+		}
 	}
 
 	render() {

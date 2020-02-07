@@ -17,6 +17,7 @@ const FilterItemsHotels = () => {
 	const formatHotelReview = feedback => {
 
 		let roomFeedback = [];
+		let test = [];
 		const totalFeedback = 5;
 
 		const filledStar = '<i class="fas fa-star" ></i >';
@@ -57,7 +58,7 @@ const FilterItemsHotels = () => {
 						<p>$ {hotel.price}</p>
 					</div>
 
-					<Link to={`/hotels/${hotel.roomName.toLowerCase().replace(/ /g, '-')}`} className='btn btn-pink'>Book Now</Link>
+					<Link to={`/hotel-room/${hotel.roomName.toLowerCase().replace(/ /g, '-')}`} className='btn btn-pink'>Book Now</Link>
 
 					<div className='price-info mt-1 text-center'>
 						<p>Price for <span>{peopleTotal} {peopleTotal === 1 ? 'person' : 'persons'}</span></p>
@@ -70,10 +71,11 @@ const FilterItemsHotels = () => {
 
 		setTimeout(() => {
 
-			const dd = appliedFiltered_hotels.map(hotel => formatHotelReview(hotel.roomFeedback));
+			// To have an array with stars
+			const stars = appliedFiltered_hotels.map(hotel => formatHotelReview(hotel.roomFeedback));
 
-			document.querySelectorAll('.hotel-review').forEach((review, index) => review.innerHTML = dd[index]);
-
+			// Stars array will always be same as number of `.hotel-preview` DOM elements
+			document.querySelectorAll('.hotel-review').forEach((review, index) => review.innerHTML = stars[index]);
 		}, 1);
 
 	}, [appliedFiltered_hotels]);
