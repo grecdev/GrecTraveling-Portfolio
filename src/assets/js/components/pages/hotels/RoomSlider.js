@@ -9,7 +9,7 @@ const RoomSlider = ({ room }) => {
 	const { getImage } = useContext(GlobalContext);
 
 	const defaultCarouselState = {
-		imagePos: 2,
+		imagePos: 2
 	}
 
 	const [carouselState, setCarouselState] = useState(defaultCarouselState);
@@ -66,14 +66,20 @@ const RoomSlider = ({ room }) => {
 
 				imagePos = parseFloat(image.style.transform.slice(image.style.transform.indexOf('(') + 1, image.style.transform.indexOf('p')));
 
-				if (imagePos !== 0) {
+				if (imagePos < 0) {
 
-					image.classList.remove('center-image', 'full-image');
-					image.classList.add('outer-image');
+					image.classList.remove('right-outer-image', 'full-image', 'center-image');
+					image.classList.add('left-outer-image');
+
+				} else {
+
+					image.classList.remove('left-outer-image', 'full-image', 'center-image');
+					image.classList.add('right-outer-image');
 				}
-				else {
 
-					image.classList.remove('outer-image');
+				if (imagePos === 0) {
+
+					image.classList.remove('left-outer-image', 'full-image', 'right-outer-image');
 					image.classList.add('center-image');
 				}
 
