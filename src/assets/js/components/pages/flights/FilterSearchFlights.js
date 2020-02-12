@@ -16,6 +16,8 @@ const FilterSearchFlights = () => {
 
 	const toggleFilterMenu = e => {
 
+		console.log(e.currentTarget);
+
 		if (e.currentTarget.tagName === 'A' && e.currentTarget.dataset.eventToggle === 'true') {
 
 			const filterContainer = e.currentTarget.parentElement.nextElementSibling;

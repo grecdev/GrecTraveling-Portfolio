@@ -8,7 +8,7 @@ import Footer from './components/global_layout/Footer';
 import Header from './components/global_layout/Header';
 
 import HomePage from './components/pages/HomePage';
-import RoomPage from './components/pages/hotels/RoomPage';
+import RoomPage from './components/pages/RoomPage';
 import ContactPage from './components/pages/ContactPage';
 import FlightsPage from './components/pages/FlightsPage';
 import HotelsPage from './components/pages/HotelsPage';

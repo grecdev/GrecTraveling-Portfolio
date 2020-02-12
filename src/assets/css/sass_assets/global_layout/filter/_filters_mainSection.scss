@@ -75,7 +75,7 @@
 
 		#filter-search-hotels .filter-search-box {
 
-			&:nth-child(3) .filter-search-container { height: 205px }
+			&:nth-child(3) .filter-search-container { height: 220px }
 			&:nth-child(4) .filter-search-container { height: 180px }
 
 			&:nth-child(5) .filter-search-container {
@@ -98,7 +98,7 @@
 				overflow: hidden;
 				transition: height 300ms ease-in-out;
 		
-				&.filter-hidden { height: 0 }
+				&.filter-hidden { height: 0 !important}
 			}
 		
 			.filter-search-inputs { margin: .7rem 0 }
