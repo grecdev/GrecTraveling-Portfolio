@@ -59,16 +59,180 @@ const RoomCarouselBig = (props) => {
 
 				if (target.id.includes('decrement')) {
 
+					// Move to the right side the image in the center position
+					if (index === carouselState.imageCount) image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+					// Move to center the following image
+					if (index === decrementCount) image.style.transform = `translateX(${0}px)`;
+
+					// If the following image is the last one
+					if (decrementCount === carouselState.imagesAvailable) {
+
+						// Move the images to the left position
+						if (index < decrementCount && index !== carouselState.imageCount) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						// Move the first image on the right side so we have an 'infinite slider'
+						if (index === 0) {
+
+							// image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							console.log('ASDADA');
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						// Move the last image to the left side and then move it to center
+						if (index === carouselState.imagesAvailable) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							setTimeout(() => {
+
+								image.style.transition = '';
+								image.style.transform = `translateX(${0}px)`;
+
+							}, 1);
+						}
+
+						// If following image is not the last image
+					} else {
+
+						// Index higher than the center image, move to the left side
+						if (decrementCount > index && imagePos > 0) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+					}
+
+					// if (decrementCount === carouselState.imagesAvailable) {
+
+					// 	console.log(image);
+					// }
+
 				}
 
 				if (target.id.includes('increment')) {
 
-					/// first reset to normal position
+					// Move to the left side the image in the center position
+					if (index === carouselState.imageCount) image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
 
-					// Move the center image to the right position
-					if (carouselState.imageCount === index) image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
-					// Move the image on the right side to the center
-					if (incrementCount === index) image.style.transform = `translateX(${0}px)`;
+					// Move to center the following image
+					if (index === incrementCount) image.style.transform = `translateX(${0}px)`;
+
+					// If the following image is the last one
+					if (incrementCount === carouselState.imagesAvailable) {
+
+						// Move the images to the left position
+						if (index < incrementCount && index !== carouselState.imageCount) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						// Move the first image on the right side so we have an 'infinite slider'
+						if (index === 0) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						// Move the last image to the right side and then move it to center
+						if (index === carouselState.imagesAvailable) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							setTimeout(() => {
+
+								image.style.transition = '';
+								image.style.transform = `translateX(${0}px)`;
+
+							}, 1);
+						}
+
+						// If following image is not the last image
+					} else {
+
+						// Index higher than the center image, move to the right side
+						if (imagePosition < index && imagePos < 0) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						// Index lower than the center image, move to the left side
+						if (imagePosition > index && imagePos > 0) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+					}
+
+					// If the following image is the first one
+					if (incrementCount === 0) {
+
+						// Move the images to the right position
+						if (index > incrementCount && index !== carouselState.imageCount) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							setTimeout(() => image.style.transition = '', 1);
+						}
+
+						if (index === carouselState.imagesAvailable) {
+
+							image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+							// And than move it to the right side so we have an 'infinite slider'
+							setTimeout(() => {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 100);
+
+							}, carouselState.changeTime);
+						}
+
+						// Move the first image to the right side and then move it to center
+						if (index === 0) {
+
+							image.style.transition = 'none';
+							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+							setTimeout(() => {
+
+								image.style.transition = '';
+								image.style.transform = `translateX(${0}px)`;
+
+							}, 1);
+						}
+
+					}
+
+
+					// console.log(incrementCount);
 
 				}
 

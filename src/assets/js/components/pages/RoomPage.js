@@ -14,7 +14,7 @@ const RoomPage = ({ match }) => {
 	const { hotels_db } = useContext(FormContext);
 
 	const defaultCarouselState = {
-		imageCount: 2,
+		imageCount: 1,
 		changeTime: 600,
 		imageWidth: 0,
 		imagesAvailable: 0,
