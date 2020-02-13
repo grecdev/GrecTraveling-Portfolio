@@ -14,11 +14,12 @@ const RoomPage = ({ match }) => {
 	const { hotels_db } = useContext(FormContext);
 
 	const defaultCarouselState = {
-		imageCount: 1,
+		imageCount: 2,
 		changeTime: 600,
-		leftImage: undefined,
-		rightImage: undefined,
-		imageWidth: undefined
+		imageWidth: 0,
+		imagesAvailable: 0,
+		imagesArray: [],
+		clonedImages: []
 	}
 
 	const [carouselState, setCarouselState] = useState(defaultCarouselState);
@@ -29,8 +30,7 @@ const RoomPage = ({ match }) => {
 	const incrementImagePos = () => setCarouselState(carouselState => ({ ...carouselState, imageCount: carouselState.imageCount + 1 }));
 	const setImagePos = val => setCarouselState(carouselState => ({ ...carouselState, imageCount: val }));
 
-	const setLeftImage = val => setCarouselState(carouselState => ({ ...carouselState, leftImage: val }));
-	const setRightImage = val => setCarouselState(carouselState => ({ ...carouselState, rightImage: val }));
+	const setTest = val => setCarouselState(carouselState => ({ ...carouselState, test: val }));
 
 	const displayCarouselBig = e => {
 
@@ -41,14 +41,21 @@ const RoomPage = ({ match }) => {
 			setTimeout(() => {
 
 				let imagesArray = Array.from(document.querySelectorAll('.carousel-big-slider .slider-container .slider-image'));
-
-				const imagesAvailable = imagesArray.length - 1;
+				let imagesAvailable = imagesArray.length - 1;
 
 				const imageMargin = parseFloat(window.getComputedStyle(document.querySelector('.carousel-big-slider .slider-container .slider-image')).getPropertyValue('margin-left')) * 2;
 
 				const imageWidth = Math.round(document.querySelector('.carousel-big-slider .slider-container .slider-image').getBoundingClientRect().width + imageMargin);
 
-				setCarouselState(carouselState => ({ ...carouselState, imageWidth: imageWidth }));
+				let clonedImages = Array.from(document.querySelectorAll('.carousel-big-slider .slider-container .cloned'));
+
+				setCarouselState(carouselState => ({
+					...carouselState,
+					imageWidth: imageWidth,
+					imagesAvailable: imagesAvailable,
+					imagesArray: imagesArray,
+					clonedImages: clonedImages
+				}));
 
 				imagesArray.forEach((image, index) => {
 
@@ -58,15 +65,11 @@ const RoomPage = ({ match }) => {
 
 					let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
 
-					if (imagePos < 0 && carouselState.imageCount !== 0) image.style.transform = `translateX(${-imageWidth}px)`;
+					if (imagePos < 0) image.style.transform = `translateX(${-imageWidth}px)`;
+					if (imagePos > 0) image.style.transform = `translateX(${imageWidth}px)`;
 
-					if (imagePos > 0 && carouselState.imageCount !== imagesAvailable) image.style.transform = `translateX(${imageWidth}px)`;
-
-					// First image is centered
-					if (carouselState.imageCount === 0 && index === imagesAvailable) image.style.transform = `translateX(${-imageWidth}px)`;
-
-					// Last image is centered
 					if (carouselState.imageCount === imagesAvailable && index === 0) image.style.transform = `translateX(${imageWidth}px)`;
+					if (carouselState.imageCount === 0 && index === imagesAvailable) image.style.transform = `translateX(${-imageWidth}px)`;
 
 					setTimeout(() => image.style.transition = '', 50);
 				});
@@ -77,6 +80,7 @@ const RoomPage = ({ match }) => {
 
 					setTimeout(() => image.style.transition = '', 50);
 				});
+
 			}, 1);
 		}
 
@@ -199,8 +203,7 @@ const RoomPage = ({ match }) => {
 				incrementImagePos={incrementImagePos}
 				displayCarouselBig={displayCarouselBig}
 				setImagePos={setImagePos}
-				setLeftImage={setLeftImage}
-				setRightImage={setRightImage}
+				setTest={setTest}
 			/>
 		</>
 	)

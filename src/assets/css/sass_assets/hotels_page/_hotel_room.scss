@@ -225,23 +225,17 @@
 				height: 100%;
 				@include flex(row, space-between, center);
 
-				.slider-image {
+				.slider-image, .cloned{
 					height: 100%;
 					width: 100%;
 					flex-shrink: 0;
 					position: absolute;
 					top: 0;
 					left: -5.3%;
-					transition: all 400ms ease-in-out;
+					/////// CHANGE
+					transition: all 350ms ease-in-out;
 					margin: 0 3rem;
-
-					&.left-outer-image {
-						z-index: 1;
-					}
-
-					&.right-outer-image {
-						z-index: 2;
-					}
+					
 				}
 			}
 
@@ -294,3 +288,4 @@
 	}
 }
 
+.disabled { pointer-events: none !important}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormContext } from '../../../context/FormContext';
@@ -20,9 +20,7 @@ const RoomCarouselBig = (props) => {
 		decrementImagePos,
 		incrementImagePos,
 		displayCarouselBig,
-		setImagePos,
-		setLeftImage,
-		setRightImage
+		setImagePos
 	} = props;
 
 	const displayMiniCarousel = () => {
@@ -46,11 +44,185 @@ const RoomCarouselBig = (props) => {
 
 		const toggle = e.target.parentElement.dataset.eventToggle || e.target.dataset.eventToggle;
 
-		let imagesAvailable = document.querySelectorAll('.carousel-big-slider .slider-container .slider-image').length - 1;
-		let imagesArray = Array.from(document.querySelectorAll('.carousel-big-slider .slider-container .slider-image'));
+		let incrementCount = carouselState.imageCount + 1;
+		let decrementCount = carouselState.imageCount - 1;
 
-		let currentImage = carouselState.imageCount + 1;
-		let prevImage = carouselState.imageCount;
+		const imagePosition = parseFloat(e.target.dataset.imagePosition);
+
+		function move(target) {
+
+			console.log('=====');
+
+			carouselState.imagesArray.forEach((image, index) => {
+
+				let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
+
+				if (target.id.includes('decrement')) {
+
+				}
+
+				if (target.id.includes('increment')) {
+
+					/// first reset to normal position
+
+					// Move the center image to the right position
+					if (carouselState.imageCount === index) image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+					// Move the image on the right side to the center
+					if (incrementCount === index) image.style.transform = `translateX(${0}px)`;
+
+				}
+
+				if (target.classList.contains('mini-slider-image')) {
+
+					// Move images to the left side
+					if (imagePosition > carouselState.imageCount) {
+
+						// Move to the left side the image in the center position
+						if (index === carouselState.imageCount) image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+						// Move to center the clicked image
+						if (index === imagePosition) image.style.transform = `translateX(${0}px)`;
+
+						// If we click on the last image
+						if (imagePosition === carouselState.imagesAvailable) {
+
+							// Move the images to the left position
+							if (index < imagePosition && index !== carouselState.imageCount) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+
+							// Move the first image on the left side
+							if (index === 0) {
+
+								image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+								// And than move it to the right side so we have an 'infinite slider'
+								setTimeout(() => {
+
+									image.style.transition = 'none';
+									image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+									image.style.transition = '';
+
+								}, carouselState.changeTime);
+							}
+
+							// Move the last image to the right side and then move it to center
+							if (index === carouselState.imagesAvailable) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								setTimeout(() => {
+
+									image.style.transition = '';
+									image.style.transform = `translateX(${0}px)`;
+
+								}, 1);
+							}
+
+							// If we don't click on the last image
+						} else {
+
+							// Index higher than the center image, move to the right side
+							if (imagePosition < index && imagePos < 0) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+
+							// Index lower than the center image, move to the left side
+							if (imagePosition > index && imagePos > 0) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+						}
+					}
+
+					// Move images to the right side
+					if (imagePosition < carouselState.imageCount) {
+
+						// Move to center the clicked image
+						if (index === imagePosition) image.style.transform = `translateX(${0}px)`;
+
+						// Move to the right side position the image on the center position
+						if (index === carouselState.imageCount) image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+						// If we click on the first image
+						if (imagePosition === 0) {
+
+							// Move the images to the right position
+							if (index > imagePosition && index !== carouselState.imageCount) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+
+							// Move the last image on the right side
+							if (index === carouselState.imagesAvailable) {
+
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								// And than move it to the left side so we have an 'infinite slider'
+								setTimeout(() => {
+
+									image.style.transition = 'none';
+									image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+									setTimeout(() => image.style.transition = '', 100);
+
+								}, carouselState.changeTime);
+							}
+
+							// Move the first image to the left side and then move it to center
+							if (index === 0) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+								setTimeout(() => {
+
+									image.style.transition = '';
+									image.style.transform = `translateX(${0}px)`;
+
+								}, 1);
+							}
+
+							// If we don't click on the first image
+						} else {
+
+							// Index lower than the center image, move to the left side
+							if (imagePosition > index && imagePos > 0) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+
+							// Index higher than the center image, move to the right side
+							if (imagePosition < index && imagePos < 0) {
+
+								image.style.transition = 'none';
+								image.style.transform = `translateX(${carouselState.imageWidth}px)`;
+
+								setTimeout(() => image.style.transition = '', 1);
+							}
+						}
+					}
+				}
+			});
+		}
 
 		if (e.type === 'click') {
 
@@ -60,7 +232,13 @@ const RoomCarouselBig = (props) => {
 
 					decrementImagePos();
 
-					if (carouselState.imageCount - 1 === -1) setImagePos(3);
+					if (carouselState.imageCount - 1 === -1) {
+
+						setImagePos(3);
+						decrementCount = 3;
+					}
+
+					move(e.currentTarget);
 				}
 
 				if (e.currentTarget.id.includes('increment')) {
@@ -70,51 +248,18 @@ const RoomCarouselBig = (props) => {
 					if (carouselState.imageCount === 3) {
 
 						setImagePos(0);
-						currentImage = 0;
+						incrementCount = 0;
 					}
 
-					imagesArray[currentImage].style.transform = `translateX(${0}px)`;
-
-					imagesArray.forEach(image => {
-
-						let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
-
-						if (imagePos < 0) image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-
-					});
-
-					imagesArray[prevImage].style.transform = `translateX(${-carouselState.imageWidth}px)`;
+					move(e.currentTarget);
 				}
 			}
 
 			if (e.target.classList.contains('mini-slider-image') && toggle === 'true') {
 
-				console.log('=====');
+				setImagePos(imagePosition);
 
-				let count = parseFloat(e.target.dataset.imagePosition);
-
-				setImagePos(count);
-
-				imagesArray[count].style.transform = `translateX(${0}px)`;
-
-				imagesArray.forEach((image, index) => {
-
-					let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
-
-					if (count > carouselState.imageCount) {
-
-						if (count > index && imagePos < 0) {
-
-							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-						}
-
-						if (carouselState.imageCount === index) {
-
-							if (imagePos === 0) image.style.transform = `translateX(${-carouselState.imageWidth}px)`;
-						}
-
-					}
-				});
+				move(e.target);
 			}
 
 			toggle === 'true' && document.querySelectorAll('#room-carousel-big [data-event-toggle]').forEach(element => {
@@ -122,52 +267,6 @@ const RoomCarouselBig = (props) => {
 				element.setAttribute('data-event-toggle', 'false');
 				setTimeout(() => element.setAttribute('data-event-toggle', 'true'), carouselState.changeTime);
 			});
-		}
-
-		if (e.type === 'mouseover') {
-
-			if (e.currentTarget.id.includes('increment')) {
-
-				imagesArray.forEach((image, index) => {
-
-					let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
-
-					// If first image is on the left outer side
-					if (index === 0 && imagePos < 0) {
-
-						image.style.transition = 'none';
-
-						image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-
-						setTimeout(() => image.style.transition = '', 10);
-
-					}
-
-				});
-
-			}
-
-			if (e.target.classList.contains('mini-slider-image')) {
-
-				let count = parseFloat(e.target.dataset.imagePosition);
-
-				imagesArray.forEach((image, index) => {
-
-					let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
-
-					// If last image is on the left outer side
-					if (index === imagesAvailable && imagePos < 0) {
-
-						image.style.transition = 'none';
-
-						image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-
-						setTimeout(() => image.style.transition = '', 10);
-					}
-
-				});
-
-			}
 		}
 
 		e.stopPropagation();
@@ -210,11 +309,12 @@ const RoomCarouselBig = (props) => {
 					<div className="carousel-big-slider">
 
 						<div className="slider-container">
+
 							{
 								room.image !== undefined && room.image.roomReview.map((image, index) => (
 									<div
 										className='slider-image'
-										key={index + 1}
+										key={index}
 										style={{
 											background: `url(${getImage(image)}) no-repeat center / cover`
 										}}
@@ -222,12 +322,25 @@ const RoomCarouselBig = (props) => {
 									</div>
 								))
 							}
+
 						</div>
 
 						<div id="carousel-big-buttons">
-							<button type='button' id='decrement-carouselBig-image' data-event-toggle='true' onMouseOver={changeSlideImage} onClick={changeSlideImage}><i className="fas fa-arrow-alt-circle-left"></i></button>
+							<button
+								type='button'
+								id='decrement-carouselBig-image'
+								data-event-toggle='true'
+								onClick={changeSlideImage}>
+								<i className="fas fa-arrow-alt-circle-left"></i>
+							</button>
 
-							<button type='button' id='increment-carouselBig-image' data-event-toggle='true' onMouseOver={changeSlideImage} onClick={changeSlideImage}><i className="fas fa-arrow-alt-circle-right"></i></button>
+							<button
+								type='button'
+								id='increment-carouselBig-image'
+								data-event-toggle='true'
+								onClick={changeSlideImage}>
+								<i className="fas fa-arrow-alt-circle-right"></i>
+							</button>
 						</div>
 
 					</div>
@@ -244,7 +357,6 @@ const RoomCarouselBig = (props) => {
 									data-image-position={index}
 									data-event-toggle='true'
 									onClick={changeSlideImage}
-									onMouseOver={changeSlideImage}
 								>
 								</div>
 							))
@@ -261,13 +373,9 @@ const RoomCarouselBig = (props) => {
 RoomCarouselBig.propTypes = {
 	room: PropTypes.object.isRequired,
 	carouselState: PropTypes.object.isRequired,
-	decrementImagePos: PropTypes.func.isRequired,
-	incrementImagePos: PropTypes.func.isRequired,
 	displayCarouselBig: PropTypes.func.isRequired,
 	setImagePos: PropTypes.func.isRequired,
-	carouselBigVisible: PropTypes.bool.isRequired,
-	setLeftImage: PropTypes.func.isRequired,
-	setRightImage: PropTypes.func.isRequired
+	carouselBigVisible: PropTypes.bool.isRequired
 }
 
 export default RoomCarouselBig;
