@@ -38,8 +38,10 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 		hotelDestination_alert
 	} = useContext(FormContext);
 
+	const { location } = useContext(GlobalContext);
+
 	return (
-		<div className='form-container'>
+		<div className={!hotels || location !== '/hotels' ? 'form-container' : 'form-container hotels'}>
 			{multiple && (
 				<div className="checkin-header" onClick={displayForm}>
 					<a data-checkin-type='flights' className={flightsForm_visible ? 'active-form' : ''}>Flights</a>
@@ -52,7 +54,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="flying_from">Flying from:</label>
-						<input type="text" id='flying_from' className='input-correct' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
+						<input type="text" id='flying_from' className='input-correct disabled-input' placeholder='Location' name='flying_from' onChange={handleChange} value={flying_from} />
 					</div>
 
 					<div className="form-box">
@@ -94,7 +96,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_destination">City or Country:</label>
-						<input type="text" id='hotel_destination' className='input-correct' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
+						<input type="text" id='hotel_destination' className='input-correct disabled-input' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
 
 						{hotelDestination_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>

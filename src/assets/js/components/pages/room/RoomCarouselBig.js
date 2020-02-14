@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormContext } from '../../../context/FormContext';
@@ -51,8 +51,6 @@ const RoomCarouselBig = (props) => {
 
 		function move(target) {
 
-			console.log('=====');
-
 			carouselState.imagesArray.forEach((image, index) => {
 
 				let imagePos = Math.round(parseFloat(image.style.transform.match(/[\d-?]/g, '').join('')));
@@ -80,10 +78,7 @@ const RoomCarouselBig = (props) => {
 						// Move the first image on the right side so we have an 'infinite slider'
 						if (index === 0) {
 
-							// image.style.transition = 'none';
 							image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-
-							console.log('ASDADA');
 
 							setTimeout(() => image.style.transition = '', 1);
 						}
@@ -113,14 +108,7 @@ const RoomCarouselBig = (props) => {
 
 							setTimeout(() => image.style.transition = '', 1);
 						}
-
 					}
-
-					// if (decrementCount === carouselState.imagesAvailable) {
-
-					// 	console.log(image);
-					// }
-
 				}
 
 				if (target.id.includes('increment')) {
@@ -228,12 +216,7 @@ const RoomCarouselBig = (props) => {
 
 							}, 1);
 						}
-
 					}
-
-
-					// console.log(incrementCount);
-
 				}
 
 				if (target.classList.contains('mini-slider-image')) {
@@ -507,6 +490,9 @@ const RoomCarouselBig = (props) => {
 							</button>
 						</div>
 
+						<div className="photo-count text-center">
+							<p>{carouselState.imageCount + 1} / {room.image !== undefined && room.image.roomReview.length}</p>
+						</div>
 					</div>
 
 					<div className="carousel-big-mini">

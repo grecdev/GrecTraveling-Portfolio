@@ -25,11 +25,11 @@ const App = lazy(() => import('./App'));
 ReactDOM.render(
 	<Router>
 		<GlobalContextProvider>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<div></div>}>
 				<FormContextProvider>
 					<App />
 				</FormContextProvider>
 			</Suspense>
-		</GlobalContextProvider>
+		</GlobalContextProvider >
 	</Router >
 	, document.getElementById('root'));

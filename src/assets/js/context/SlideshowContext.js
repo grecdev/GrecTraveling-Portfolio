@@ -17,6 +17,7 @@ export class SlideshowContextProvider extends Component {
 	static contextType = GlobalContext;
 
 	setPos = () => {
+
 		if (this.state.currentPos < this.state.images.length - 1) this.setState(prevState => ({ currentPos: prevState.currentPos + this.state.incrementPos }));
 		else this.setState({ currentPos: 0 });
 	}
@@ -24,7 +25,9 @@ export class SlideshowContextProvider extends Component {
 	changeSlideshow = value => this.setState({ currentPos: value });
 
 	disableSelection = () => {
+
 		document.querySelectorAll('.slideshow-btn').forEach(btn => {
+
 			btn.setAttribute('data-event-toggle', 'false');
 
 			setTimeout(() => btn.setAttribute('data-event-toggle', 'true'), this.state.transitionTime);

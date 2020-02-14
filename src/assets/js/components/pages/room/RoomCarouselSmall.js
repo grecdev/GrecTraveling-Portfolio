@@ -177,7 +177,7 @@ const RoomCarouselSmall = (props) => {
 				</div>
 
 				<div id="room-carousel-counter" className='text-center'>
-					<p>{carouselState.imageCount + 1} / 4</p>
+					<p>{carouselState.imageCount + 1} / {room.image !== undefined && room.image.roomReview.length}</p>
 				</div>
 			</div>
 

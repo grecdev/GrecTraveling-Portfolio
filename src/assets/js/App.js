@@ -39,7 +39,7 @@ export class App extends Component {
 					<Route exact strict path={'/contact'} component={ContactPage} />
 					<Route exact strict path={'/flights'} component={FlightsPage} />
 					<Route exact strict path={'/hotels'} component={HotelsPage} />
-					<Route exact strict path={'/hotel-room/:room'} component={RoomPage} />
+					<Route exact strict path={`/hotel-room/:room`} component={RoomPage} />
 
 					<Route component={NotFoundPage} />
 				</Switch>

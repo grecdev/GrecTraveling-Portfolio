@@ -11,6 +11,10 @@
 		z-index: 1;
 		@include flex(column, center, center);
 		
-		.form-container { background: $primary-dark }
+		.form-container {
+			background: $primary-dark;
+
+			&.hotels { width: 100% }
+		}
 	}
 }

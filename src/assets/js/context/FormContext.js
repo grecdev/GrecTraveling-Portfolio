@@ -6,7 +6,12 @@ import { GlobalContext } from './GlobalContext';
 
 export const FormContextProvider = (props) => {
 
-	const { outerClick, location, changePage } = useContext(GlobalContext);
+	const {
+		outerClick,
+		location,
+		changePage,
+		pageLoaded
+	} = useContext(GlobalContext);
 
 	// Sometimes we reset the entire form :)
 	const defaultFormState = {
@@ -146,8 +151,8 @@ export const FormContextProvider = (props) => {
 
 			if (regex.letters.test(target.value)) {
 
-				target.classList.add('input-correct');
 				target.classList.remove('wrong-validation');
+				target.classList.add('input-correct');
 
 				target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }));
 
@@ -160,15 +165,15 @@ export const FormContextProvider = (props) => {
 
 				setTimeout(() => {
 					document.querySelector('form[name="flights"]').classList.contains('display-none') && setRegexState(defaultRegexState);
-				}, 100);
+				}, 1);
 
 				e.target.id === 'flying_to' && setTimeout(() => {
-					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
-				}, 100);
+					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, flightsMultiple_alert: false }));
+				}, 2);
 
 				e.target.id === 'hotel_destination' && setTimeout(() => {
-					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, showRegexAlert: false }));
-				}, 100);
+					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, hotelsMultiple_alert: false }));
+				}, 2);
 			}
 		}
 
@@ -258,7 +263,7 @@ export const FormContextProvider = (props) => {
 				appliedFiltered_hotels: [],
 			}));
 
-			document.querySelectorAll('form input').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
+			document.querySelectorAll('form input:not(.disabled-input)').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
 		}
 	};
 
@@ -470,7 +475,7 @@ export const FormContextProvider = (props) => {
 		checkOutMonth = currentMonth;
 		checkOutYear = currentYear;
 
-		function test(month, year, type) {
+		function change(month, year, type) {
 
 			if (e.target.classList.contains('previous-month-day')) {
 
@@ -554,11 +559,14 @@ export const FormContextProvider = (props) => {
 			}
 		}
 
-		if (!e.target.classList.contains('table-row')) {
+		// Prevent multiple selection in table calendar
+		const multipleSelection = String(selectedDay).indexOf('.') !== -1;
 
-			if (formState.hotelCalendarCheckIn_visible || formState.flightCalendarCheckIn_visible) test(checkInMonth, checkInYear, 'checkin');
+		if (!e.target.classList.contains('table-row') && !multipleSelection) {
 
-			if (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible) test(checkOutMonth, checkOutYear, 'checkout')
+			if (formState.hotelCalendarCheckIn_visible || formState.flightCalendarCheckIn_visible) change(checkInMonth, checkInYear, 'checkin');
+
+			if (formState.hotelCalendarCheckOut_visible || formState.flightCalendarCheckOut_visible) change(checkOutMonth, checkOutYear, 'checkout')
 
 			// Is same as clicking on the input field, we need to toggle it on again
 			document.querySelectorAll('[data-menu-toggle]').forEach(input => input.setAttribute('data-menu-toggle', 'on'));
@@ -726,27 +734,6 @@ export const FormContextProvider = (props) => {
 				}
 			));
 		};
-
-		// Prevent multiple selection in table calendar
-		String(formState.checkIn_day).indexOf('.') !== -1 && setFormState(formState => (
-			{
-				...formState,
-				checkIn_date: '',
-				checkIn_day: undefined,
-				checkIn_month: undefined,
-				checkIn_year: undefined
-			}
-		));
-
-		String(formState.checkOut_day).indexOf('.') !== -1 && setFormState(formState => (
-			{
-				...formState,
-				checkOut_date: '',
-				checkOut_day: undefined,
-				checkOut_month: undefined,
-				checkOut_year: undefined
-			}
-		));
 	};
 
 	const filterSearch = e => {
@@ -803,6 +790,8 @@ export const FormContextProvider = (props) => {
 						defaultFiltered_flights: flightsDb,
 						appliedFiltered_flights: flightsDb
 					}));
+
+					setRegexState(defaultRegexState);
 
 				} else {
 
@@ -861,6 +850,8 @@ export const FormContextProvider = (props) => {
 						defaultFiltered_hotels: hotelsDb,
 						appliedFiltered_hotels: hotelsDb
 					}));
+
+					setRegexState(defaultRegexState);
 
 				} else {
 
@@ -996,6 +987,8 @@ export const FormContextProvider = (props) => {
 
 		if (location === '/' || location === '/flights') {
 
+			if (location === '/flights' && database.defaultFiltered_flights.length === 0) setFormState(defaultFormState);
+
 			setFormState(formState => ({
 				...formState,
 				flightsForm_visible: true,
@@ -1003,13 +996,25 @@ export const FormContextProvider = (props) => {
 			}));
 		}
 
-		location === '/hotels' && setFormState(formState => ({
-			...formState,
-			flightsForm_visible: false,
-			hotelsForm_visible: true
-		}));
+		if (location === '/hotels' && database.defaultFiltered_hotels.length === 0) {
+
+			setFormState(defaultFormState);
+
+			setFormState(formState => ({
+				...formState,
+				flightsForm_visible: false,
+				hotelsForm_visible: true
+			}));
+		}
 
 	}, [location]);
+
+	useEffect(() => {
+
+		// If we refresh the hotel room page
+		if (pageLoaded && location.includes('hotel-room') && database.appliedFiltered_hotels.length === 0) changePage('/hotels');
+
+	}, [pageLoaded, location]);
 
 	return (
 		<FormContext.Provider value={{

@@ -33,7 +33,7 @@ class GlobalContextProvider extends Component {
 	headerFixed = () => {
 		const pos = window.pageYOffset;
 
-		if (this.state.location === '/') {
+		if (this.props.location.pathname === '/') {
 			pos > 1 ? document.querySelector('header').classList.add('header-fixed') : document.querySelector('header').classList.remove('header-fixed');
 		}
 
@@ -123,6 +123,8 @@ class GlobalContextProvider extends Component {
 
 		this.removeTransitions();
 		this.hidePreloader();
+
+		this.setState({ pageLoaded: true });
 	}
 
 	componentDidMount() {
@@ -162,7 +164,7 @@ class GlobalContextProvider extends Component {
 
 	render() {
 
-		const { getImage, headerFixed, resetOuterClick, changePage, test } = this;
+		const { getImage, headerFixed, resetOuterClick, changePage } = this;
 
 		return (
 			<GlobalContext.Provider value={{

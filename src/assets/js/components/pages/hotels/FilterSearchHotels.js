@@ -164,7 +164,7 @@ const FilterSearchHotels = () => {
 
 			setFilterState(filterState => ({ ...filterState, roomPrice: undefined }));
 
-			setRangePrice(getMaxPrice());
+			setRangePrice(maxPrice);
 		}
 
 		if (resetType === 'room-feedback') {
@@ -200,6 +200,8 @@ const FilterSearchHotels = () => {
 		if (resetType === 'clear-all') {
 
 			clearFiltersMultiple();
+
+			setRangePrice(maxPrice);
 		}
 
 		e.stopPropagation();
@@ -209,8 +211,6 @@ const FilterSearchHotels = () => {
 	const clearFiltersMultiple = () => {
 
 		setFilterState(defaultFilterState);
-
-		setRangePrice(getMaxPrice());
 
 		document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
 		document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
@@ -272,6 +272,8 @@ const FilterSearchHotels = () => {
 
 	useEffect(() => {
 
+		setRangePrice(getMaxPrice());
+
 		clearFiltersMultiple();
 
 	}, [defaultFiltered_hotels]);
@@ -281,7 +283,7 @@ const FilterSearchHotels = () => {
 
 			<div className="filter-search-box">
 				<div className="filter-search-header">
-					<p>{appliedFiltered_hotels.length} hotel {appliedFiltered_hotels.length === 1 ? 'room' : 'rooms'} found</p>
+					<p>{appliedFiltered_hotels.length} {appliedFiltered_hotels.length === 1 ? 'room' : 'rooms'} found</p>
 				</div>
 			</div>
 
