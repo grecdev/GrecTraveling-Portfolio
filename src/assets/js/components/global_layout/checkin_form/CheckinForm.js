@@ -30,7 +30,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 		displayForm,
 		showCalendar,
 		showPeopleSelection,
-		filterSearch,
+		submitForm,
 		regexValidation,
 		flightsMultiple_alert,
 		hotelsMultiple_alert,
@@ -49,8 +49,8 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 				</div>
 			)}
 
-			{flights && flightsForm_visible ? (
-				<form name='flights' className='p-1 checkin-form' onSubmit={filterSearch} onKeyDown={filterSearch}>
+			{flights ? (
+				<form name='flights' className={flightsForm_visible ? 'p-1 checkin-form' : 'p-1 checkin-form display-none'} onSubmit={submitForm} onKeyDown={submitForm}>
 
 					<div className="form-box">
 						<label htmlFor="flying_from">Flying from:</label>
@@ -91,8 +91,8 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 				</form>
 			) : null}
 
-			{hotels && hotelsForm_visible ? (
-				<form name='hotels' className='p-1 checkin-form' onSubmit={filterSearch}>
+			{hotels ? (
+				<form name='hotels' className={hotelsForm_visible ? 'p-1 checkin-form' : 'p-1 checkin-form display-none'} onSubmit={submitForm}>
 
 					<div className="form-box">
 						<label htmlFor="hotel_destination">City or Country:</label>

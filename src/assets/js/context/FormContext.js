@@ -52,7 +52,10 @@ export const FormContextProvider = (props) => {
 		flyingTo_alert: false,
 		hotelDestination_alert: false,
 		alertRemove: 2000,
-		formChanged: false
+		namePlaceholder: 'Full Name',
+		emailPlaceholder: 'Email Address',
+		messagePlaceholder: 'Your message',
+		placeholderError: 'At least 3 characters required'
 	}
 
 	const [regexState, setRegexState] = useState(defaultRegexState);
@@ -158,22 +161,39 @@ export const FormContextProvider = (props) => {
 
 				target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
 
+				if (e.target.hasAttribute('placeholder')) {
+
+					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, namePlaceholder: 'Full Name' }));
+					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, emailPlaceholder: 'Email Address' }));
+					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, messagePlaceholder: 'Your message' }));
+
+				}
+
 			} else {
 
 				target.classList.remove('input-correct');
 				target.classList.add('wrong-validation');
 
-				setTimeout(() => {
-					document.querySelector('form[name="flights"]').classList.contains('display-none') && setRegexState(defaultRegexState);
-				}, 1);
+				document.body.contains(document.querySelector('form[name="flights"]')) && setTimeout(() => {
+
+					if (document.querySelector('form[name="flights"]').classList.contains('display-none')) setRegexState(defaultRegexState);
+				}, 100);
 
 				e.target.id === 'flying_to' && setTimeout(() => {
 					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, flightsMultiple_alert: false }));
-				}, 2);
+				}, 100);
 
 				e.target.id === 'hotel_destination' && setTimeout(() => {
 					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, hotelsMultiple_alert: false }));
-				}, 2);
+				}, 100);
+
+				if (e.target.hasAttribute('placeholder')) {
+
+					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, namePlaceholder: regexState.placeholderError }));
+					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, emailPlaceholder: regexState.placeholderError }));
+					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, messagePlaceholder: regexState.placeholderError }));
+
+				}
 			}
 		}
 
@@ -241,6 +261,8 @@ export const FormContextProvider = (props) => {
 
 			setFormState(defaultFormState);
 
+			// setTimeout(() => setFormState(formState => ({ ...formState, formChanged: false })), 1000);
+
 			formType === 'flights' && setFormState(formState => ({
 				...formState,
 				flightsForm_visible: true,
@@ -254,6 +276,8 @@ export const FormContextProvider = (props) => {
 			}));
 
 			setRegexState(defaultRegexState);
+
+			setRegexState(regexState => ({ ...regexState, formChanged: true }));
 
 			setDatabase(database => ({
 				...database,
@@ -736,7 +760,7 @@ export const FormContextProvider = (props) => {
 		};
 	};
 
-	const filterSearch = e => {
+	const submitForm = e => {
 
 		const regex = {
 			letters: /^[aA-zZ ]{3,}$/g
@@ -803,7 +827,7 @@ export const FormContextProvider = (props) => {
 					document.querySelectorAll('form[name="flights"] input').forEach(input => {
 						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 
-						!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+						setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
 					});
 
 					target.style.borderColor = '#e2076a';
@@ -861,13 +885,40 @@ export const FormContextProvider = (props) => {
 					setTimeout(() => setRegexState(regexState => ({ ...regexState, hotelsMultiple_alert: false })), regexState.alertRemove);
 
 					document.querySelectorAll('form[name="hotels"] input').forEach(input => {
-						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 
-						!input.classList.contains('wrong-validation') && setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 					});
 
 					target.style.borderColor = '#e2076a';
 					setTimeout(() => target.style = '', regexState.alertRemove);
+
+					formSubmitted = false;
+				}
+			}
+
+			if (target.getAttribute('name') === 'contact-us') {
+
+				if (document.querySelectorAll('form[name="contact-us"] input').length === document.querySelectorAll('form[name="contact-us"] input.input-correct').length) {
+
+					formSubmitted = true;
+
+					setRegexState(defaultRegexState);
+
+				} else {
+
+					document.querySelectorAll('form[name="contact-us"] input').forEach(input => {
+
+						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
+					});
+
+					document.querySelector('form[name="contact-us"] textarea').classList.add('wrong-validation');
+
+					setRegexState(regexState => ({
+						...regexState,
+						namePlaceholder: regexState.placeholderError,
+						emailPlaceholder: regexState.placeholderError,
+						messagePlaceholder: regexState.placeholderError
+					}));
 
 					formSubmitted = false;
 				}
@@ -1030,7 +1081,7 @@ export const FormContextProvider = (props) => {
 			changeMonth,
 			showPeopleSelection,
 			selectPeople,
-			filterSearch,
+			submitForm,
 			setFilteredDatabase,
 			enableLoading,
 			regexValidation

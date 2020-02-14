@@ -1,10 +1,18 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
-import {FormContext} from '../../../context/FormContext';
+import { FormContext } from '../../../context/FormContext';
 
 const ContactForm = () => {
 
-	const {regexValidation} = useContext(FormContext);
+	const {
+		regexValidation,
+		namePlaceholder,
+		emailPlaceholder,
+		messagePlaceholder,
+		submitForm
+	} = useContext(FormContext);
+
+	// console.log(placeholder);
 
 	return (
 		<section id='contact-us' className='bg-parallax overlay overlay-dark'>
@@ -20,14 +28,14 @@ const ContactForm = () => {
 					</ul>
 				</div>
 
-				<form name='contact-us' className='p-3'>
+				<form name='contact-us' className='p-3' onSubmit={submitForm}>
 					<div className="form-box mb-2">
-						<input id='full-name' type="text" placeholder='Full Name' name='full-name' onBlur={regexValidation}/>
-						<input id='email' type="text" placeholder='Email' name='email' onBlur={regexValidation}/>
+						<input id='full-name' type="text" placeholder={namePlaceholder} name='full-name' onBlur={regexValidation} />
+						<input id='email' type="text" placeholder={emailPlaceholder} name='email' onBlur={regexValidation} />
 					</div>
 
 					<div className="form-box mb-2">
-						<textarea placeholder='Your message' id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
+						<textarea placeholder={messagePlaceholder} id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
 					</div>
 
 					<button className='btn btn-blue' type='submit'>Send Message</button>
