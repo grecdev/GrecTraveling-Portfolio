@@ -1,0 +1,17 @@
+#reset-scroll {
+	position: fixed;
+	bottom: 25px;
+	right: 40px;
+	font-size: 2rem;
+	z-index: 100;
+	background: lighten($primary-dark, 20%);
+	color: $primary-blue;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	@include flex(column, center, center);
+	cursor: pointer;
+	display: none;
+
+	&:hover { background: lighten($primary-dark, 30%) }
+}

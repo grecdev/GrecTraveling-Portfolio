@@ -1,7 +1,6 @@
 .form-container {
 	background: rgba($primary-dark, .7);
 	width: 70%;
-	
 	position: relative;
 	color: $primary-dark;
 
@@ -32,14 +31,10 @@
 		border-bottom: 3px solid darken($primary-blue, 10%);
 		transition: border-color 500ms ease-in-out, opacity 1s ease-in-out;
 
-		.regex-alert {
-			background: darken($primary-pink, 5%);
-			color: $primary-white;
-			position: absolute;
+		> .regex-alert {
 			top: 110%;
 			left: 0;
 			width: 100%;
-			border: 2px solid $primary-white;
 			z-index: -1;
 			padding: 1rem;
 		}
@@ -48,6 +43,46 @@
 			color: $primary-white;
 			font-size: 2rem;
 			cursor: pointer;
+		}
+
+		#tip {
+			position: absolute;
+			top: -10%;
+			right: -1.2%;
+
+			div.icon {
+				background: $primary-blue;
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				@include flex(column, center, center);
+				cursor: pointer;
+
+				&:hover + .tip-info { display: block }
+			}
+
+			.tip-info {
+				position: absolute;
+				top: -100px;
+				right: -110px;
+				background: rgba($primary-dark, .5);
+				color: $primary-white;
+				width: 250px;
+				border-radius: $border-radius-primary;
+				@include user-select;
+				display: none;
+
+				&::before {
+					content: '';
+					position: absolute;
+					bottom: -20px;
+					left: 50%;
+					transform: translateX(-50%);
+					border-width: 10px 10px 10px 10px;
+					border-color: rgba($primary-dark, .5) transparent transparent transparent;
+					border-style: solid;
+				}
+			}
 		}
 	}
 
@@ -83,8 +118,7 @@
 
 		.regex-alert {
 			top: 140%;
-			width: 140%;
-			padding: .5rem;
+			width: 170%;
 		}
 	}
 

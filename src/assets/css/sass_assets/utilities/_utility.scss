@@ -275,3 +275,14 @@ a, button, input, textarea {
 
 	&::placeholder { color: $primary-pink !important }
 }
+
+.regex-alert {
+	position: absolute !important;
+	background: darken($primary-pink, 5%);
+	color: $primary-white;
+	border: 2px solid $primary-white;
+	padding: .5rem;
+	z-index: 1;
+
+	&:hover { background: darken($primary-pink, 5%) }
+}

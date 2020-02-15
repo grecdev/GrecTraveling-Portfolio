@@ -11,6 +11,7 @@
 @import './sass_assets/global_layout/filter/filters_showcase';
 @import './sass_assets/global_layout/filter/filters_mainSection';
 @import './sass_assets/global_layout/preloader';
+@import './sass_assets/global_layout/reset_scroll';
 
 // Home page
 @import './sass_assets/home_page/showcase';
@@ -29,3 +30,6 @@
 // Hotels page
 @import './sass_assets/hotels_page/filter_itemsHotels';
 @import './sass_assets/hotels_page/hotel_room';
+
+// Not found page
+@import './sass_assets/notfound_page/notfound_page';

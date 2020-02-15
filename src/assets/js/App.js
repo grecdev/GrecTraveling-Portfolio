@@ -6,6 +6,7 @@ import { GlobalContext } from './context/GlobalContext';
 import Preloader from './components/global_layout/Preloader';
 import Footer from './components/global_layout/Footer';
 import Header from './components/global_layout/Header';
+import ResetScroll from './components/global_layout/ResetScroll';
 
 import HomePage from './components/pages/HomePage';
 import RoomPage from './components/pages/RoomPage';
@@ -43,6 +44,8 @@ export class App extends Component {
 
 					<Route component={NotFoundPage} />
 				</Switch>
+
+				<ResetScroll />
 				<Footer />
 			</>
 		)

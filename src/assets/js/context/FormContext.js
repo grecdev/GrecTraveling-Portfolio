@@ -4,6 +4,8 @@ export const FormContext = createContext();
 
 import { GlobalContext } from './GlobalContext';
 
+import jump from 'jump.js';
+
 export const FormContextProvider = (props) => {
 
 	const {
@@ -51,11 +53,10 @@ export const FormContextProvider = (props) => {
 		hotelsMultiple_alert: false,
 		flyingTo_alert: false,
 		hotelDestination_alert: false,
-		alertRemove: 2000,
-		namePlaceholder: 'Full Name',
-		emailPlaceholder: 'Email Address',
-		messagePlaceholder: 'Your message',
-		placeholderError: 'At least 3 characters required'
+		fullName_alert: false,
+		email_alert: false,
+		message_alert: false,
+		alertRemove: 2000
 	}
 
 	const [regexState, setRegexState] = useState(defaultRegexState);
@@ -145,7 +146,8 @@ export const FormContextProvider = (props) => {
 	const regexValidation = e => {
 
 		const regex = {
-			letters: /^[aA-zZ ]{3,}$/g
+			letters: /^[aA-zZ ]{3,}$/g,
+			email: /^[\S\w]+\@{1}(gmail|yahoo|hotmail|aol)\.(com|ro|co|co\.uk|fr)+$/gi,
 		}
 
 		const target = e.target;
@@ -161,44 +163,52 @@ export const FormContextProvider = (props) => {
 
 				target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
 
-				if (e.target.hasAttribute('placeholder')) {
-
-					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, namePlaceholder: 'Full Name' }));
-					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, emailPlaceholder: 'Email Address' }));
-					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, messagePlaceholder: 'Your message' }));
-
-				}
+				e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: false }));
+				e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: false }));
 
 			} else {
+
+				setRegexState(defaultRegexState);
 
 				target.classList.remove('input-correct');
 				target.classList.add('wrong-validation');
 
-				document.body.contains(document.querySelector('form[name="flights"]')) && setTimeout(() => {
-
-					if (document.querySelector('form[name="flights"]').classList.contains('display-none')) setRegexState(defaultRegexState);
-				}, 100);
-
 				e.target.id === 'flying_to' && setTimeout(() => {
 					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, flightsMultiple_alert: false }));
-				}, 100);
+				}, 50);
 
 				e.target.id === 'hotel_destination' && setTimeout(() => {
 					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, hotelsMultiple_alert: false }));
-				}, 100);
+				}, 50);
 
-				if (e.target.hasAttribute('placeholder')) {
+				e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: true }));
+				e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: true }));
 
-					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, namePlaceholder: regexState.placeholderError }));
-					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, emailPlaceholder: regexState.placeholderError }));
-					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, messagePlaceholder: regexState.placeholderError }));
+			}
 
+			if (e.target.classList.contains('email-input')) {
+
+				if (regex.email.test(target.value)) {
+
+					target.classList.remove('wrong-validation');
+					target.classList.add('input-correct');
+
+					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, email_alert: false }));
+
+				} else {
+
+					target.classList.remove('input-correct');
+					target.classList.add('wrong-validation');
+
+					e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, email_alert: true }));
 				}
 			}
+
 		}
 
 		if (e.type === 'keydown') {
 
+			// When pressing enter key on an input
 			if (e.which === 13) {
 
 				if (regex.letters.test(target.value)) {
@@ -261,8 +271,6 @@ export const FormContextProvider = (props) => {
 
 			setFormState(defaultFormState);
 
-			// setTimeout(() => setFormState(formState => ({ ...formState, formChanged: false })), 1000);
-
 			formType === 'flights' && setFormState(formState => ({
 				...formState,
 				flightsForm_visible: true,
@@ -287,7 +295,11 @@ export const FormContextProvider = (props) => {
 				appliedFiltered_hotels: [],
 			}));
 
-			document.querySelectorAll('form input:not(.disabled-input)').forEach(input => input.classList.remove('input-correct', 'wrong-validation'));
+			document.querySelectorAll('form input:not(.disabled-input)').forEach(input => {
+
+				if (input.id !== 'flight-passengers' && input.id !== 'hotel-people') input.classList.remove('input-correct', 'wrong-validation');
+
+			});
 		}
 	};
 
@@ -657,6 +669,11 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
+			jump(e.target, {
+				duration: 500,
+				offset: -300
+			});
+
 			closeFormMenus();
 
 			// So we have only 1 calendar displayed
@@ -682,6 +699,11 @@ export const FormContextProvider = (props) => {
 	const showPeopleSelection = e => {
 
 		if (e.target.dataset.menuToggle === 'on') {
+
+			jump(e.target, {
+				duration: 500,
+				offset: -300
+			});
 
 			closeFormMenus();
 
@@ -825,9 +847,8 @@ export const FormContextProvider = (props) => {
 					setTimeout(() => setRegexState(regexState => ({ ...regexState, flightsMultiple_alert: false })), regexState.alertRemove);
 
 					document.querySelectorAll('form[name="flights"] input').forEach(input => {
-						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 
-						setTimeout(() => input.classList.remove('wrong-validation'), regexState.alertRemove);
+						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 					});
 
 					target.style.borderColor = '#e2076a';
@@ -913,12 +934,17 @@ export const FormContextProvider = (props) => {
 
 					document.querySelector('form[name="contact-us"] textarea').classList.add('wrong-validation');
 
-					setRegexState(regexState => ({
-						...regexState,
-						namePlaceholder: regexState.placeholderError,
-						emailPlaceholder: regexState.placeholderError,
-						messagePlaceholder: regexState.placeholderError
-					}));
+					setRegexState(defaultRegexState);
+
+					const defaultValue = document.querySelector('form[name="contact-us"] > button').textContent;
+
+					document.querySelector('form[name="contact-us"] > button').classList.add('error');
+					document.querySelector('form[name="contact-us"] > button').textContent = 'All input fields are required';
+					setTimeout(() => {
+
+						document.querySelector('form[name="contact-us"] > button').classList.remove('error');
+						document.querySelector('form[name="contact-us"] > button').textContent = defaultValue;
+					}, 2000);
 
 					formSubmitted = false;
 				}

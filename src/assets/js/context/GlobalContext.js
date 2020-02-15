@@ -54,6 +54,16 @@ class GlobalContextProvider extends Component {
 		window.requestAnimationFrame(this.parallaxBackground);
 	}
 
+	showResetScroll = () => {
+
+		const pos = Math.floor(window.pageYOffset);
+
+		if (pos >= 550) document.getElementById('reset-scroll').classList.add('display-flex');
+		else document.getElementById('reset-scroll').classList.remove('display-flex');
+
+		window.requestAnimationFrame(this.showResetScroll);
+	}
+
 	contentLoadedEvent = e => {
 
 		// When we can't access some DOM elements
@@ -67,9 +77,12 @@ class GlobalContextProvider extends Component {
 	}
 
 	scrollEvent = e => {
+
 		this.headerFixed();
 
 		this.parallaxBackground();
+
+		this.showResetScroll();
 
 		e.stopPropagation();
 	}

@@ -8,6 +8,7 @@ import RegexAlert from '../RegexAlert';
 
 import Calendar from './Calendar';
 import PeopleSelection from './PeopleSelection';
+import SearchTip from './SearchTip';
 
 const CheckinForm = ({ flights, hotels, multiple }) => {
 
@@ -88,6 +89,8 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 					<button type='submit'><i className="fas fa-search"></i></button>
 
 					{flightsMultiple_alert && <RegexAlert text='All input fields are required' />}
+
+					{location === '/' && <SearchTip />}
 				</form>
 			) : null}
 
@@ -125,6 +128,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 					<button type='submit'><i className="fas fa-search"></i></button>
 
 					{hotelsMultiple_alert && <RegexAlert text='All input fields are required' />}
+					{location === '/' && <SearchTip />}
 				</form>
 			) : null}
 		</div>

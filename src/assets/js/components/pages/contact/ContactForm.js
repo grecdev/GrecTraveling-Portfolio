@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 
+import RegexAlert from '../../global_layout/RegexAlert';
+
 import { FormContext } from '../../../context/FormContext';
 
 const ContactForm = () => {
 
 	const {
 		regexValidation,
-		namePlaceholder,
-		emailPlaceholder,
-		messagePlaceholder,
+		fullName_alert,
+		email_alert,
+		message_alert,
 		submitForm
 	} = useContext(FormContext);
-
-	// console.log(placeholder);
 
 	return (
 		<section id='contact-us' className='bg-parallax overlay overlay-dark'>
@@ -30,12 +30,19 @@ const ContactForm = () => {
 
 				<form name='contact-us' className='p-3' onSubmit={submitForm}>
 					<div className="form-box mb-2">
-						<input id='full-name' type="text" placeholder={namePlaceholder} name='full-name' onBlur={regexValidation} />
-						<input id='email' type="text" placeholder={emailPlaceholder} name='email' onBlur={regexValidation} />
+						<div>
+							<input id='full-name' type="text" placeholder='Full Name' name='full-name' onBlur={regexValidation} />
+							{fullName_alert && <RegexAlert text='At least 3 characters required' />}
+						</div>
+						<div>
+							<input id='email' className='email-input' type="text" placeholder='Email Address' name='email' onBlur={regexValidation} />
+							{email_alert && <RegexAlert text='Invalid email address' />}
+						</div>
 					</div>
 
 					<div className="form-box mb-2">
-						<textarea placeholder={messagePlaceholder} id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
+						<textarea placeholder='Message' id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
+						{message_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>
 
 					<button className='btn btn-blue' type='submit'>Send Message</button>
