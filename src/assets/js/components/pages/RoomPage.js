@@ -138,27 +138,6 @@ const RoomPage = ({ match }) => {
 		return roomFeedback.join(' ');
 	}
 
-	const test = stars => {
-
-		let roomFeedback = [];
-		// const totalFeedback = 5;
-
-		const filledStar = '<i class="fas fa-star" ></i >';
-		// const emptyStar = '<i class="far fa-star"></i>';
-
-		// for (let i = 0; i < stars; i++) roomFeedback.push(filledStar);
-
-		// const remainingEmptyStars = totalFeedback - roomFeedback.length;
-
-		// for (let i = 1; i <= remainingEmptyStars; i++) roomFeedback.push(emptyStar);
-
-		// return roomFeedback.join(' ');
-
-		return filledStar;
-	}
-
-	// test(2);
-
 	useEffect(() => {
 
 		// Display the stars

@@ -65,7 +65,7 @@
 				position: absolute;
 				top: -100px;
 				right: -110px;
-				background: rgba($primary-dark, .5);
+				background: $primary-dark;
 				color: $primary-white;
 				width: 250px;
 				border-radius: $border-radius-primary;
@@ -79,7 +79,7 @@
 					left: 50%;
 					transform: translateX(-50%);
 					border-width: 10px 10px 10px 10px;
-					border-color: rgba($primary-dark, .5) transparent transparent transparent;
+					border-color: $primary-dark transparent transparent transparent;
 					border-style: solid;
 				}
 			}

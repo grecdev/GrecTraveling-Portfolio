@@ -2,6 +2,7 @@
 @import './sass_assets/utilities/variables';
 @import './sass_assets/utilities/mixins_extends';
 @import './sass_assets/utilities/utility';
+@import './sass_assets/utilities/utility_mobile';
 
 // Global Layout
 @import './sass_assets/global_layout/header';
@@ -12,6 +13,7 @@
 @import './sass_assets/global_layout/filter/filters_mainSection';
 @import './sass_assets/global_layout/preloader';
 @import './sass_assets/global_layout/reset_scroll';
+@import './sass_assets/global_layout/global_mobile';
 
 // Home page
 @import './sass_assets/home_page/showcase';
@@ -19,17 +21,21 @@
 @import './sass_assets/home_page/most_visited';
 @import './sass_assets/home_page/history';
 @import './sass_assets/home_page/city_breaks';
+@import './sass_assets/home_page/home_page_mobile';
 
 // Contact page
 @import './sass_assets/contact_page/contact_us';
 @import './sass_assets/contact_page/faq';
+@import './sass_assets/contact_page/contact_page_mobile';
 
 // Flights page
 @import './sass_assets/flights_page/filter_itemsFlights';
+@import './sass_assets/flights_page/flights_page_mobile';
 
 // Hotels page
 @import './sass_assets/hotels_page/filter_itemsHotels';
 @import './sass_assets/hotels_page/hotel_room';
+@import './sass_assets/hotels_page/hotels_page_mobile';
 
 // Not found page
 @import './sass_assets/notfound_page/notfound_page';

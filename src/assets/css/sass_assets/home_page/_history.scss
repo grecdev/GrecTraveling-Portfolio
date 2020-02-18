@@ -1,6 +1,8 @@
 #history {
 	@include flex(row, space-between, center);
-	
+	justify-content: center;
+
+		
 	.history-box {
 		@include flex(row, flex-start, center);
 

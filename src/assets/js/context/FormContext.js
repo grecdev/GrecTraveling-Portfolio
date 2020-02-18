@@ -12,7 +12,8 @@ export const FormContextProvider = (props) => {
 		outerClick,
 		location,
 		changePage,
-		pageLoaded
+		pageLoaded,
+		isMobile
 	} = useContext(GlobalContext);
 
 	// Sometimes we reset the entire form :)
@@ -146,7 +147,7 @@ export const FormContextProvider = (props) => {
 	const regexValidation = e => {
 
 		const regex = {
-			letters: /^[aA-zZ ]{3,}$/g,
+			letters: /^[aA-zZ -]{3,}$/g,
 			email: /^[\S\w]+\@{1}(gmail|yahoo|hotmail|aol)\.(com|ro|co|co\.uk|fr)+$/gi,
 		}
 
@@ -154,7 +155,7 @@ export const FormContextProvider = (props) => {
 
 		if (e.type === 'blur') {
 
-			if (regex.letters.test(target.value)) {
+			if (regex.letters.test(target.value.replace(/\n/g, ''))) {
 
 				target.classList.remove('wrong-validation');
 				target.classList.add('input-correct');
@@ -164,6 +165,7 @@ export const FormContextProvider = (props) => {
 				target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
 
 				e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: false }));
+
 				e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: false }));
 
 			} else {
@@ -174,16 +176,18 @@ export const FormContextProvider = (props) => {
 				target.classList.add('wrong-validation');
 
 				e.target.id === 'flying_to' && setTimeout(() => {
+
 					setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, flightsMultiple_alert: false }));
 				}, 50);
 
 				e.target.id === 'hotel_destination' && setTimeout(() => {
+
 					setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, hotelsMultiple_alert: false }));
 				}, 50);
 
 				e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: true }));
-				e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: true }));
 
+				e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: true }));
 			}
 
 			if (e.target.classList.contains('email-input')) {
@@ -211,14 +215,18 @@ export const FormContextProvider = (props) => {
 			// When pressing enter key on an input
 			if (e.which === 13) {
 
-				if (regex.letters.test(target.value)) {
+				if (regex.letters.test(target.value.replace(/\n/g, ''))) {
 
-					target.classList.add('input-correct');
 					target.classList.remove('wrong-validation');
+					target.classList.add('input-correct');
 
 					target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: false }));
 
 					target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: false }));
+
+					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: false }));
+
+					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: false }));
 
 				} else {
 
@@ -228,6 +236,28 @@ export const FormContextProvider = (props) => {
 					target.id === 'flying_to' && setRegexState(regexState => ({ ...regexState, flyingTo_alert: true, showRegexAlert: false }));
 
 					target.id === 'hotel_destination' && setRegexState(regexState => ({ ...regexState, hotelDestination_alert: true, showRegexAlert: false }));
+
+					e.target.id === 'full-name' && setRegexState(regexState => ({ ...regexState, fullName_alert: true }));
+
+					e.target.id === 'message' && setRegexState(regexState => ({ ...regexState, message_alert: true }));
+				}
+
+				if (e.target.classList.contains('email-input')) {
+
+					if (regex.email.test(target.value)) {
+
+						target.classList.remove('wrong-validation');
+						target.classList.add('input-correct');
+
+						e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, email_alert: false }));
+
+					} else {
+
+						target.classList.remove('input-correct');
+						target.classList.add('wrong-validation');
+
+						e.target.id === 'email' && setRegexState(regexState => ({ ...regexState, email_alert: true }));
+					}
 				}
 			}
 
@@ -669,10 +699,13 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
-			jump(e.target, {
-				duration: 500,
-				offset: -300
-			});
+			if (!isMobile()) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: -300
+				});
+			}
 
 			closeFormMenus();
 
@@ -700,10 +733,13 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
-			jump(e.target, {
-				duration: 500,
-				offset: -300
-			});
+			if (!isMobile()) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: -300
+				});
+			}
 
 			closeFormMenus();
 
@@ -770,6 +806,17 @@ export const FormContextProvider = (props) => {
 		// Reset if checkin day / month / year is above checkout day / month / year
 		if ((formState.checkIn_day > formState.checkOut_day && formState.checkIn_month >= formState.checkOut_month && formState.checkIn_year === formState.checkOut_year) || (formState.checkIn_day < formState.checkOut_day && formState.checkIn_month > formState.checkOut_month && formState.checkIn_year >= formState.checkOut_year) || formState.checkIn_year > formState.checkOut_year) {
 
+			if (document.body.contains(document.querySelector('form[name="flights"]'))) {
+
+				!document.querySelector('form[name="flights"]').classList.contains('display-none') && document.getElementById('returning-checkout').classList.remove('input-correct');
+			}
+
+			if (document.body.contains(document.querySelector('form[name="hotels"]'))) {
+
+				!document.querySelector('form[name="hotels"]').classList.contains('display-none') && document.getElementById('hotel-checkout').classList.remove('input-correct');
+			}
+
+
 			setFormState(formState => (
 				{
 					...formState,
@@ -785,7 +832,7 @@ export const FormContextProvider = (props) => {
 	const submitForm = e => {
 
 		const regex = {
-			letters: /^[aA-zZ ]{3,}$/g
+			letters: /^[aA-zZ -]{3,}$/g
 		}
 
 		let flightsDb = [...database.flights_db];
@@ -919,27 +966,22 @@ export const FormContextProvider = (props) => {
 
 			if (target.getAttribute('name') === 'contact-us') {
 
-				if (document.querySelectorAll('form[name="contact-us"] input').length === document.querySelectorAll('form[name="contact-us"] input.input-correct').length) {
+				if (document.querySelectorAll('form[name="contact-us"] .input-field').length === document.querySelectorAll('form[name="contact-us"] .input-correct').length) {
 
 					formSubmitted = true;
 
-					setRegexState(defaultRegexState);
-
 				} else {
 
-					document.querySelectorAll('form[name="contact-us"] input').forEach(input => {
+					document.querySelectorAll('form[name="contact-us"] .input-field').forEach(input => {
 
 						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 					});
-
-					document.querySelector('form[name="contact-us"] textarea').classList.add('wrong-validation');
-
-					setRegexState(defaultRegexState);
 
 					const defaultValue = document.querySelector('form[name="contact-us"] > button').textContent;
 
 					document.querySelector('form[name="contact-us"] > button').classList.add('error');
 					document.querySelector('form[name="contact-us"] > button').textContent = 'All input fields are required';
+
 					setTimeout(() => {
 
 						document.querySelector('form[name="contact-us"] > button').classList.remove('error');

@@ -27,13 +27,23 @@ class GlobalContextProvider extends Component {
 	// Remove the unwanted page load transitions for animated elements
 	removeTransitions = () => document.body.classList.remove('remove-transitions');
 
+	// To check for mobile devices
+	isMobile = () => {
+
+		const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+
+		return mobileDevices.test(navigator.userAgent);
+	}
+
+
+
 	// For react-router-dom version ^4
 	changePage = page => this.props.history.push(page);
 
 	headerFixed = () => {
 		const pos = window.pageYOffset;
 
-		if (this.props.location.pathname === '/') {
+		if (this.props.location.pathname === '/' && !this.isMobile()) {
 			pos > 1 ? document.querySelector('header').classList.add('header-fixed') : document.querySelector('header').classList.remove('header-fixed');
 		}
 
@@ -46,8 +56,16 @@ class GlobalContextProvider extends Component {
 
 		document.querySelectorAll('.bg-parallax').forEach(bg => {
 
-			if (bg.classList.contains('faq-image')) bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
-			if (bg.id.includes('contact-us')) bg.style.backgroundPositionY = `${(pos * 0.3)}px`;
+			if (bg.classList.contains('faq-image')) {
+
+				bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
+			}
+
+
+			if (bg.id.includes('contact-us')) {
+
+				bg.style.backgroundPositionY = `${(pos * 0.3)}px`;
+			}
 
 		});
 
@@ -69,7 +87,7 @@ class GlobalContextProvider extends Component {
 		// When we can't access some DOM elements
 		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: !prevState.documentLoaded }));
 
-		this.parallaxBackground();
+		!this.isMobile() && this.parallaxBackground();
 
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 
@@ -80,7 +98,7 @@ class GlobalContextProvider extends Component {
 
 		this.headerFixed();
 
-		this.parallaxBackground();
+		!this.isMobile() && this.parallaxBackground();
 
 		this.showResetScroll();
 
@@ -177,7 +195,7 @@ class GlobalContextProvider extends Component {
 
 	render() {
 
-		const { getImage, headerFixed, resetOuterClick, changePage } = this;
+		const { getImage, headerFixed, resetOuterClick, changePage, isMobile } = this;
 
 		return (
 			<GlobalContext.Provider value={{
@@ -185,7 +203,8 @@ class GlobalContextProvider extends Component {
 				getImage,
 				headerFixed,
 				resetOuterClick,
-				changePage
+				changePage,
+				isMobile
 			}}>
 				{this.props.children}
 			</GlobalContext.Provider>

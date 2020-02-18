@@ -31,17 +31,17 @@ const ContactForm = () => {
 				<form name='contact-us' className='p-3' onSubmit={submitForm}>
 					<div className="form-box mb-2">
 						<div>
-							<input id='full-name' type="text" placeholder='Full Name' name='full-name' onBlur={regexValidation} />
+							<input id='full-name' type="text" className='input-field' placeholder='Full Name' name='full-name' onBlur={regexValidation} onKeyDown={regexValidation} />
 							{fullName_alert && <RegexAlert text='At least 3 characters required' />}
 						</div>
 						<div>
-							<input id='email' className='email-input' type="text" placeholder='Email Address' name='email' onBlur={regexValidation} />
+							<input id='email' className='email-input input-field' type="text" placeholder='Email Address' name='email' onBlur={regexValidation} onKeyDown={regexValidation} />
 							{email_alert && <RegexAlert text='Invalid email address' />}
 						</div>
 					</div>
 
 					<div className="form-box mb-2">
-						<textarea placeholder='Message' id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation}></textarea>
+						<textarea placeholder='Message' className='input-field' id='message' name="message" id="message" cols="30" rows="10" onBlur={regexValidation} onKeyDown={regexValidation}></textarea>
 						{message_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>
 

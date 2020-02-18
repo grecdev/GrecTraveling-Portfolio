@@ -1,0 +1,87 @@
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+	
+	#reset-scroll {
+		bottom: 65px;
+		right: 20px;
+		width: 35px;
+		height: 35px;
+		font-size: 1.5rem;
+	}
+}
+
+/* ----------- iPad Pro ----------- */
+/* Landscape */
+@media only screen 
+  and (min-width: 1024px) 
+  and (max-height: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+
+		#reset-scroll {
+			bottom: 65px;
+			right: 20px;
+			width: 35px;
+			height: 35px;
+			font-size: 1.5rem;
+		}
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  #filters-main-section #filter-search-section { width: 25% }
+
+	#filters-main-section #filter-items-wrapper { width: 73% }
+  
+	#filters-main-section #filter-search-section .filter-search-box .filter-search-header h3 { font-size: .8rem }
+	
+	#reset-scroll {
+		bottom: 65px;
+		right: 20px;
+		width: 35px;
+		height: 35px;
+		font-size: 1.5rem;
+	}
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  //CSS
+  
+}

@@ -138,12 +138,14 @@
 		
 			label {
 				@include flex(row, flex-start, center);
-				cursor: pointer;
 				padding: .3rem 0 .3rem .3rem;
 				position: relative;
 				@include user-select;
 		
-				&:not([for="ticket-price"]):hover { background: rgb(240, 240, 240) }
+				&:not(.disabled-label):hover {
+					background: rgb(240, 240, 240);
+					cursor: pointer;
+				}
 
 				i {
 					color: $primary-yellow;

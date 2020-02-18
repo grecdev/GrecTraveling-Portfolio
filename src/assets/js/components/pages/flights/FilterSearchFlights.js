@@ -316,7 +316,8 @@ const FilterSearchFlights = () => {
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Total Ticket Price</h3>
-					{filterState.ticketPrice && <a aria-label='button' data-reset-filter='ticketPrice' onClick={clearFilters}>Clear</a>}
+
+					{filterState.ticketPrice < maxPrice && <a aria-label='button' data-reset-filter='ticketPrice' onClick={clearFilters}>Clear</a>}
 
 					<a aria-label='button' onClick={toggleFilterMenu} data-event-toggle='true'><i className="fas fa-chevron-up"></i></a>
 				</div>
@@ -324,7 +325,7 @@ const FilterSearchFlights = () => {
 				<div className="filter-search-container">
 					<div className="filter-search-inputs">
 						<input className='mr-1 py-1' id='ticket-price' name='ticket-price' type='range' min={minPrice} max={maxPrice} value={rangePrice} onChange={applyFilter} />
-						<label htmlFor='ticket-price'>$ {rangePrice}</label>
+						<label className='disabled-label' htmlFor='ticket-price'>$ {rangePrice}</label>
 					</div>
 				</div>
 			</div>

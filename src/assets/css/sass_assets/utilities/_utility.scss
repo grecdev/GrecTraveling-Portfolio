@@ -109,11 +109,6 @@ a, button, input, textarea {
 		&::before { left: -250% }
 		&::after { right: -250% }
 	}
-	
-	p {
-		font-size: 1.1rem;
-		font-style: italic;
-	}
 }
 
 /** Spacing **/
@@ -205,7 +200,7 @@ a, button, input, textarea {
 .text-right { text-align: right !important }
 
 /* Spacing */
-.header-spacing { padding-top: 61px }
+.header-spacing { padding-top: 3.5rem }
 
 /** Overlay effect **/
 .overlay {

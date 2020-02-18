@@ -448,7 +448,7 @@ const FilterSearchHotels = () => {
 
 				<div className="filter-search-header">
 					<h3 className='heading mr-1'>Price per night</h3>
-					{filterState.roomPrice && <a aria-label='button' data-reset-filter='room-price' onClick={clearFiltersIndividual}>Clear</a>}
+					{filterState.roomPrice < maxPrice && <a aria-label='button' data-reset-filter='room-price' onClick={clearFiltersIndividual}>Clear</a>}
 
 					<a aria-label='button' onClick={toggleFilterMenu} data-event-toggle='true'><i className="fas fa-chevron-up"></i></a>
 				</div>
@@ -456,7 +456,7 @@ const FilterSearchHotels = () => {
 				<div className="filter-search-container">
 					<div className="filter-search-inputs">
 						<input className='mr-1 py-1' id='room-price' name='room-price' type='range' min={minPrice} max={maxPrice} value={rangePrice} onChange={applyFilter} />
-						<label htmlFor='room-price'>$ {rangePrice}</label>
+						<label className='disabled-label' htmlFor='room-price'>$ {rangePrice}</label>
 					</div>
 				</div>
 			</div>

@@ -7,9 +7,10 @@ import FilterSearchHotels from '../../pages/hotels/FilterSearchHotels';
 const FilterSearch = ({ flights, hotels }) => {
 	return (
 		<aside id='filter-search-section' className='px-1'>
-			{flights && <FilterSearchFlights />}
 
+			{flights && <FilterSearchFlights />}
 			{hotels && <FilterSearchHotels />}
+
 		</aside>
 	)
 }

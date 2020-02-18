@@ -1,0 +1,242 @@
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+	#showcase .showcase-container .showcase-info { margin: 19rem 0 6rem }
+
+	.form-container {
+
+		.people-selection {
+			left: 50%;
+			transform: translateX(-50%);
+
+			&::before {
+				top: -16px;
+    		left: 180px;
+			}
+		}
+
+		.checkin-header { top: -55% }
+
+		form #tip {
+			top: -17%;
+    	right: -2.2%;
+
+			.tip-info {
+				top: -90px;
+		
+				&::before { bottom: -19px }
+			}
+		}
+	}
+
+	#most-visited .most-visited-container {
+
+		.one { grid-row: 1 }
+		.four { grid-row: 3 }
+		
+		.two,
+		.three { grid-row: 2 }
+
+		.two,
+		.three,
+		.five,
+		.six { height: 400px }
+
+		.one,
+		.four,
+		.seven {grid-column: 1 / -1 }
+
+		.two,
+		.five { grid-column: 1 / 4 }
+
+		.three,
+		.six { grid-column: 4 / -1 }
+	}
+
+	#history {
+		flex-wrap: wrap;
+		
+		.history-box { margin: 1.5rem 0 }
+	}
+
+	#city-breaks {
+
+		.city-breaks-wrapper .city-breaks-box {
+			/* Total width - box footer */
+			height: calc(365px - 75px);
+
+			.city-breaks-info div:last-child p:last-child { font-size: 1.2rem }
+		}
+	}
+}
+
+/* ----------- iPad Pro ----------- */
+/* Landscape */
+@media only screen 
+  and (min-width: 1024px) 
+  and (max-height: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	#showcase .showcase-container {
+		justify-content: center;
+
+		.slideshow-buttons { top: 40% }
+		.showcase-info { margin: 0 0 6rem }
+	}
+
+	.form-container {
+		top: -1px;
+		width: 90%;
+
+		.people-selection {
+			left: 50%;
+			transform: translateX(-50%);
+
+			&::before {
+				top: -16px;
+				left: 180px;
+			}
+		}
+
+		.checkin-header { top: -53.5% }
+
+		form #tip {
+			top: -10%;
+    	right: -1.2%;
+
+			.tip-info {
+				top: -105px;
+				right: 0;
+		
+				&::before { 
+					bottom: -19px;
+					left: 94%;
+					}
+			}
+		}
+	}
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  #showcase .showcase-container {
+		justify-content: center;
+
+		.slideshow-buttons { top: 40% }
+		.showcase-info { margin: 0 0 6rem }
+	}
+
+	.form-container {
+		width: 90%;
+
+		.people-selection {
+			left: 50%;
+			transform: translateX(-50%);
+
+			&::before {
+				top: -16px;
+    		left: 180px;
+			}
+		}
+
+		.checkin-header { top: -55.55% }
+
+		form #tip {
+			top: -17%;
+    	right: -2.2%;
+
+			.tip-info {
+				top: -105px;
+				right: -10px;
+		
+				&::before { 
+					bottom: -19px;
+					left: 90%;
+				 }
+			}
+		}
+	}
+
+	#most-visited .most-visited-container {
+
+		.one { grid-row: 1 }
+		.four { grid-row: 3 }
+		
+		.two,
+		.three { grid-row: 2 }
+
+		.two,
+		.three,
+		.five,
+		.six { height: 400px }
+
+		.one,
+		.four,
+		.seven {grid-column: 1 / -1 }
+
+		.two,
+		.five { grid-column: 1 / 4 }
+
+		.three,
+		.six { grid-column: 4 / -1 }
+	}
+
+	#history {
+		flex-wrap: wrap;
+		
+		.history-box { margin: 1.5rem 0 }
+	}
+
+	#city-breaks {
+
+		.city-breaks-wrapper .city-breaks-box {
+			/* Total width - box footer */
+			height: calc(365px - 75px);
+
+			.city-breaks-info div:last-child p:last-child { font-size: 1.2rem }
+		}
+	}
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  //CSS
+  
+}

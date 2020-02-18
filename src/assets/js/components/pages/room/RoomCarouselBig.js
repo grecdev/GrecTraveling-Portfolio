@@ -252,7 +252,9 @@ const RoomCarouselBig = (props) => {
 
 									image.style.transition = 'none';
 									image.style.transform = `translateX(${carouselState.imageWidth}px)`;
-									image.style.transition = '';
+
+
+									setTimeout(() => image.style.transition = '', 100);
 
 								}, carouselState.changeTime);
 							}

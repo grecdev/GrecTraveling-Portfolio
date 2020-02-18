@@ -22,6 +22,7 @@ import GlobalContextProvider from './context/GlobalContext';
 const FormContextProvider = lazy(() => import('./context/FormContext'));
 const App = lazy(() => import('./App'));
 
+
 ReactDOM.render(
 	<Router>
 		<GlobalContextProvider>
