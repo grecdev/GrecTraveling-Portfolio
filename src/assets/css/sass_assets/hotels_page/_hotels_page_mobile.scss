@@ -9,11 +9,43 @@
   
 }
 
+/* ----------- iPad Pro ----------- */
+/* Portrait */
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) {
+
+	#room-carousel-big .carousel-big-wrapper .carousel-big-slider {
+		height: 100%;
+		width: 90%;
+
+		#carousel-big-buttons {
+
+			button#decrement-carouselBig-image { left: -5.5% }
+			button#increment-carouselBig-image { right: -5.5% }
+		}
+	}
+}
+
+/* Landscape */
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) {
+
+	#room-carousel-big .carousel-big-wrapper .carousel-big-slider {
+		height: 100%;
+		width: 90%;
+
+		.photo-count { right: 1.2% }
+
+		#carousel-big-buttons {
+
+			button#decrement-carouselBig-image { left: -5.5% }
+			button#increment-carouselBig-image { right: -5.5% }
+		}
+	}
+}
+
 /* 
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
 */
-
 @media (min-width: 768px) and (max-width: 1024px) {
   
   .filter-item-hotels {
@@ -25,30 +57,81 @@
 		}
 	}
 
-	#room-carousel-big .carousel-big-wrapper { justify-content: center }
-  
+	#room-carousel-big .carousel-big-wrapper {
+		justify-content: center;
+
+		.carousel-big-slider {
+			height: 100%;
+			width: 85%;
+	
+			#carousel-big-buttons {
+	
+				button#decrement-carouselBig-image { left: -7% }
+				button#increment-carouselBig-image { right: -8% }
+			}
+		}
+	}
+
+	#hotel-room #room-information .room-information-wrapper .room-information-box .room-information-content {
+		justify-content: flex-start;
+		
+		> div {
+			width: 48%;
+			margin: 1rem 0;	
+		}
+	}
 }
 
 /* 
   ##Device = Tablets, Ipads (landscape)
   ##Screen = B/w 768px to 1024px
 */
-
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   
-  //CSS
-  
+	#room-carousel-big .carousel-big-wrapper .carousel-big-slider .photo-count { right: 0 }
+
 }
 
 /* 
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
   ##Screen = B/w 481px to 767px
 */
-
 @media (min-width: 481px) and (max-width: 767px) {
-  
-  //CSS
-  
+	
+	.filter-item-hotels {
+		flex-wrap: wrap;
+
+		.hotel-item-price {
+			width: 100%;
+			margin-top: 1rem;
+		}
+	}
+
+	#room-carousel-big .carousel-big-wrapper {
+		justify-content: center;
+
+		.carousel-big-slider {
+			height: 100%;
+			width: 85%;
+	
+			#carousel-big-buttons {
+	
+				button#decrement-carouselBig-image { left: -7% }
+				button#increment-carouselBig-image { right: -8% }
+			}
+		}
+
+		.carousel-big-header .room-info > button { margin-left: 4rem }
+	}
+
+	#hotel-room #room-information .room-information-wrapper .room-information-box .room-information-content {
+		justify-content: flex-start;
+		
+		> div {
+			width: 48%;
+			margin: 1rem 0;	
+		}
+	}
 }
 
 /* 
@@ -58,6 +141,94 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   
-  //CSS
-  
+  .filter-item-hotels {
+		flex-wrap: wrap;
+		flex-direction: column;
+		
+		.hotel-image,
+		.hotel-item-content,
+		.hotel-item-price { width: 100% }
+
+		.hotel-item-content { margin: 1rem 0 }
+	}
+
+	#room-carousel-big {
+
+		.carousel-big-header {
+			@include flex(column, space-between, center);
+
+			.room-info {
+				margin-top: 2rem;
+
+				> button { margin: 0}
+			}
+
+			> div { width: 100% }
+		}
+
+		.carousel-big-wrapper {
+			justify-content: center;
+	
+			.carousel-big-slider {
+				height: 100%;
+				width: 100%;
+
+				.slider-container .slider-image {
+					left: 0;
+					margin: 0;
+				}
+
+				#carousel-big-buttons {
+
+					button {
+						background: #000;
+						width: 60px;
+						height: 60px;
+						border-radius: 50%;
+						@include flex(column, center, center);
+						font-size: 2rem;
+					}
+		
+					button#decrement-carouselBig-image { left: 0 }
+					button#increment-carouselBig-image { right: 0 }
+				}
+			}
+		}
+	}
+
+	#hotel-room #room-information .room-information-wrapper {
+
+		#room-preview .room-preview-wrapper {
+			@include flex(column, space-between, center);
+	
+			#room-carousel-wrapper,
+			>div:last-child { width: 100% }
+	
+			> div:last-child { margin-top: 1rem }
+		}
+
+		.room-information-box {
+			@include flex(column, space-between, center);
+	
+			.room-information-category,
+			.room-information-content {
+				width: 100%;
+				border: none !important;
+			}
+	
+			.room-information-content {
+				justify-content: flex-start;
+				
+				> div {
+					width: 48%;
+					margin: 1rem 0;	
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+
+	.filter-item-hotels .hotel-image { width: 40% }
 }

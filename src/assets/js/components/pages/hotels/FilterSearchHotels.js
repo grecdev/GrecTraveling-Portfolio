@@ -292,7 +292,7 @@ const FilterSearchHotels = () => {
 					<h3 className="heading">Filters</h3>
 					{
 
-						filterState.roomPrice ||
+						filterState.roomPrice < maxPrice ||
 							filterState.roomType.hotel ||
 							filterState.roomType.resort ||
 							filterState.roomType.suite ||

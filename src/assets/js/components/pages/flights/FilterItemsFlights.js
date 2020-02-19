@@ -88,7 +88,7 @@ const FilterItemsFlights = () => {
 
 				<div className="flight-item-price py-1">
 					<p className='price'><span>$</span> {item.price * peopleTotal}</p>
-					<p className='my-1'>Price for <span>{peopleTotal}</span> {peopleTotal > 1 ? 'passengers' : 'passenger'}</p>
+					<p className='my-1 text-center'>Price for <span>{peopleTotal}</span> {peopleTotal > 1 ? 'passengers' : 'passenger'}</p>
 
 					<button className='btn btn-pink' type='button'>Buy Ticket</button>
 				</div>

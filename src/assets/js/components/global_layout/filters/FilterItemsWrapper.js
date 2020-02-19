@@ -29,8 +29,17 @@ const FilterItemsWrapper = () => {
 
 	};
 
+	const showFiltersMobile = e => {
+
+		if (e.target.tagName === 'BUTTON' && document.body.contains(document.getElementById('filter-search-section'))) document.getElementById('filter-search-section').classList.remove('display-none');
+
+		e.stopPropagation();
+	}
+
 	return (
 		<aside id='filter-items-wrapper' className='p-1'>
+
+			{window.matchMedia('(max-width: 1024px)').matches && <button id="show-filters-mobile" className='btn btn-blue' onClick={showFiltersMobile}><i className="fas fa-chevron-left"></i> Show filters</button>}
 
 			{showItems()}
 

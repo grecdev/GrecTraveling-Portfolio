@@ -2,7 +2,6 @@
   ##Device = Laptops, Desktops
   ##Screen = B/w 1025px to 1280px
 */
-
 @media (min-width: 1025px) and (max-width: 1280px) {
 	
 	#filters-main-section #filter-search-section  {
@@ -13,14 +12,12 @@
 
 	.filter-item-flights .flight-locations span:last-child,
 	.filter-item-flights .flight-item-interval span:last-child { width: 35% }
-  
 }
 
 /* 
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
 */
-
 @media (min-width: 768px) and (max-width: 1024px) {
 	
 	.filter-item-flights .flight-locations span:last-child { width: 35% }
@@ -34,31 +31,65 @@
   ##Device = Tablets, Ipads (landscape)
   ##Screen = B/w 768px to 1024px
 */
-
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   
-  //CSS
-  
-}
-
-/* 
-  ##Device = Low Resolution Tablets, Mobiles (Landscape)
-  ##Screen = B/w 481px to 767px
-*/
-
-@media (min-width: 481px) and (max-width: 767px) {
-  
-  //CSS
-  
+  #filters-main-section #filters-empty-wrapper .filters-empty-container .filters-empty-box::before { left: -2% }
+	
 }
 
 /* 
   ##Device = Most of the Smartphones Mobiles (Portrait)
   ##Screen = B/w 320px to 479px
 */
-
 @media (min-width: 320px) and (max-width: 480px) {
   
-  //CSS
+  .filter-item-flights {
+		@include flex(column, center, stretch);
+		padding: 2rem 0;
+
+		> div { width: 100% !important }
+
+		div:first-child {
+			margin: 0;
+		}
+
+		.flight-item-interval {
+			margin: 2rem 0;
+			width: 100%;
+			justify-content: space-between;
+
+			.trip-druration { width: 50% }
+		}
+
+		.flight-item-price {
+			border: none;
+			background: rgb(233, 233, 233);
+		}
+	}
   
+}
+
+/** IPHONE SE / 5 **/
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+
+	.filter-item-flights {
+
+		> div:first-child { margin-right: 1.5rem }
+
+		.flight-item-price {
+			width: 30%;
+
+			.price {
+				font-size: 1.1rem;
+	
+				span { font-size: .8rem }
+			}
+
+			p:nth-child(2) span {
+				font-weight: bold;
+				font-size: .9rem;
+			}
+		}
+	}
 }

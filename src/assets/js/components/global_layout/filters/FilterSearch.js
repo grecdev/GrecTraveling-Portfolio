@@ -5,13 +5,16 @@ import FilterSearchFlights from '../../pages/flights/FilterSearchFlights';
 import FilterSearchHotels from '../../pages/hotels/FilterSearchHotels';
 
 const FilterSearch = ({ flights, hotels }) => {
+
 	return (
-		<aside id='filter-search-section' className='px-1'>
+		window.matchMedia('(min-width: 1025px)').matches && (
+			<aside id='filter-search-section' className='desktop-filters px-1'>
 
-			{flights && <FilterSearchFlights />}
-			{hotels && <FilterSearchHotels />}
+				{flights && <FilterSearchFlights />}
+				{hotels && <FilterSearchHotels />}
 
-		</aside>
+			</aside>
+		)
 	)
 }
 

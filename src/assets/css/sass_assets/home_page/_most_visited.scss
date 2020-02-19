@@ -39,118 +39,13 @@
 				width: 50%;
 
 				h4 { font-size: 1.5rem }
-
-				.top-line,
-				.right-line,
-				.bottom-line,
-				.left-line {
-					position: absolute;
-					background: $primary-white;
-					transition: none;
-				}
-
-				.top-line,
-				.bottom-line {
-					left: 50%;
-					transform: scaleX(0) translateX(-50%);
-					width: 170%;
-					height: 1.2px;
-				}
-
-				.top-line {
-					top: -20%;
-					transform-origin: -50% -50%;
-				}
-
-				.bottom-line {
-					bottom: -20%;
-					left: 50%;
-				}
-
-				.left-line,
-				.right-line {
-					transform: scaleY(0) rotate(90deg);
-					height: 2px;
-				}
-
-				.left-line { transform-origin: 100% 0% }
-				.right-line { transform-origin: 0% 100% }
 			}
 
 			&:hover .most-visited-content {
 				opacity: 1;
 				transition: opacity 250ms ease-in-out 250ms;
 			}
-
-			&:hover .most-visited-content .top-line,
-			&:hover .most-visited-content .right-line,
-			&:hover .most-visited-content .bottom-line,
-			&:hover .most-visited-content .left-line { transition: transform 200ms ease-in-out }
-
-			&:hover .most-visited-content .top-line,
-			&:hover .most-visited-content .bottom-line { transform: scaleX(1) translateX(-50%) }
-
-			&:hover .most-visited-content .left-line,
-			&:hover .most-visited-content .right-line { transform: scaleY(1) rotate(90deg) }
-
-			&:hover .most-visited-content .top-line,
-			&:hover .most-visited-content .bottom-line { transition-delay: 500ms }
-
-			&:hover .most-visited-content .right-line,
-			&:hover .most-visited-content .left-line { transition-delay: 800ms }
 		}
-
-		.one,
-		.five,
-		.seven {
-
-			.left-line {
-				bottom: -29%;
-    		left: -101%;
-			}
-
-			.right-line {
-				top: -29%;
-				right: -101%;
-			}
-
-			.left-line, .right-line { width: 82% }
-		 }
-
-		.four,
-		.three {
-
-			.left-line {
-				bottom: -30%;
-				left: -170%;
-			}
-
-			.right-line {
-				right: -170%;
-    		top: -30%;
-			}
-
-			.left-line, .right-line {	width: 150% }
-		 }
-
-		.two,
-		.six {
-
-			.top-line { top: -5% !important }
-			.bottom-line { bottom: -15% !important }
-
-			.left-line {
-				left: -140%;
-				bottom: -23%;
-			}
-
-			.right-line {
-				right: -140%;
-    		top: -14%;
-			}
-
-			.left-line, .right-line {	width: 125% }
-		 }
 
 		.one {
 			grid-column: 1 / 4;

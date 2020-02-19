@@ -151,16 +151,17 @@
 
 		.room-information-box {
 			@include flex(row, space-between, stretch);
+			flex-wrap: wrap;
 			
 			.room-information-category {
 				background: rgba($primary-blue, .5);
 				border-right: 3px solid darken($primary-blue, 20%);
-				width: 13%
+				width: 20%;
 			}
 
 			.room-information-content {
 				border-bottom: 1px solid $primary-blue;
-				width: 90%;
+				flex: 1;
 				@include flex(row, space-around, stretch);
 				flex-wrap: wrap;
 
@@ -296,7 +297,7 @@
 				height: 100%;
 				@include flex(row, space-between, center);
 
-				.slider-image, .cloned{
+				.slider-image {
 					height: 100%;
 					width: 100%;
 					flex-shrink: 0;

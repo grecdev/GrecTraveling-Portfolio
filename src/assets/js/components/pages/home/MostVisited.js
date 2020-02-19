@@ -16,10 +16,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Barcelona</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -32,10 +28,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Roma</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -48,10 +40,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Maldive</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -63,10 +51,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Vietnam</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -78,10 +62,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Dubai</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -93,10 +73,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Taj Mahal</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>
@@ -108,10 +84,6 @@ const MostVisited = () => {
 						<div className='most-visited-image'></div>
 
 						<div className='most-visited-content text-center'>
-							<div className="top-line"></div>
-							<div className="right-line"></div>
-							<div className="bottom-line"></div>
-							<div className="left-line"></div>
 
 							<h4 className='mb-1'>Austria</h4>
 							<p className='mb-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, vel.</p>

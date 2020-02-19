@@ -699,11 +699,31 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
-			if (!isMobile()) {
+			if (!isMobile() || /iPad/gi.test(navigator.userAgent)) {
 
 				jump(e.target, {
 					duration: 500,
 					offset: -300
+				});
+			}
+
+			// Device = Most of the Smartphones Mobiles (Portrait)
+			// Screen = B/w 320px to 479px
+			if (window.matchMedia('(min-width: 320px) and (max-width: 480px)').matches) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: -100
+				});
+			}
+
+			// Device = Low Resolution Tablets, Mobiles (Landscaspe)
+			// Screen = B/w 481px to 823px
+			if (window.matchMedia('(min-width: 481px) and (max-width: 823px)').matches) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: 0
 				});
 			}
 
@@ -733,11 +753,31 @@ export const FormContextProvider = (props) => {
 
 		if (e.target.dataset.menuToggle === 'on') {
 
-			if (!isMobile()) {
+			if (!isMobile() || /iPad/gi.test(navigator.userAgent)) {
 
 				jump(e.target, {
 					duration: 500,
 					offset: -300
+				});
+			}
+
+			// Device = Most of the Smartphones Mobiles (Portrait)
+			// Screen = B/w 320px to 479px
+			if (window.matchMedia('(min-width: 320px) and (max-width: 480px)').matches) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: -100
+				});
+			}
+
+			// Device = Low Resolution Tablets, Mobiles (Landscaspe)
+			// Screen = B/w 481px to 823px
+			if (window.matchMedia('(min-width: 481px) and (max-width: 823px)').matches) {
+
+				jump(e.target, {
+					duration: 500,
+					offset: 0
 				});
 			}
 
@@ -886,6 +926,15 @@ export const FormContextProvider = (props) => {
 
 					setRegexState(defaultRegexState);
 
+					// Device = Most of the Smartphones Mobiles (Portrait)
+					// Screen = B/w 320px to 479px
+					// Device = Low Resolution Tablets, Mobiles (Landscaspe)
+					// Screen = B/w 481px to 823px
+					if (window.matchMedia('(min-width: 320px) and (max-width: 480px)').matches || window.matchMedia('(min-width: 481px) and (max-width: 823px)').matches) {
+
+						jump(document.getElementById('filters-main-section'), { duration: 500 });
+					}
+
 				} else {
 
 					setRegexState(defaultRegexState);
@@ -944,6 +993,15 @@ export const FormContextProvider = (props) => {
 					}));
 
 					setRegexState(defaultRegexState);
+
+					// Device = Most of the Smartphones Mobiles (Portrait)
+					// Screen = B/w 320px to 479px
+					// Device = Low Resolution Tablets, Mobiles (Landscaspe)
+					// Screen = B/w 481px to 823px
+					if (window.matchMedia('(min-width: 320px) and (max-width: 480px)').matches || window.matchMedia('(min-width: 481px) and (max-width: 823px)').matches) {
+
+						jump(document.getElementById('filters-main-section'), { duration: 500 });
+					}
 
 				} else {
 
@@ -1067,12 +1125,12 @@ export const FormContextProvider = (props) => {
 	// So later we can use that state property to filter the hotels
 	useEffect(() => {
 
-		getFetch('https://grecdev.github.io/json-api/hotels.json')
-			.then(data => setDatabase(database => ({ ...database, hotels_db: data })))
-			.catch(err => console.log(err));
-
 		getFetch('https://grecdev.github.io/json-api/flights.json')
 			.then(data => setDatabase(database => ({ ...database, flights_db: data })))
+			.catch(err => console.log(err));
+
+		getFetch('https://grecdev.github.io/json-api/hotels.json')
+			.then(data => setDatabase(database => ({ ...database, hotels_db: data })))
 			.catch(err => console.log(err));
 
 	}, []);

@@ -7,18 +7,8 @@
 	
 	#contact-us,
   #faq .faq-container .faq-image { background-size: cover }
-  
-}
-
-/* 
-  ##Device = Tablets, Ipads (landscape)
-  ##Screen = B/w 768px to 1024px
-*/
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  
-  //CSS
-  
+	
+	#faq .faq-container .faq-content .faq-box .show-info { max-height: 220px }
 }
 
 /* 
@@ -28,8 +18,26 @@
 
 @media (min-width: 481px) and (max-width: 767px) {
   
-  //CSS
-  
+	#contact-us {
+		background-size: cover;
+
+		.contact-us-info, form { width: 100% }
+
+		.contact-us-info { align-items: center }
+
+		.contact-us-container { @include flex(column, center, center) }
+	}
+	
+	#faq .faq-container {
+
+		.faq-image {display: none }
+
+		.faq-content {
+			width: 100%;
+
+			.faq-box .show-info { max-height: 220px }
+		}
+	}
 }
 
 /* 
@@ -39,6 +47,24 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   
-  //CSS
-  
+  #contact-us {
+		background-size: cover;
+
+		.contact-us-info, form { width: 100% }
+
+		.contact-us-info { align-items: center }
+
+		.contact-us-container { @include flex(column, center, center) }
+	}
+	
+	#faq .faq-container {
+
+		.faq-image {display: none }
+
+		.faq-content {
+			width: 100%;
+
+			.faq-box .show-info { max-height: 220px }
+		}
+	}
 }

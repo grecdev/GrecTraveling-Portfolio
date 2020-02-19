@@ -241,8 +241,6 @@ const FilterSearchFlights = () => {
 		setFilteredDatabase(appliedFilter, 'flights');
 	}
 
-
-
 	useEffect(() => {
 
 		displayFlights();
@@ -271,7 +269,7 @@ const FilterSearchFlights = () => {
 					<h3 className="heading">Filters</h3>
 					{
 						filterState.stops ||
-							filterState.ticketPrice ||
+							filterState.ticketPrice < maxPrice ||
 							filterState.departureInterval_start ||
 							filterState.departureInterval_end ||
 							filterState.airlines.tarom ||

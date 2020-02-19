@@ -3,7 +3,7 @@
 	bottom: 25px;
 	right: 40px;
 	font-size: 2rem;
-	z-index: 100;
+	z-index: 99;
 	background: lighten($primary-dark, 20%);
 	color: $primary-blue;
 	border-radius: 50%;
@@ -14,4 +14,6 @@
 	display: none;
 
 	&:hover { background: lighten($primary-dark, 30%) }
+
+	&.go-up { bottom: 70px }
 }

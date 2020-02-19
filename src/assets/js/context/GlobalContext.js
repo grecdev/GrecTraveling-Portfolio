@@ -35,8 +35,6 @@ class GlobalContextProvider extends Component {
 		return mobileDevices.test(navigator.userAgent);
 	}
 
-
-
 	// For react-router-dom version ^4
 	changePage = page => this.props.history.push(page);
 
@@ -54,20 +52,23 @@ class GlobalContextProvider extends Component {
 
 		const pos = Math.floor(window.pageYOffset);
 
-		document.querySelectorAll('.bg-parallax').forEach(bg => {
+		if (!this.isMobile()) {
 
-			if (bg.classList.contains('faq-image')) {
+			document.querySelectorAll('.bg-parallax').forEach(bg => {
 
-				bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
-			}
+				if (bg.classList.contains('faq-image')) {
+
+					bg.style.backgroundPositionY = `${(pos * 0.4) - 250}px`;
+				}
 
 
-			if (bg.id.includes('contact-us')) {
+				if (bg.id.includes('contact-us')) {
 
-				bg.style.backgroundPositionY = `${(pos * 0.3)}px`;
-			}
+					bg.style.backgroundPositionY = `${(pos * 0.3)}px`;
+				}
 
-		});
+			});
+		}
 
 		window.requestAnimationFrame(this.parallaxBackground);
 	}
@@ -76,8 +77,17 @@ class GlobalContextProvider extends Component {
 
 		const pos = Math.floor(window.pageYOffset);
 
-		if (pos >= 550) document.getElementById('reset-scroll').classList.add('display-flex');
-		else document.getElementById('reset-scroll').classList.remove('display-flex');
+		if (!document.body.contains(document.getElementById('room-carousel-big'))) {
+
+			if (pos >= 550) document.getElementById('reset-scroll').classList.add('display-flex');
+			else document.getElementById('reset-scroll').classList.remove('display-flex');
+
+			if (((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 50) && this.isMobile()) {
+
+				document.getElementById('reset-scroll').classList.add('go-up');
+
+			} else document.getElementById('reset-scroll').classList.remove('go-up');
+		}
 
 		window.requestAnimationFrame(this.showResetScroll);
 	}
@@ -87,7 +97,7 @@ class GlobalContextProvider extends Component {
 		// When we can't access some DOM elements
 		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: !prevState.documentLoaded }));
 
-		!this.isMobile() && this.parallaxBackground();
+		this.parallaxBackground();
 
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
 
@@ -98,7 +108,7 @@ class GlobalContextProvider extends Component {
 
 		this.headerFixed();
 
-		!this.isMobile() && this.parallaxBackground();
+		this.parallaxBackground();
 
 		this.showResetScroll();
 
@@ -117,9 +127,21 @@ class GlobalContextProvider extends Component {
 		}
 	}
 
+	closeMobileHeader = e => {
+
+		if (!e.target.closest('header')) {
+
+			document.querySelector('.mobile-navbar-container').classList.replace('display-flex', 'display-none');
+			document.getElementById('show-mobileNavbar').setAttribute('data-navbar-toggle', 'true');
+			document.getElementById('show-mobileNavbar').children[0].classList.replace('fa-caret-square-up', 'fa-caret-square-down');
+		}
+	}
+
 	clickEvent = e => {
 
 		this.hideMenus(e);
+
+		this.closeMobileHeader(e);
 
 		e.stopPropagation();
 	}
@@ -190,6 +212,8 @@ class GlobalContextProvider extends Component {
 			this.enablePreloader();
 
 			this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+
+
 		}
 	}
 

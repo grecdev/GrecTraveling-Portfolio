@@ -99,7 +99,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 
 					<div className="form-box">
 						<label htmlFor="hotel_destination">City or Country:</label>
-						<input type="text" id='hotel_destination' className='input-correct disabled-input' placeholder='Enter a destination name' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
+						<input type="text" id='hotel_destination' className='input-correct disabled-input' placeholder='Enter a destination' name='hotel_destination' onChange={handleChange} value={hotel_destination} />
 
 						{hotelDestination_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>

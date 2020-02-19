@@ -11,7 +11,7 @@ const RoomCarouselBig = (props) => {
 		selectedDays
 	} = useContext(FormContext);
 
-	const { getImage } = useContext(GlobalContext);
+	const { getImage, isMobile } = useContext(GlobalContext);
 
 	const {
 		room,
@@ -480,7 +480,7 @@ const RoomCarouselBig = (props) => {
 								id='decrement-carouselBig-image'
 								data-event-toggle='true'
 								onClick={changeSlideImage}>
-								<i className="fas fa-arrow-alt-circle-left"></i>
+								<i className="fas fa-chevron-left"></i>
 							</button>
 
 							<button
@@ -488,7 +488,7 @@ const RoomCarouselBig = (props) => {
 								id='increment-carouselBig-image'
 								data-event-toggle='true'
 								onClick={changeSlideImage}>
-								<i className="fas fa-arrow-alt-circle-right"></i>
+								<i className="fas fa-chevron-right"></i>
 							</button>
 						</div>
 
@@ -497,23 +497,25 @@ const RoomCarouselBig = (props) => {
 						</div>
 					</div>
 
-					<div className="carousel-big-mini">
-						{
-							room.image !== undefined && room.image.roomReview.map((image, index) => (
-								<div
-									className='mini-slider-image'
-									style={{
-										background: `url(${getImage(image)}) no-repeat center / cover`
-									}}
-									key={index + 1}
-									data-image-position={index}
-									data-event-toggle='true'
-									onClick={changeSlideImage}
-								>
-								</div>
-							))
-						}
-					</div>
+					{!isMobile() && (
+						<div className="carousel-big-mini">
+							{
+								room.image !== undefined && room.image.roomReview.map((image, index) => (
+									<div
+										className='mini-slider-image'
+										style={{
+											background: `url(${getImage(image)}) no-repeat center / cover`
+										}}
+										key={index + 1}
+										data-image-position={index}
+										data-event-toggle='true'
+										onClick={changeSlideImage}
+									>
+									</div>
+								))
+							}
+						</div>
+					)}
 
 				</div>
 
