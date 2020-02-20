@@ -8,12 +8,17 @@ const SlideshowImage = () => {
 	const { getImage } = useContext(GlobalContext);
 	const { currentPos, changingTime, setPos, images, disableSelection } = useContext(SlideshowContext);
 
-	Array.from(document.querySelectorAll('.slide picture source[type="image/webp"')).forEach(el => {
+	const changeFormat = () => {
 
-		const webpFormat = el.getAttribute('srcset').replace(/jpg/g, 'webp');
+		Array.from(document.querySelectorAll('.slide picture source[type="image/webp"')).forEach(el => {
 
-		el.setAttribute('srcset', webpFormat);
-	});
+			const webpFormat = el.getAttribute('srcset').replace(/jpg/g, 'webp');
+
+			el.setAttribute('srcset', webpFormat);
+		});
+	}
+
+	changeFormat();
 
 	const moveSlides = () => {
 
