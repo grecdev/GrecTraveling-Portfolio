@@ -87,5 +87,11 @@
 
 			&.error { background: $primary-pink }
 		}
+
+		> .regex-alert {
+			width: 90%;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 }

@@ -33,7 +33,7 @@ footer, header, hgroup, menu, nav, section {
 }
 
 body {
-	font: normal 1rem/1.5 'Roboto', sans-serif;
+	font: normal 1rem/1.5 sans-serif;
 	color: $primary-dark;
 	position: relative;
 	min-height: 100vh;
@@ -186,7 +186,7 @@ a, button, input, textarea {
 
 /** Text **/
 /* Headings */
-.heading { font-family: 'Domine', serif }
+.heading { font-family: serif }
 
 .heading-1 { font-size: 2rem }
 .heading-2 { font-size: 2.5rem }
@@ -281,3 +281,6 @@ a, button, input, textarea {
 
 	&:hover { background: darken($primary-pink, 5%) }
 }
+
+html.fonts-loaded body { font-family: 'Roboto', sans-serif }
+html.fonts-loaded .heading { font-family: 'Domine', serif }

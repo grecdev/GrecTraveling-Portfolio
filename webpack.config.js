@@ -25,7 +25,7 @@ module.exports = {
 				use: {
 					loader: 'file-loader',
 					options: {
-						name: 'assets/media/[name].[hash].[ext]',
+						name: 'assets/media/[name].[contentHash].[ext]',
 						esModule: false
 					}
 				}

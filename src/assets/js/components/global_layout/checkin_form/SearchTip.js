@@ -2,7 +2,7 @@ import React from 'react';
 
 const SearchTip = () => {
 	return (
-		<div id="tip">
+		<div class="tip">
 
 			<div className='icon'><i className="fas fa-question"></i></div>
 

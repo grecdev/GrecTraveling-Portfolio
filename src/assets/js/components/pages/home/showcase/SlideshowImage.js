@@ -8,6 +8,13 @@ const SlideshowImage = () => {
 	const { getImage } = useContext(GlobalContext);
 	const { currentPos, changingTime, setPos, images, disableSelection } = useContext(SlideshowContext);
 
+	Array.from(document.querySelectorAll('.slide picture source[type="image/webp"')).forEach(el => {
+
+		const webpFormat = el.getAttribute('srcset').replace(/jpg/g, 'webp');
+
+		el.setAttribute('srcset', webpFormat);
+	});
+
 	const moveSlides = () => {
 
 		const slideWidth = document.querySelector('.slideshow-image').getBoundingClientRect().width;
@@ -53,16 +60,16 @@ const SlideshowImage = () => {
 	}, [currentPos]);
 
 	return (
-
 		images.map((img, index) => (
-			<div
-				style={{ background: `url(${getImage(img)}) no-repeat center/cover` }}
-				key={index + 1}
-				className='slideshow-image'
-			>
-			</div>
+			<picture key={index + 1}>
+				<source className='test' srcSet={getImage(img)} type='image/webp' />
+				<source srcSet={getImage(img)} type='image/jpg' />
+
+				<img src={getImage(img)} className='slideshow-image' alt={getImage(img)} />
+			</picture>
 		))
 	)
+
 }
 
 export default SlideshowImage;

@@ -95,11 +95,13 @@ class GlobalContextProvider extends Component {
 	contentLoadedEvent = e => {
 
 		// When we can't access some DOM elements
-		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: !prevState.documentLoaded }));
+		document.readyState === 'interactive' && this.setState(prevState => ({ documentLoaded: true }));
 
 		this.parallaxBackground();
 
 		this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
+
+		this.headerFixed();
 
 		e.stopPropagation();
 	}
@@ -129,7 +131,7 @@ class GlobalContextProvider extends Component {
 
 	closeMobileHeader = e => {
 
-		if (!e.target.closest('header')) {
+		if (!e.target.closest('header') && this.isMobile()) {
 
 			document.querySelector('.mobile-navbar-container').classList.replace('display-flex', 'display-none');
 			document.getElementById('show-mobileNavbar').setAttribute('data-navbar-toggle', 'true');
@@ -212,8 +214,6 @@ class GlobalContextProvider extends Component {
 			this.enablePreloader();
 
 			this.props.location.pathname !== '/' ? document.body.classList.add('header-spacing') : document.body.classList.remove('header-spacing');
-
-
 		}
 	}
 

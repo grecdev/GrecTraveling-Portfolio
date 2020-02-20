@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RegexAlert = ({text}) => {
+const RegexAlert = ({ text }) => {
 	return (
 		<div className='regex-alert text-center'>
-			{text}
+			<p>{text}</p>
 		</div>
 	)
 };

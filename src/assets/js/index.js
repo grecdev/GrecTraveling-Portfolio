@@ -14,23 +14,32 @@
 
 import '../css/style.scss';
 
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 
 import GlobalContextProvider from './context/GlobalContext';
-const FormContextProvider = lazy(() => import('./context/FormContext'));
-const App = lazy(() => import('./App'));
+import FormContextProvider from './context/FormContext';
+import App from './App';
 
+const FontFaceObserver = require('fontfaceobserver');
+
+const domineObserver = new FontFaceObserver('Domine');
+const robotoObserver = new FontFaceObserver('Roboto');
+
+Promise.all([
+
+	domineObserver.load(),
+	robotoObserver.load()
+
+]).then(() => document.documentElement.classList.add("fonts-loaded"));
 
 ReactDOM.render(
 	<Router>
 		<GlobalContextProvider>
-			<Suspense fallback={<div></div>}>
-				<FormContextProvider>
-					<App />
-				</FormContextProvider>
-			</Suspense>
+			<FormContextProvider>
+				<App />
+			</FormContextProvider>
 		</GlobalContextProvider >
 	</Router >
 	, document.getElementById('root'));

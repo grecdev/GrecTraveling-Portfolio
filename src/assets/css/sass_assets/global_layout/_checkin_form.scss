@@ -13,7 +13,7 @@
 		@include flex(row, space-between, center);
 
 		a {
-			background: darken($primary-blue, 10%);
+			background: darken($primary-blue, 12%);
 			padding: 1rem;
 			color: $primary-white;
 			transition: background-color 150ms ease-in-out;
@@ -45,7 +45,7 @@
 			cursor: pointer;
 		}
 
-		#tip {
+		.tip {
 			position: absolute;
 			top: -10%;
 			right: -1.2%;

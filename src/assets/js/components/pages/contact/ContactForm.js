@@ -8,6 +8,7 @@ const ContactForm = () => {
 
 	const {
 		regexValidation,
+		contactMultiple_alert,
 		fullName_alert,
 		email_alert,
 		message_alert,
@@ -45,7 +46,9 @@ const ContactForm = () => {
 						{message_alert && <RegexAlert text='At least 3 characters required' />}
 					</div>
 
-					<button className='btn btn-blue' type='submit'>Send Message</button>
+					<button className='btn btn-blue mb-1' type='submit'>Send Message</button>
+
+					{contactMultiple_alert && <RegexAlert text='All input fields are required' />}
 				</form>
 			</div>
 		</section>

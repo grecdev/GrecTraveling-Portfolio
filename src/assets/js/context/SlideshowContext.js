@@ -8,7 +8,7 @@ export class SlideshowContextProvider extends Component {
 
 	state = {
 		incrementPos: 1,
-		currentPos: 2,
+		currentPos: 0,
 		changingTime: 5000,
 		transitionTime: 2200,
 		images: ['amsterdam-showcase.jpg', 'paris-showcase.jpg', 'bali-showcase.jpg']

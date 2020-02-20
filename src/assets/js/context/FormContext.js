@@ -54,6 +54,7 @@ export const FormContextProvider = (props) => {
 		hotelsMultiple_alert: false,
 		flyingTo_alert: false,
 		hotelDestination_alert: false,
+		contactMultiple_alert: false,
 		fullName_alert: false,
 		email_alert: false,
 		message_alert: false,
@@ -1035,22 +1036,17 @@ export const FormContextProvider = (props) => {
 						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 					});
 
-					const defaultValue = document.querySelector('form[name="contact-us"] > button').textContent;
+					setRegexState(regexState => ({ ...regexState, contactMultiple_alert: true }));
 
-					document.querySelector('form[name="contact-us"] > button').classList.add('error');
-					document.querySelector('form[name="contact-us"] > button').textContent = 'All input fields are required';
-
-					setTimeout(() => {
-
-						document.querySelector('form[name="contact-us"] > button').classList.remove('error');
-						document.querySelector('form[name="contact-us"] > button').textContent = defaultValue;
-					}, 2000);
+					setTimeout(() => setRegexState(regexState => ({ ...regexState, contactMultiple_alert: false })), 2500);
 
 					formSubmitted = false;
 				}
 			}
 
-			console.log(formSubmitted, 'Form has been submited ?');
+			const consoleStyle = "background: #fff; padding: 0.5rem; color: #000; font-weight: bold";
+
+			console.log(`%cForm has been submited ? ${formSubmitted}`, consoleStyle);
 			e.preventDefault();
 			return formSubmitted;
 		}

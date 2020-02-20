@@ -8,6 +8,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
+
 
 module.exports = merge(config, {
 	mode: 'production', // development means: STOP MINIFIED
@@ -15,6 +17,7 @@ module.exports = merge(config, {
 		// Output folder
 		path: path.resolve(__dirname, 'dist'), // __dirname = current directory, and a folder called dist
 		filename: 'assets/js/index.[contentHash].js', // Create index.js in dist folder [name].[contentHash].js
+		chunkFilename: 'assets/js/[name].bundle.js',
 		publicPath: './'
 	},
 	optimization: {
@@ -61,6 +64,7 @@ module.exports = merge(config, {
 			generateStatsFile: true,
 			statsOptions: { source: false }
 		}),
+		new ImageminWebpWebpackPlugin()
 	],
 	module: {
 		rules: [

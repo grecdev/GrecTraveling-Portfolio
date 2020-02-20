@@ -86,7 +86,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 						{peopleSelectionFlights_visible && <PeopleSelection />}
 					</div>
 
-					<button type='submit'><i className="fas fa-search"></i></button>
+					<button aria-label='Search flights' type='submit'><i className="fas fa-search"></i></button>
 
 					{flightsMultiple_alert && <RegexAlert text='All input fields are required' />}
 
@@ -125,7 +125,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 						{peopleSelectionHotels_visible && <PeopleSelection />}
 					</div>
 
-					<button type='submit'><i className="fas fa-search"></i></button>
+					<button aria-label='Search hotels' type='submit'><i className="fas fa-search"></i></button>
 
 					{hotelsMultiple_alert && <RegexAlert text='All input fields are required' />}
 					{location === '/' && <SearchTip />}
