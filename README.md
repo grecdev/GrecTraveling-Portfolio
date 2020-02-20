@@ -46,6 +46,9 @@ npm install
 5. For state management i used: `context api` + `class component state` / `functional component state hook`
 6. Code splitting with lazy() and Suspense
 7. For my flights / hotels "database" i used a `json` file hosted with github pages
+8. For the hotel room page i created an `infinite slideshow gallery`
+9. Filter functionality for flights and hotels
+10. Date picker (learned from [here](https://dev.to/knheidorn/making-a-calendar-in-vanilla-javascript-48j8) and adapted to my needs)
 
 ### :bowtie: Contribuitors:
 
