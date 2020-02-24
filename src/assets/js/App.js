@@ -43,8 +43,6 @@ export class App extends Component {
 					</Switch>
 				</Suspense >
 
-				{/* <div id='suspense-big-loader'><img src={getImage('search-loader.gif')} alt='suspense loader' /></div> */}
-
 				<ResetScroll />
 				<Footer />
 			</>
