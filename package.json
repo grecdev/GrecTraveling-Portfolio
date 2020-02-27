@@ -1,7 +1,7 @@
 {
 	"name": "traveling-agency",
 	"version": "1.0.0",
-	"description": "no description",
+	"description": "",
 	"main": "webpack.config.js",
 	"scripts": {
 		"start": "webpack-dev-server --config webpack.dev.js --content-base src/ --open",
