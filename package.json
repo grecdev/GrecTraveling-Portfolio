@@ -1,15 +1,18 @@
 {
-	"name": "developer-environment",
+	"name": "traveling-agency",
 	"version": "1.0.0",
-	"description": "----",
+	"description": "no description",
 	"main": "webpack.config.js",
 	"scripts": {
 		"start": "webpack-dev-server --config webpack.dev.js --content-base src/ --open",
 		"build": "webpack --config webpack.prod.js",
 		"build-report": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
 	},
-	"keywords": [],
-	"author": "",
+	"repository": {
+    		"type": "git",
+    		"url": "https://github.com/grecdev/GrecTraveling.git"
+  	},
+	"author": "grecdev",
 	"license": "ISC",
 	"dependencies": {
 		"babel-plugin-syntax-dynamic-import": "^6.18.0",
