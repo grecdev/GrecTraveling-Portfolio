@@ -1,8 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { GlobalContext } from './context/GlobalContext';
-
 import Preloader from './components/global_layout/Preloader';
 
 import Footer from './components/global_layout/Footer';
@@ -20,18 +18,20 @@ import NotFoundPage from './components/pages/NotFoundPage';
 
 export class App extends Component {
 
-	static contextType = GlobalContext;
-
 	render() {
 
-		const { getImage } = this.context;
+		const suspense_style = {
+			fontSize: '1.5rem',
+			fontWeight: 'bold',
+			padding: '2rem'
+		}
 
 		return (
 			<>
 				<Preloader />
 
 				<Header />
-				<Suspense fallback={<div id='suspense-big-loader'><img src={getImage('search-loader.gif')} alt='suspense loader' /></div>}>
+				<Suspense fallback={<div style={suspense_style}><p>Loading...</p></div>}>
 					<Switch>
 						<Route exact strict path={'/'} component={HomePage} />
 						<Route exact strict path={'/contact'} component={ContactPage} />

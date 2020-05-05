@@ -22,8 +22,6 @@ class GlobalContextProvider extends Component {
 		pageLoaded: false
 	}
 
-	getImage = image => require(`../../media/${image}`);
-
 	// Remove the unwanted page load transitions for animated elements
 	removeTransitions = () => document.body.classList.remove('remove-transitions');
 
@@ -205,6 +203,7 @@ class GlobalContextProvider extends Component {
 	componentDidUpdate(prevProps) {
 
 		if (this.props.location !== prevProps.location) {
+			
 			this.setState({ location: this.props.location.pathname });
 
 			this.setState({ pageChanged: true });
@@ -219,12 +218,11 @@ class GlobalContextProvider extends Component {
 
 	render() {
 
-		const { getImage, headerFixed, resetOuterClick, changePage, isMobile } = this;
+		const { headerFixed, resetOuterClick, changePage, isMobile } = this;
 
 		return (
 			<GlobalContext.Provider value={{
 				...this.state,
-				getImage,
 				headerFixed,
 				resetOuterClick,
 				changePage,

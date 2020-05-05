@@ -1,11 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
-import { GlobalContext } from '../../context/GlobalContext';
+import { GlobalContext } from '@context/GlobalContext';
+
+import Image from './Image';
 
 const Header = () => {
 
-	const { getImage, location, isMobile } = useContext(GlobalContext);
+	const {
+
+		location,
+		isMobile
+
+	} = useContext(GlobalContext);
 
 	useEffect(() => {
 
@@ -58,7 +65,7 @@ const Header = () => {
 			{!isMobile() ? (
 				<>
 					<Link to='/' id="logo">
-						<img src={getImage('header-logo.svg')} alt='header-logo' />
+						<Image src='header-logo.svg' />
 						<span>GrecTraveling</span>
 					</Link>
 
@@ -72,7 +79,7 @@ const Header = () => {
 			) : (
 					<>
 						<Link to='/' id="logo">
-							<img src={getImage('header-logo.svg')} alt='header-logo' />
+							<Image src='header-logo.svg' />
 							<span>GrecTraveling</span>
 						</Link>
 

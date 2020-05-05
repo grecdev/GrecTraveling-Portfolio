@@ -1,8 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+
+	useContext, 
+	useEffect, 
+	useState
+
+} from 'react';
+
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '@context/FormContext';
 
 import RoomCarouselSmall from './room/RoomCarouselSmall';
 import RoomCarouselBig from './room/RoomCarouselBig';

@@ -1,10 +1,9 @@
 #history {
 	@include flex(row, space-between, center);
 	justify-content: center;
-
 		
 	.history-box {
-		@include flex(row, flex-start, center);
+		@include flex(row, center, center);
 
 		&-image { width: 15% }
 		

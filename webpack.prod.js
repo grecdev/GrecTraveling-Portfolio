@@ -8,7 +8,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
 
 
 module.exports = merge(config, {
@@ -55,7 +54,9 @@ module.exports = merge(config, {
 					'*.png',
 					'*.PNG',
 					'*.js',
-					'*.scss'
+					'*.scss',
+					'*.webp',
+					'*.mp4'
 				]
 			}
 		]),
@@ -63,8 +64,7 @@ module.exports = merge(config, {
 			analyzerMode: 'disabled',
 			generateStatsFile: true,
 			statsOptions: { source: false }
-		}),
-		new ImageminWebpWebpackPlugin()
+		})
 	],
 	module: {
 		rules: [

@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 
-import { SlideshowContext } from '../../../../context/SlideshowContext';
-import { GlobalContext } from '../../../../context/GlobalContext';
+import { SlideshowContext } from '@context/SlideshowContext';
 
 const SlideshowButtons = () => {
 
@@ -12,7 +11,6 @@ const SlideshowButtons = () => {
 		document.querySelectorAll('.slideshow-btn').forEach((btn, index) => {
 			index === currentPos ? btn.classList.add('slideshow-btn-active') : btn.classList.remove('slideshow-btn-active');
 		});
-
 	}
 
 	useEffect(() => {

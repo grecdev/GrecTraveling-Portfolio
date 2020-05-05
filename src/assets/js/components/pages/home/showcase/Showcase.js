@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SlideshowContextProvider from '../../../../context/SlideshowContext';
+import SlideshowContextProvider from '@context/SlideshowContext';
 
 import SlideshowImage from './SlideshowImage';
 import ShowcaseInfo from './ShowcaseInfo';
 import SlideshowButtons from './SlideshowButtons';
-import CheckinForm from '../../../global_layout/checkin_form/CheckinForm';
+import CheckinForm from '@components/global_layout/checkin_form/CheckinForm';
 
 const Showcase = () => {
 	return (

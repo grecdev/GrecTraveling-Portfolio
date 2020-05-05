@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
-import RegexAlert from '../../global_layout/RegexAlert';
+import RegexAlert from '@components/global_layout/RegexAlert';
 
-import { FormContext } from '../../../context/FormContext';
+import { FormContext } from '@context/FormContext';
 
 const ContactForm = () => {
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FilterSearchFlights from '../../pages/flights/FilterSearchFlights';
-import FilterSearchHotels from '../../pages/hotels/FilterSearchHotels';
+import FilterSearchFlights from '@components/pages/flights/FilterSearchFlights';
+import FilterSearchHotels from '@components/pages/hotels/FilterSearchHotels';
 
 const FilterSearch = ({ flights, hotels }) => {
 

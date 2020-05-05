@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 
-import { GlobalContext } from '../../../../context/GlobalContext';
-import { SlideshowContext } from '../../../../context/SlideshowContext';
+import { SlideshowContext } from '@context/SlideshowContext';
+
+import Image from '@components/global_layout/Image';
 
 const SlideshowImage = () => {
 
-	const { getImage } = useContext(GlobalContext);
 	const { currentPos, changingTime, setPos, images, disableSelection } = useContext(SlideshowContext);
 
 	const changeFormat = () => {
@@ -66,12 +66,12 @@ const SlideshowImage = () => {
 
 	return (
 		images.map((img, index) => (
-			<picture key={index + 1}>
-				<source className='test' srcSet={getImage(img)} type='image/webp' />
-				<source srcSet={getImage(img)} type='image/jpg' />
-
-				<img src={getImage(img)} className='slideshow-image' alt={getImage(img)} />
-			</picture>
+			<div 
+				key={index}
+				className='slideshow-image'
+			>
+				<Image src={img} />
+			</div>
 		))
 	)
 

@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
 
-import { FormContext } from '../../../context/FormContext';
+import { FormContext } from '@context/FormContext';
 
-import FilterSearchFlights from '../../pages/flights/FilterSearchFlights';
-import FilterSearchHotels from '../../pages/hotels/FilterSearchHotels';
+import FilterSearchFlights from '@components/pages/flights/FilterSearchFlights';
+import FilterSearchHotels from '@components/pages/hotels/FilterSearchHotels';
 
 const FilterSearchMobile = () => {
 
 	const {
+
 		defaultFiltered_flights,
 		defaultFiltered_hotels
+		
 	} = useContext(FormContext);
 
 	const closeMobileFilters = e => {

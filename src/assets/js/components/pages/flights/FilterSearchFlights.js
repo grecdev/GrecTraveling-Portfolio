@@ -1,11 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
 
-import { GlobalContext } from '../../../context/GlobalContext';
-import { FormContext } from '../../../context/FormContext';
+	useContext, 
+	useEffect, 
+	useState
+	
+} from 'react';
+
+import { FormContext } from '@context/FormContext';
+
+import Image from '@components/global_layout/Image';
 
 const FilterSearchFlights = () => {
 
-	const { getImage } = useContext(GlobalContext);
 	const {
 		peopleTotal,
 		defaultFiltered_flights,
@@ -397,7 +403,7 @@ const FilterSearchFlights = () => {
 					<div className="filter-search-inputs">
 						<label htmlFor='tarom-airlines'>
 							<input id='tarom-airlines' type='checkbox' name='airlines' defaultValue='tarom' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Tarom
 					</label>
 					</div>
@@ -406,7 +412,7 @@ const FilterSearchFlights = () => {
 
 						<label htmlFor='united-airlines'>
 							<input id='united-airlines' type='checkbox' name='airlines' defaultValue='unitedAirlines' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							United Airlines
 					</label>
 					</div>
@@ -415,7 +421,7 @@ const FilterSearchFlights = () => {
 
 						<label htmlFor='finnair-airlines'>
 							<input id='finnair-airlines' type='checkbox' name='airlines' defaultValue='finnair' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Finnair
 					</label>
 					</div>
@@ -424,7 +430,7 @@ const FilterSearchFlights = () => {
 
 						<label htmlFor='aeroflot-airlines'>
 							<input id='aeroflot-airlines' type='checkbox' name='airlines' defaultValue='aeroflot' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Aeroflot
 					</label>
 					</div>
@@ -436,4 +442,4 @@ const FilterSearchFlights = () => {
 	)
 }
 
-export default FilterSearchFlights
+export default FilterSearchFlights;

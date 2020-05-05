@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { GlobalContext } from '../../context/GlobalContext';
+import { GlobalContext } from '@context/GlobalContext';
 
 export class NotFoundPage extends Component {
 

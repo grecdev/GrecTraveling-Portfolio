@@ -7,8 +7,7 @@
 			width: 25%;
 			@include flex(column, center, center);
 
-			img { width: 20% }
+			> div:first-child { width: 20% }
 		}
 	}
-
 }

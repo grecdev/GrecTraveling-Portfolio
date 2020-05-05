@@ -1185,7 +1185,7 @@ export const FormContextProvider = (props) => {
 	useEffect(() => {
 
 		// If we refresh the hotel room page
-		if (pageLoaded && location.includes('hotel-room') && database.appliedFiltered_hotels.length === 0) changePage('/hotels');
+		// if (pageLoaded && location.includes('hotel-room') && database.appliedFiltered_hotels.length === 0) changePage('/hotels');
 
 	}, [pageLoaded, location]);
 

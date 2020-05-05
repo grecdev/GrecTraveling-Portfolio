@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SectionHeader from '../../global_layout/SectionHeader';
+import SectionHeader from '@components/global_layout/SectionHeader';
 
 const MostVisited = () => {
 

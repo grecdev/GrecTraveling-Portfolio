@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { GlobalContext } from '../../context/GlobalContext';
+import Image from './Image';
 
 const SectionHeader = ({ image, title }) => {
-
-	const { getImage } = useContext(GlobalContext);
 
 	return (
 		<div className="section-header text-center">
 			<h3 className='mb-1 heading-1'>{title}</h3>
 
-			<div className="section-header-logo mb-1"><img src={getImage(image)} alt='section header logo' /></div>
+			<div className="section-header-logo mb-1">
+				<Image src={image} />
+			</div>
 		</div>
 	)
 }
