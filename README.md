@@ -50,6 +50,13 @@ npm install
 9. Filter functionality for flights and hotels
 10. Date picker (learned from [here](https://dev.to/knheidorn/making-a-calendar-in-vanilla-javascript-48j8) and adapted to my needs)
 
+For `api data` fetching i used:
+```
+XMLHttpRequest()
+Fetch api
+Async / await
+```
+
 ### :bowtie: Contribuitors:
 
 Grecu Alexandru aka [`grecdev`](https://github.com/grecdev)
