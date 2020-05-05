@@ -13,10 +13,12 @@ import FilterEmpty from './FilterEmpty';
 const FilterMainSection = () => {
 
 	const {
+
 		defaultFiltered_flights,
 		defaultFiltered_hotels,
 		searchLoader,
 		filterLoader
+		
 	} = useContext(FormContext);
 
 	const { location } = useContext(GlobalContext);

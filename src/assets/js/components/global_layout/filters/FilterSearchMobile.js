@@ -8,8 +8,10 @@ import FilterSearchHotels from '@components/pages/hotels/FilterSearchHotels';
 const FilterSearchMobile = () => {
 
 	const {
+
 		defaultFiltered_flights,
 		defaultFiltered_hotels
+		
 	} = useContext(FormContext);
 
 	const closeMobileFilters = e => {

@@ -138,7 +138,6 @@
   ##Device = Most of the Smartphones Mobiles (Portrait)
   ##Screen = B/w 320px to 479px
 */
-
 @media (min-width: 320px) and (max-width: 480px) {
   
   .filter-item-hotels {
@@ -196,16 +195,16 @@
 		}
 	}
 
-	#hotel-room #room-information .room-information-wrapper {
+	#room-preview > div.room-preview-wrapper {
+		flex-direction: column !important;
+	
+		#room-carousel-wrapper,
+		> div:last-child { width: 100% !important }
 
-		#room-preview .room-preview-wrapper {
-			@include flex(column, space-between, center);
-	
-			#room-carousel-wrapper,
-			>div:last-child { width: 100% }
-	
-			> div:last-child { margin-top: 1rem }
-		}
+		> div:last-child { margin-top: 1rem }
+	}
+
+	#hotel-room #room-information .room-information-wrapper {
 
 		.room-information-box {
 			@include flex(column, space-between, center);
@@ -228,7 +227,16 @@
 	}
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+@media only screen and (min-width: 320px) and (max-width: 568px) and (orientation: landscape) {
 
 	.filter-item-hotels .hotel-image { width: 40% }
+
+	#room-preview > div.room-preview-wrapper {
+		flex-direction: column !important;
+	
+		#room-carousel-wrapper,
+		> div:last-child { width: 100% !important }
+
+		> div:last-child { margin-top: 1rem }
+	}
 }

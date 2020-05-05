@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types'
 
-import { GlobalContext } from '@context/GlobalContext';
+import Image from '@components/global_layout/Image';
 
 const RoomCarouselSmall = (props) => {
-
-	const { getImage } = useContext(GlobalContext);
 
 	const {
 		room,
@@ -160,7 +158,7 @@ const RoomCarouselSmall = (props) => {
 						<div
 							key={index + 1}
 							style={{
-								background: `url(${getImage(image)}) no-repeat center/cover`
+								background: `url(${require(`../../../../media/${image}`)}) no-repeat center/cover`
 							}}
 							className='room-carousel-image'
 							onClick={displayCarouselBig}
@@ -188,7 +186,7 @@ const RoomCarouselSmall = (props) => {
 						<div
 							key={index + 1}
 							style={{
-								background: `url(${getImage(image)}) no-repeat center/cover`
+								background: `url(${require(`../../../../media/${image}`)}) no-repeat center/cover`
 							}}
 							className='carousel-mini-image'
 							data-image-position={index}

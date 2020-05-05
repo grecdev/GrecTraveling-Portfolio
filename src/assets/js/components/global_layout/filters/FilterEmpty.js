@@ -6,113 +6,48 @@ import SectionHeader from '../SectionHeader';
 const FilterEmpty = ({ flights, hotels }) => {
 
 	return (
-		<>
-			{
-				flights && (
-					<section id="filters-empty-wrapper" className='p-2'>
+		<section id="filters-empty-wrapper" className='p-2'>
 
-						<SectionHeader title={'How to search for flights'} image={'section-header-logo-blue.svg'} />
+			<SectionHeader title={'How to search for hotels'} image={'section-header-logo-blue.svg'} />
 
-						<div className="filters-empty-container">
+			<div className="filters-empty-container">
 
-							<div className="filters-empty-box p-1 text-center">
+				<div className="filters-empty-box p-1 text-center">
 
-								<h3 className='heading mb-1'>Location</h3>
-								<p className='mb-1 description'>"Flying From" input is optional ( disabled in the .js file )</p>
+					<h3 className='heading mb-1'>Location</h3>
+					<p className='mb-1 description'>{hotels ? "City or Country" : "Flying From"} input is optional ( disabled in the .js file )</p>
 
-								<p>Locations available:</p>
-								<ul>
-									<li>1. Dubai</li>
-									<li>2. New York</li>
-									<li>3. Amsterdam</li>
-									<li>4. Thailand</li>
-								</ul>
+					<p className='mb-1'>Locations available:</p>
+					<ul>
+						<li>Dubai</li>
+						<li>New York</li>
+						<li>Amsterdam</li>
+						<li>Thailand</li>
+					</ul>
 
-							</div>
+				</div>
 
-							<div className="filters-empty-box p-1 text-center">
+				<div className="filters-empty-box p-1 text-center">
 
-								<h3 className='heading mb-1'>Departing / Returning</h3>
-								<p className='mb-1 description'>The datepicker filters the flights only for months.</p>
-								<p>Months available:</p>
-								<ul>
-									<li>1. January</li>
-									<li>2. February</li>
-									<li>3. March</li>
-									<li>4. April</li>
-									<li>and above april</li>
-								</ul>
+					<h3 className='heading mb-1'>{hotels ? 'Check-in / Check-out' : "Departing / Returning"}</h3>
+					<p className='mb-1 description'>The datepicker filters the {hotels ? 'hotels' : 'flights'} only for months.</p>
+					<p className='mb-1'>Months available:</p>
+					<ul>
+						<li>May</li>
+						<li>June</li>
+						<li>July</li>
+						<li>August</li>
+					</ul>
 
-							</div>
+				</div>
 
-							<div className="filters-empty-box p-1 text-center">
-
-								<h3 className='heading mb-1'>Passengers</h3>
-								<p className='mb-1 description'>The flight price is multiplied by the number of passengers</p>
-								<p>Maximum of 4 passengers available (can select above 4)</p>
-
-							</div>
-
-						</div>
-
-					</section>
-				)
-			}
-
-			{
-				hotels && (
-					<section id="filters-empty-wrapper" className='p-2'>
-
-						<SectionHeader title={'How to search for hotels'} image={'section-header-logo-blue.svg'} />
-
-						<div className="filters-empty-container">
-
-							<div className="filters-empty-box p-1 text-center">
-
-								<h3 className='heading mb-1'>Location</h3>
-								<p className='mb-1 description'>"Destination" input is optional ( disabled in the .js file )</p>
-
-								<p>Locations available:</p>
-								<ul>
-									<li>1. Dubai</li>
-									<li>2. New York</li>
-									<li>3. Amsterdam</li>
-									<li>4. Thailand</li>
-								</ul>
-
-							</div>
-
-							<div className="filters-empty-box p-1 text-center">
-
-								<h3 className='heading mb-1'>Check-in / Check-out</h3>
-								<p className='mb-1 description'>The datepicker filters the hotels only for months.</p>
-								<p>Months available:</p>
-								<ul>
-									<li>1. January</li>
-									<li>2. February</li>
-									<li>3. March</li>
-									<li>4. April</li>
-									<li>and above april</li>
-								</ul>
-
-							</div>
-
-							<div className="filters-empty-box p-1 text-center">
-
-								<h3 className='heading mb-1'>People</h3>
-								<p className='mb-1 description'>The hotel room price is multiplied by the number of people</p>
-								<p>Maximum of 4 people available (can select above 4)</p>
-
-							</div>
-
-
-
-						</div>
-
-					</section>
-				)
-			}
-		</>
+				<div className="filters-empty-box p-1 text-center">
+					<h3 className='heading mb-1'>{hotels ? 'People' : 'Passengers'}</h3>
+					<p className='mb-1 description'>The {hotels ? 'hotel room' : 'flight'} price is multiplied by the number of {hotels ? 'people' : 'passengers'}</p>
+					<p>Maximum of 4 {hotels ? 'people' : 'passengers'} available</p>
+				</div>
+			</div>
+		</section>
 	)
 }
 

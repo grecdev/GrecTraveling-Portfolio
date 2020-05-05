@@ -1,16 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+
+	useContext,
+	useEffect,
+	useState
+
+} from 'react';
+
 import { Link } from 'react-router-dom';
 
-import { GlobalContext } from '@context/GlobalContext';
 import { FormContext } from '@context/FormContext';
+
+import Image from '@components/global_layout/Image';
 
 const FilterItemsHotels = () => {
 
-	const { getImage } = useContext(GlobalContext);
 	const {
+
 		appliedFiltered_hotels,
 		peopleTotal,
-		selectedDays } = useContext(FormContext);
+		selectedDays
+		
+	} = useContext(FormContext);
 
 	const [hotels, setHotels] = useState(null);
 
@@ -37,7 +47,7 @@ const FilterItemsHotels = () => {
 		setHotels(appliedFiltered_hotels.map(hotel => (
 			<div className='filter-item-hotels' key={hotel.id}>
 
-				<div className="hotel-image"><img src={getImage(hotel.image.roomShowcase)} alt='hotel image' /></div>
+				<div className="hotel-image"><Image src={hotel.image.roomShowcase} /></div>
 
 				<div className="hotel-item-content mx-3">
 

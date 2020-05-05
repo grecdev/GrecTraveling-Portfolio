@@ -11,9 +11,10 @@ const RoomCarouselBig = (props) => {
 		selectedDays
 	} = useContext(FormContext);
 
-	const { getImage, isMobile } = useContext(GlobalContext);
+	const { isMobile } = useContext(GlobalContext);
 
 	const {
+
 		room,
 		carouselState,
 		carouselBigVisible,
@@ -21,6 +22,7 @@ const RoomCarouselBig = (props) => {
 		incrementImagePos,
 		displayCarouselBig,
 		setImagePos
+
 	} = props;
 
 	const displayMiniCarousel = () => {
@@ -465,7 +467,7 @@ const RoomCarouselBig = (props) => {
 										className='slider-image'
 										key={index}
 										style={{
-											background: `url(${getImage(image)}) no-repeat center / cover`
+											background: `url(${require(`../../../../media/${image}`)}) no-repeat center / cover`
 										}}
 									>
 									</div>
@@ -504,7 +506,7 @@ const RoomCarouselBig = (props) => {
 									<div
 										className='mini-slider-image'
 										style={{
-											background: `url(${getImage(image)}) no-repeat center / cover`
+											background: `url(${require(`../../../../media/${image}`)}) no-repeat center / cover`
 										}}
 										key={index + 1}
 										data-image-position={index}

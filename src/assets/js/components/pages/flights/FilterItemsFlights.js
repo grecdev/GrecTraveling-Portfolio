@@ -1,7 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+
+	useContext,
+	useEffect,
+	useState
+
+} from 'react';
 
 import { FormContext } from '@context/FormContext';
-import { GlobalContext } from '@context/GlobalContext';
+
+import Image from '@components/global_layout/Image';
 
 const FilterItemsFlights = () => {
 
@@ -15,8 +22,6 @@ const FilterItemsFlights = () => {
 		monthName,
 		weekdayName,
 		flying_to } = useContext(FormContext);
-
-	const { getImage } = useContext(GlobalContext);
 
 	const [flights, setFlights] = useState(null);
 
@@ -64,7 +69,7 @@ const FilterItemsFlights = () => {
 					<div className="filter-item-header mb-1">
 
 						<div className="flight-locations">
-							<div className="airline-logo mr-1"><img src={getImage(item.airlinesLogo)} alt='airlines company' /></div>
+							<div className="airline-logo mr-1"><Image src={item.airlinesLogo} /></div>
 							<span>{item.abbr}</span>
 							<div className='mx-1'></div>
 							<span className='mr-1'>{formatLandingDestination()}</span>
@@ -80,7 +85,7 @@ const FilterItemsFlights = () => {
 
 					<div className="flight-item-interval">
 						<span>{formatTime(item.departureHour, item.departureMinutes)}</span>
-						<div className="mx-1"><img src={getImage('flight-arrow.svg')} alt='flight-arrow' /></div>
+						<div className="mx-1"><Image src='flight-arrow.svg' /></div>
 						<span className='mr-1'>{formatTime(item.landingHour, item.landingMinutes)}</span>
 						<span title='Trip Duration'><i className="far fa-clock"></i> {formatIntervalTime(item.departureHour, item.departureMinutes, item.landingHour, item.landingMinutes)}</span>
 					</div>

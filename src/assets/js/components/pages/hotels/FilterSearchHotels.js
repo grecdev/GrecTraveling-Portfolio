@@ -6,17 +6,20 @@ import React, {
 	
  } from 'react';
 
-import { GlobalContext } from '@context/GlobalContext';
 import { FormContext } from '@context/FormContext';
 
+import Image from '@components/global_layout/Image';
+
 const FilterSearchHotels = () => {
-	const { getImage } = useContext(GlobalContext);
+
 	const {
+
 		peopleTotal,
 		defaultFiltered_hotels,
 		setFilteredDatabase,
 		appliedFiltered_hotels,
 		enableLoading
+
 	} = useContext(FormContext);
 
 	const toggleFilterMenu = e => {
@@ -334,7 +337,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='5-stars'>
 							<input id='5-stars' type='checkbox' name='room-feedback' defaultValue='5' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
@@ -347,7 +350,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='4-stars'>
 							<input id='4-stars' type='checkbox' name='room-feedback' defaultValue='4' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
@@ -360,7 +363,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='3-stars'>
 							<input id='3-stars' type='checkbox' name='room-feedback' defaultValue='3' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
@@ -373,7 +376,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='2-stars'>
 							<input id='2-stars' type='checkbox' name='room-feedback' defaultValue='2' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="far fa-star" aria-hidden="true"></i>
@@ -385,7 +388,7 @@ const FilterSearchHotels = () => {
 					<div className="filter-search-inputs">
 						<label htmlFor='1-star'>
 							<input id='1-star' type='checkbox' name='room-feedback' defaultValue='1' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							<i className="fas fa-star" aria-hidden="true"></i>
 							<i className="far fa-star" aria-hidden="true"></i>
 							<i className="far fa-star" aria-hidden="true"></i>
@@ -415,7 +418,7 @@ const FilterSearchHotels = () => {
 					<div className="filter-search-inputs">
 						<label htmlFor='hotel'>
 							<input id='hotel' type='checkbox' name='property-type' defaultValue='hotel' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Hotel
 					</label>
 					</div>
@@ -424,7 +427,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='resort'>
 							<input id='resort' type='checkbox' name='property-type' defaultValue='resort' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Resort
 					</label>
 					</div>
@@ -433,7 +436,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='suite'>
 							<input id='suite' type='checkbox' name='property-type' defaultValue='suite' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Suite
 					</label>
 					</div>
@@ -442,7 +445,7 @@ const FilterSearchHotels = () => {
 
 						<label htmlFor='villa'>
 							<input id='villa' type='checkbox' name='property-type' defaultValue='villa' onChange={applyFilter} />
-							<span><img src={getImage('checkbox-icon.svg')} alt='checkbox-icon' /></span>
+							<span><Image src='checkbox-icon.svg' /></span>
 							Villa
 					</label>
 					</div>

@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { GlobalContext } from '@context/GlobalContext';
+import video from '../../../media/search-loader.mp4';
+
+console.log(video);
 
 const SearchLoader = () => {
 
-	const { getImage } = useContext(GlobalContext);
-
 	return (
-		<div className='search-loader'><img src={getImage('search-loader.gif')} alt='search loader' /></div>
+		<div className='search-loader'>
+			<video autoPlay loop muted>
+
+				<source src={video} type='video/mp4' />
+
+			</video>
+		</div>
 	)
 };
 

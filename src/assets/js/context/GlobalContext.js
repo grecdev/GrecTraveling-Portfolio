@@ -203,6 +203,7 @@ class GlobalContextProvider extends Component {
 	componentDidUpdate(prevProps) {
 
 		if (this.props.location !== prevProps.location) {
+			
 			this.setState({ location: this.props.location.pathname });
 
 			this.setState({ pageChanged: true });
