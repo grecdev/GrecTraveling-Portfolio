@@ -50,6 +50,13 @@ npm install
 9. Filter functionality for flights and hotels
 10. Date picker (learned from [here](https://dev.to/knheidorn/making-a-calendar-in-vanilla-javascript-48j8) and adapted to my needs)
 
+For `api data` fetching i used:
+```
+XMLHttpRequest()
+Fetch api
+Async / await
+```
+
 ### :bowtie: Contribuitors:
 
 Grecu Alexandru aka [`grecdev`](https://github.com/grecdev)
@@ -65,14 +72,18 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 1. Open `developer console` pressing `F12`
 2. Click on the `Toggle Device Toolbar` button or press `Ctrl + Shift + M`
 
-- Optimised Images
-- Basic SEO
+(make sure you `refresh` the page each time you change the mobile device)
 
 You can check for website performance with `google audit` (it checks for individual page):
 
-1. Open `developer console` pressing `F12`
-2. Select `Audits` tab
-3. Press `Run audits` blue button on the bottom of the tab
+1. Open an `incognito tab`. ( Disables extenstions, and it works better )
+
+- Windows | Linux, | Chrome OS: `Press Ctrl + Shift + n`.
+- Mac: `Press ⌘ + Shift + n`.
+
+2. Open `developer console` pressing `F12`
+3. Select `Audits` tab
+4. Press `Run audits` blue button on the bottom of the tab
 
 To search flights / hotels check more instructions on the flights / hotels page
 
