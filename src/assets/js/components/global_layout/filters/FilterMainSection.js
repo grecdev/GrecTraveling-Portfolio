@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { FormContext } from '../../../context/FormContext';
-import { GlobalContext } from '../../../context/GlobalContext';
+import { FormContext } from '@context/FormContext';
+import { GlobalContext } from '@context/GlobalContext';
 
 import SearchLoader from '../SearchLoader';
 

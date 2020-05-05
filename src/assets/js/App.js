@@ -1,8 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { GlobalContext } from './context/GlobalContext';
-
 import Preloader from './components/global_layout/Preloader';
 
 import Footer from './components/global_layout/Footer';
@@ -18,20 +16,26 @@ const HotelsPage = lazy(() => import('./components/pages/HotelsPage'));
 
 import NotFoundPage from './components/pages/NotFoundPage';
 
+import video from '../media/search-loader.gif';
+
 export class App extends Component {
 
-	static contextType = GlobalContext;
-
 	render() {
-
-		const { getImage } = this.context;
 
 		return (
 			<>
 				<Preloader />
 
 				<Header />
-				<Suspense fallback={<div id='suspense-big-loader'><img src={getImage('search-loader.gif')} alt='suspense loader' /></div>}>
+				<Suspense fallback={
+					<div id='suspense-big-loader'>
+						<video autoPlay loop muted>
+							<source src={video} type="video/mp4" />
+							<source src={video} type="video/gif" />
+								Your browser does not support the video tag
+						</video>
+					</div>
+				}>
 					<Switch>
 						<Route exact strict path={'/'} component={HomePage} />
 						<Route exact strict path={'/contact'} component={ContactPage} />

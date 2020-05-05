@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { GlobalContext } from '../../../context/GlobalContext';
-import { FormContext } from '../../../context/FormContext';
+import { GlobalContext } from '@context/GlobalContext';
+import { FormContext } from '@context/FormContext';
 
 const FilterItemsHotels = () => {
 

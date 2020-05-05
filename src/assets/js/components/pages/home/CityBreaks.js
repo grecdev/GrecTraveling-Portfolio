@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { GlobalContext } from '../../../context/GlobalContext';
-
-import SectionHeader from '../../global_layout/SectionHeader';
+import SectionHeader from '@components/global_layout/SectionHeader';
+import Image from '@components/global_layout/Image';
 
 const CityBreaks = () => {
-
-	const { getImage } = useContext(GlobalContext);
 
 	return (
 		<section id='city-breaks'>
@@ -24,7 +21,7 @@ const CityBreaks = () => {
 
 						<div className="city-breaks-container">
 							<div className="city-breaks-image">
-								<img src={getImage('vietnam-offer.jpg')} alt='vietnam-offer' />
+								<Image src='vietnam-offer.jpg' />
 							</div>
 
 							<div className="city-breaks-info">
@@ -55,7 +52,7 @@ const CityBreaks = () => {
 
 						<div className="city-breaks-container">
 							<div className="city-breaks-image">
-								<img src={getImage('amsterdam-offer.jpg')} alt='amsterdam-offer' />
+								<Image src='amsterdam-offer.jpg' />
 							</div>
 
 							<div className="city-breaks-info">
@@ -86,7 +83,7 @@ const CityBreaks = () => {
 
 						<div className="city-breaks-container">
 							<div className="city-breaks-image">
-								<img src={getImage('paris-offer.jpg')} alt='paris-offer' />
+								<Image src='paris-offer.jpg' />
 							</div>
 
 							<div className="city-breaks-info">

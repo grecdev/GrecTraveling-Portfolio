@@ -1,7 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
 
-import { GlobalContext } from '../../../context/GlobalContext';
-import { FormContext } from '../../../context/FormContext';
+	useContext, 
+	useEffect, 
+	useState
+	
+ } from 'react';
+
+import { GlobalContext } from '@context/GlobalContext';
+import { FormContext } from '@context/FormContext';
 
 const FilterSearchHotels = () => {
 	const { getImage } = useContext(GlobalContext);

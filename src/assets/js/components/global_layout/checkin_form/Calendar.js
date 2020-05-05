@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { FormContext } from '../../../context/FormContext';
+import { FormContext } from '@context/FormContext';
 
 const Calendar = () => {
 

@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+					"@components": "./src/assets/js/components",
+					"@context": "./src/assets/js/context"
+        }
+      }
+    ]
+  ]
+}

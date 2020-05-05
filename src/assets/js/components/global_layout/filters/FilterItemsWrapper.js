@@ -1,19 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import FilterNotFound from './FilterNotFound';
 
-import FilterItemsFlights from '../../pages/flights/FilterItemsFlights';
-import FilterItemsHotels from '../../pages/hotels/FilterItemsHotels';
+import FilterItemsFlights from '@components/pages/flights/FilterItemsFlights';
+import FilterItemsHotels from '@components/pages/hotels/FilterItemsHotels';
 
-import { GlobalContext } from '../../../context/GlobalContext';
-import { FormContext } from '../../../context/FormContext';
+import { GlobalContext } from '@context/GlobalContext';
+import { FormContext } from '@context/FormContext';
 
 const FilterItemsWrapper = () => {
 
 	const { location } = useContext(GlobalContext);
 	const {
+		
 		appliedFiltered_flights,
-		appliedFiltered_hotels } = useContext(FormContext);
+		appliedFiltered_hotels
+	
+	} = useContext(FormContext);
 
 	const showItems = () => {
 
