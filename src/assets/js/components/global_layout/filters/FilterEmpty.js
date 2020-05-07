@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import SectionHeader from '../SectionHeader';
 
-const FilterEmpty = ({ flights, hotels }) => {
+const FilterEmpty = ({ hotels }) => {
 
 	return (
 		<section id="filters-empty-wrapper" className='p-2'>
 
-			<SectionHeader title={'How to search for hotels'} image={'section-header-logo-blue.svg'} />
+			<SectionHeader title={`How to search for ${hotels ? 'hotels' : 'flights'}`} image={'section-header-logo-blue.svg'} />
 
 			<div className="filters-empty-container">
 
@@ -52,7 +52,6 @@ const FilterEmpty = ({ flights, hotels }) => {
 }
 
 FilterEmpty.propTypes = {
-	flights: PropTypes.bool.isRequired,
 	hotels: PropTypes.bool.isRequired
 }
 

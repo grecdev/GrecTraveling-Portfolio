@@ -1,16 +1,19 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 
 import { FormContext } from '@context/FormContext';
 
-const PeopleSelection = () => {
+const PeopleSelection = ({ hotels }) => {
 
 	const {
+
 		selectPeople,
 		peopleTotal,
 		adults,
 		youth,
 		children,
 		infants
+		
 	} = useContext(FormContext);
 
 	const style = {
@@ -84,10 +87,14 @@ const PeopleSelection = () => {
 			</div>
 
 			<button type='button' style={{ backgroundColor: peopleTotal === 0 && style.colorPink }} data-enabled={peopleTotal === 0 ? 'false' : 'true'} className='btn btn-blue display-block'>{
-				peopleTotal === 0 ? 'You need to select at least 1 passenger' : 'Ready'
+				peopleTotal === 0 ? `You need to select at least 1 ${hotels ? 'person' : 'passenger'}` : 'Ready'
 			}</button>
 		</div>
 	)
+}
+
+PeopleSelection.propTypes = {
+	hotels: PropTypes.bool.isRequired
 }
 
 export default PeopleSelection;

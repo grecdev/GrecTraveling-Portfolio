@@ -76,12 +76,6 @@
 		height: 35px;
 		font-size: 1.5rem;
 	}
-
-	// #showcase > div.showcase-container > div.form-container > form:nth-child(2) > div.tip .tip-info{
-	// 	right: -30px;
-
-
-	// }
 }
 
 /* 
@@ -267,7 +261,8 @@
 		}
 
 		.calendar {
-			left: -30px;
+			left: 50%;
+    	transform: translateX(-50%);
 			z-index: 2;
 			width: 320px;
 			
@@ -296,19 +291,24 @@
 		padding: 0 1rem;
 	}
 
-	#filters-main-section #filters-empty-wrapper .filters-empty-container {
-		flex-direction: column;
-		align-items: center;
-		
-		.filters-empty-box {
-			width: 90%;
-			margin: 1.5rem 0;
+	#filters-main-section {
 
-			&:first-child { margin-top: 0 }
+		.search-loader { width: 50% }
 
-			&::before {
-				top: -9%;
-    		left: -3%;
+		#filters-empty-wrapper .filters-empty-container {
+			flex-direction: column;
+			align-items: center;
+			
+			.filters-empty-box {
+				width: 90%;
+				margin: 1.5rem 0;
+	
+				&:first-child { margin-top: 0 }
+	
+				&::before {
+					top: -9%;
+					left: -3%;
+				}
 			}
 		}
 	}
@@ -391,9 +391,54 @@
 	}
 }
 
+// Iphone SE / Moto / Galaxy S5 - portrait
+@media only screen
+	and (max-width: 320px)
+	and (max-height: 568px)
+	and (orientation: portrait)
+{
+
+	.form-container .people-selection {
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2;
+		width: 300px;
+
+		&::before {
+			top: -16px;
+			left: 220px;
+		}
+	}
+
+	.filter-search-box .filter-search-inputs { margin: .2rem 0 }
+
+	#filter-search-flights .filter-search-box {
+
+		&:nth-child(3) .filter-search-container { height: 65px }
+	
+		&:nth-child(4) .filter-search-container {
+			height: 30px;
+	
+			.filter-search-inputs { @include flex(row, space-between, center) }
+		}
+	
+		&:nth-child(5) .filter-search-container,
+		&:last-child .filter-search-container{ height: 130px }
+	}
+
+	#filter-search-hotels .filter-search-box {
+
+		&:nth-child(3) .filter-search-container { height: 165px }
+		&:nth-child(4) .filter-search-container { height: 130px }
+
+	}
+}
+
 /** IPHONE X && PIXEL 2XL **/
 /* Landscape */
 @media only screen and (max-width : 823px) and (max-height : 411px) {
+
+	body { padding-top: 2.5rem }
 
 	#filters-showcase { min-height: 60vh }
 
@@ -419,7 +464,7 @@
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
   ##Screen = B/w 481px to 767px
 */
-@media (min-width: 481px) and (max-width: 767px) {
+@media (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
 
 	#filters-main-section {
 
@@ -436,8 +481,8 @@
 			background: $primary-white;
 			
 			.filters-empty-box {
-				width: 100%;
-				margin: 1.5rem 0;
+				width: 90%;
+				margin: 1.5rem auto;
 	
 				&:first-child { margin-top: 0 }
 	
@@ -531,7 +576,8 @@
 		}
 
 		.calendar {
-			left: 70px;
+			left: 50%;
+			transform: translateX(-50%);
 			z-index: 2;
 			
 			.calendar-triangle {
@@ -566,117 +612,18 @@
 	}
 }
 
-/** IPHONE SE / 5 **/
-/* Landscape */
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+// Iphone SE / Moto / Galaxy S5 - landscape
+@media only screen
+	and (min-height: 320px)
+	and (max-height: 360px)
+	and (min-width: 568px)
+	and (max-width: 640px)
+	and (orientation: landscape)
+{
 
-	.form-container {
-		width: 90%;
+	// #filters-showcase { height: 180vh }
 
-		form {
-			flex-wrap: wrap;
-			justify-content: center;
-			align-items: center;
+	// #filter-search-section.mobile-filters #filter-search-flights,
+	// #filter-search-section.mobile-filters #filter-search-hotels { width: 40% }
 
-			> button {
-				position: relative;
-				top: -4px;
-				margin-top: 1rem;
-			}
-
-			> .regex-alert {
-				top: 102%;
-				z-index: 1;
-			}
-		}
-
-		.form-box {
-			width: 100%;
-			margin: .5rem 0;
-
-			.regex-alert { width: 100% }
-		}
-
-		.calendar {
-			left: 70px;
-			z-index: 2;
-			
-			.calendar-triangle {
-				top: -15px;
-				left: 140px;
-			}
-		}
-
-		.people-selection {
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 2;
-
-			&::before {
-				top: -16px;
-    		left: 220px;
-			}
-		}
-
-		.checkin-header { top: -51.2px }
-	}
-
-	#filters-showcase { height: 180vh }
-
-	#filter-search-section.mobile-filters #filter-search-flights,
-	#filter-search-section.mobile-filters #filter-search-hotels { width: 40% }
-
-}
-
-/* Portrait */
-@media screen and (max-width: 320px) and (max-height: 568px) and (orientation: portrait) {
-
-	.form-container {
-
-		.calendar {
-			left: -31px;
-			z-index: 2;
-			width: 300px;
-			
-			.calendar-triangle {
-				top: -15px;
-				left: 140px;
-			}
-		}
-
-		.people-selection {
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 2;
-			width: 300px;
-	
-			&::before {
-				top: -16px;
-				left: 220px;
-			}
-		}
-	}
-
-	.filter-search-box .filter-search-inputs { margin: .2rem 0 }
-
-	#filter-search-flights .filter-search-box {
-
-		&:nth-child(3) .filter-search-container { height: 65px }
-	
-		&:nth-child(4) .filter-search-container {
-			height: 30px;
-	
-			.filter-search-inputs { @include flex(row, space-between, center) }
-		}
-	
-		&:nth-child(5) .filter-search-container,
-		&:last-child .filter-search-container{ height: 130px }
-	}
-
-	#filter-search-hotels .filter-search-box {
-
-		&:nth-child(3) .filter-search-container { height: 165px }
-		&:nth-child(4) .filter-search-container { height: 130px }
-
-	}
 }

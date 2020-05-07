@@ -83,7 +83,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 						<label htmlFor="flight-passengers">Passengers:</label>
 						<input type="text" id='flight-passengers' className={peopleTotal > 0 ? 'input-correct' : 'wrong-validation'} name='flight-passengers' onClick={showPeopleSelection} data-menu-toggle='on' value={peopleTotal} readOnly />
 
-						{peopleSelectionFlights_visible && <PeopleSelection />}
+						{peopleSelectionFlights_visible && <PeopleSelection hotels={false} />}
 					</div>
 
 					<button aria-label='Search flights' type='submit'><i className="fas fa-search"></i></button>
@@ -122,7 +122,7 @@ const CheckinForm = ({ flights, hotels, multiple }) => {
 						<label htmlFor="hotel-people">People:</label>
 						<input type="text" id='hotel-people' name='hotel-people' data-menu-toggle='on' className={peopleTotal > 0 ? 'input-correct' : 'wrong-validation'} onClick={showPeopleSelection} value={peopleTotal} readOnly />
 
-						{peopleSelectionHotels_visible && <PeopleSelection />}
+						{peopleSelectionHotels_visible && <PeopleSelection hotels={hotels} />}
 					</div>
 
 					<button aria-label='Search hotels' type='submit'><i className="fas fa-search"></i></button>

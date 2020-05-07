@@ -2,13 +2,15 @@
 
 	#filters-container {
 		@include flex(row, space-between, flex-start);
-		background: #ddd;
 		position: relative;
 	}
 
 	aside { background: $primary-white }
 
-	#filter-search-section { width: 20% }
+	#filter-search-section {
+		width: 20%;
+		border: 1px solid $primary-blue;
+	}
 
 	#filter-items-wrapper { width: 78% }
 
