@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const RegexAlert = ({ text }) => {
 	return (
-		<div className='regex-alert text-center'>
+		<div className={`regex-alert text-center ${text.includes('successfully') ? 'regex-success' : ''}`}>
 			<p>{text}</p>
 		</div>
 	)

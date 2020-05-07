@@ -29,7 +29,7 @@ const FilterMainSection = () => {
 
 		if ((defaultFiltered_flights.length === 0 && location === '/flights') || (defaultFiltered_hotels.length === 0 && location === '/hotels')) {
 
-			return <FilterEmpty flights={location === '/flights' && true} hotels={location === '/hotels' && true} />;
+			return <FilterEmpty hotels={location === '/hotels' && true} />;
 		}
 
 		if ((defaultFiltered_flights.length > 0 && location === '/flights') || (defaultFiltered_hotels.length > 0 && location === '/hotels')) {

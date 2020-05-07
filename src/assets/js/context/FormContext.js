@@ -54,7 +54,7 @@ export const FormContextProvider = (props) => {
 		hotelsMultiple_alert: false,
 		flyingTo_alert: false,
 		hotelDestination_alert: false,
-		contactMultiple_alert: false,
+		contactMultiple_alert: undefined,
 		fullName_alert: false,
 		email_alert: false,
 		message_alert: false,
@@ -1029,6 +1029,16 @@ export const FormContextProvider = (props) => {
 
 					formSubmitted = true;
 
+					document.querySelectorAll('form[name="contact-us"] .input-field').forEach(input => {
+
+						input.value = '';
+						input.classList.remove('input-correct');
+					});
+
+					setRegexState(regexState => ({ ...regexState, contactMultiple_alert: 'Message successfully sent' }));
+
+					setTimeout(() => setRegexState(regexState => ({ ...regexState, contactMultiple_alert: undefined })), 2500);
+
 				} else {
 
 					document.querySelectorAll('form[name="contact-us"] .input-field').forEach(input => {
@@ -1036,9 +1046,9 @@ export const FormContextProvider = (props) => {
 						!input.classList.contains('input-correct') && input.classList.add('wrong-validation');
 					});
 
-					setRegexState(regexState => ({ ...regexState, contactMultiple_alert: true }));
+					setRegexState(regexState => ({ ...regexState, contactMultiple_alert: 'All inputs are required' }));
 
-					setTimeout(() => setRegexState(regexState => ({ ...regexState, contactMultiple_alert: false })), 2500);
+					setTimeout(() => setRegexState(regexState => ({ ...regexState, contactMultiple_alert: undefined })), 2500);
 
 					formSubmitted = false;
 				}

@@ -2,8 +2,6 @@ import React from 'react';
 
 import video from '../../../media/search-loader.mp4';
 
-console.log(video);
-
 const SearchLoader = () => {
 
 	return (

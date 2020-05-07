@@ -284,7 +284,13 @@ a, button, input, textarea {
 	padding: .5rem;
 	z-index: 1;
 
-	&:hover { background: darken($primary-pink, 5%) }
+	&:not(.regex-success):hover { background: darken($primary-pink, 5%) }
+}
+
+.regex-success {
+	background: $primary-green;
+	color: $primary-dark;
+	border-color: $primary-dark;
 }
 
 html.fonts-loaded body { font-family: 'Roboto', sans-serif }
