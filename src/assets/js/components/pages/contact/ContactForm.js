@@ -7,12 +7,14 @@ import { FormContext } from '@context/FormContext';
 const ContactForm = () => {
 
 	const {
+
 		regexValidation,
 		contactMultiple_alert,
 		fullName_alert,
 		email_alert,
 		message_alert,
 		submitForm
+
 	} = useContext(FormContext);
 
 	return (
@@ -48,7 +50,7 @@ const ContactForm = () => {
 
 					<button className='btn btn-blue mb-1' type='submit'>Send Message</button>
 
-					{contactMultiple_alert && <RegexAlert text='All input fields are required' />}
+					{contactMultiple_alert && <RegexAlert text={contactMultiple_alert} />}
 				</form>
 			</div>
 		</section>
