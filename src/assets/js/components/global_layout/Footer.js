@@ -4,7 +4,7 @@ const Footer = () => {
 	return (
 		<footer>
 			<div className="container p-3 footer-container">
-				<div><p>&copy; GrecTraveling | All rights Reserved</p></div>
+				<div><p>&copy; GrecTraveling | All rights Reserved 2020</p></div>
 
 				<div className='footer-social'>
 					<a aria-label='Github profile' rel="noopener" href='https://github.com/grecdev' target='_blank'><i className="fab fa-github"></i></a>
