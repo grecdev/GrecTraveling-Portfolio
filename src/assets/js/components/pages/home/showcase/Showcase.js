@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import SlideshowContextProvider from '@context/SlideshowContext';
 
@@ -26,4 +26,4 @@ const Showcase = () => {
 	)
 }
 
-export default Showcase;
+export default memo(Showcase);

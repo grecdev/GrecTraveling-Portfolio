@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, memo } from 'react';
 
 import { SlideshowContext } from '@context/SlideshowContext';
 
@@ -77,4 +77,4 @@ const SlideshowImage = () => {
 
 }
 
-export default SlideshowImage;
+export default memo(SlideshowImage);

@@ -21,30 +21,29 @@ export class App extends Component {
 	render() {
 
 		const suspense_style = {
-			fontSize: '1.5rem',
+			fontSize: '2rem',
 			fontWeight: 'bold',
 			padding: '2rem'
 		}
 
 		return (
 			<>
-				<Preloader />
-
-				<Header />
 				<Suspense fallback={<div style={suspense_style}><p>Loading...</p></div>}>
+					<Preloader />
+
+					<Header />
 					<Switch>
 						<Route exact strict path={'/'} component={HomePage} />
 						<Route exact strict path={'/contact'} component={ContactPage} />
 						<Route exact strict path={'/flights'} component={FlightsPage} />
 						<Route exact strict path={'/hotels'} component={HotelsPage} />
 						<Route exact strict path={`/hotel-room/:room`} component={RoomPage} />
-
 						<Route component={NotFoundPage} />
 					</Switch>
-				</Suspense >
 
-				<ResetScroll />
-				<Footer />
+					<ResetScroll />
+					<Footer />
+				</Suspense >
 			</>
 		)
 	}
