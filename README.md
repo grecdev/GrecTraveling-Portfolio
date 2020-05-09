@@ -86,7 +86,3 @@ You can check for website performance with `google audit` (it checks for individ
 4. Press `Run audits` blue button on the bottom of the tab
 
 To search flights / hotels check more instructions on the flights / hotels page
-
-If you see `not found` error on the home page ( on development files ) that's because i convert the jpg images to webp format, for better optimizations, and i get those images on production files
-
-So better use `npm run build` and open the `index.html` file from there, or disable in `development` files the following: `src\assets\js\components\pages\home\showcase\SlideshowImage.js` and comment out `changeFormat()` function
