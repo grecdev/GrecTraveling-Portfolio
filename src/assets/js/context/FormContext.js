@@ -1196,18 +1196,13 @@ export const FormContextProvider = (props) => {
         flightsDb = flightsDb.filter((flight, index) => {
           // So i was thinking here to automate the months, so i won't need to manually change the months via github
           // A flight for each month of the year
-          // The index of the flight compared to the checkin / checkout month
+          // The index compared to the checkin / checkout month
           // if the index is less than the current month, obviously we can't select a month
           // So the index will alawys be higher than the current month and less than 12 months
 
-          let flight_index;
-
-          if (index < date.month) flight_index = index + date.month + 1;
-          else flight_index = index + 1;
-
           if (
-            flight_index >= formState.checkIn_month + 1 &&
-            flight_index <= formState.checkOut_month + 1
+            index >= formState.checkIn_month &&
+            index <= formState.checkOut_month
           )
             return flight;
         });
@@ -1319,14 +1314,9 @@ export const FormContextProvider = (props) => {
           // if the index is less than the current month, obviously we can't select a month
           // So the index will alawys be higher than the current month and less than 12 months
 
-          let hotel_index;
-
-          if (index < date.month) hotel_index = index + date.month + 1;
-          else hotel_index = index + 1;
-
           if (
-            hotel_index >= formState.checkIn_month + 1 &&
-            hotel_index <= formState.checkOut_month + 1
+            index >= formState.checkIn_month &&
+            index <= formState.checkOut_month
           )
             return hotel;
         });
@@ -1568,6 +1558,10 @@ export const FormContextProvider = (props) => {
 
   // If we go back on the home page, i want the form to be reseted (personal prefference)
   useEffect(() => {
+    setRegexState(defaultRegexState);
+
+    if (location === "/") setFormState(defaultFormState);
+
     location !== "/flights" &&
       setDatabase((database) => ({
         ...database,
@@ -1583,14 +1577,8 @@ export const FormContextProvider = (props) => {
       }));
     }
 
-    setRegexState(defaultRegexState);
-
-    if (location === "/" || location === "/flights") {
-      if (
-        location === "/flights" &&
-        database.defaultFiltered_flights.length === 0
-      )
-        setFormState(defaultFormState);
+    if (location === "/flights") {
+      formState.hotelsForm_visible && setFormState(defaultFormState);
 
       setFormState((formState) => ({
         ...formState,
@@ -1599,11 +1587,8 @@ export const FormContextProvider = (props) => {
       }));
     }
 
-    if (
-      location === "/hotels" &&
-      database.defaultFiltered_hotels.length === 0
-    ) {
-      setFormState(defaultFormState);
+    if (location === "/hotels") {
+      formState.flightsForm_visible && setFormState(defaultFormState);
 
       setFormState((formState) => ({
         ...formState,
