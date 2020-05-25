@@ -2,7 +2,7 @@
 
 Find the fastest flights in the world and the most luxurious hotels. Cheap prices and professional support.
 
-:computer: Live preview: [in progress]()
+:computer: [Live preview](https://grectraveling.grec.dev/)
 
 ### To properly run the website on your local machine:
 
@@ -13,10 +13,13 @@ Find the fastest flights in the world and the most luxurious hotels. Cheap price
 2. Make sure you have the latest version of [Node.js](https://nodejs.org/en/download/)
 
 3. [node package manager](https://docs.npmjs.com/about-npm/), run the following command in the `CLI` (command line interface):
+
 ```
 npm install -g npm@latest
 ```
+
 4. Install all `dependencies / modules`, run the following command in the `CLI` (command line interface):
+
 ```
 npm install
 ```
@@ -48,9 +51,10 @@ npm install
 7. For my flights / hotels "database" i used a `json` file hosted with github pages
 8. For the hotel room page i created an `infinite slideshow gallery`
 9. Filter functionality for flights and hotels
-10.  [Date picker](https://dev.to/knheidorn/making-a-calendar-in-vanilla-javascript-48j8) and adapted to my needs
+10. [Date picker](https://dev.to/knheidorn/making-a-calendar-in-vanilla-javascript-48j8) and adapted to my needs
 
 For `api data` fetching i used:
+
 ```
 XMLHttpRequest()
 Fetch api
@@ -65,9 +69,9 @@ Grecu Alexandru aka [`grecdev`](https://github.com/grecdev)
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/grecdev/GrecTraveling-Portfolio/blob/master/LICENSE.md) file for details
 
-***Additional information:***
+**_Additional information:_**
 
-:iphone: Check for `responsive design` in chrome: 
+:iphone: Check for `responsive design` in chrome:
 
 1. Open `developer console` pressing `F12`
 2. Click on the `Toggle Device Toolbar` button or press `Ctrl + Shift + M`
