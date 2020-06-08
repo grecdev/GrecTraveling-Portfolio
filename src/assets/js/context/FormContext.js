@@ -1259,10 +1259,13 @@ export const FormContextProvider = (props) => {
           // Device = Low Resolution Tablets, Mobiles (Landscaspe)
           // Screen = B/w 481px to 823px
           if (
-            window.matchMedia("(min-width: 320px) and (max-width: 480px)")
+            (window.matchMedia("(min-width: 320px) and (max-width: 480px)")
               .matches ||
-            window.matchMedia("(min-width: 481px) and (max-width: 823px)")
-              .matches
+              window.matchMedia("(min-width: 481px) and (max-width: 823px)")
+                .matches) &&
+            document.body.contains(
+              document.getElementById("filters-main-section")
+            )
           ) {
             jump(document.getElementById("filters-main-section"), {
               duration: 500,
@@ -1373,10 +1376,13 @@ export const FormContextProvider = (props) => {
           // Device = Low Resolution Tablets, Mobiles (Landscaspe)
           // Screen = B/w 481px to 823px
           if (
-            window.matchMedia("(min-width: 320px) and (max-width: 480px)")
+            (window.matchMedia("(min-width: 320px) and (max-width: 480px)")
               .matches ||
-            window.matchMedia("(min-width: 481px) and (max-width: 823px)")
-              .matches
+              window.matchMedia("(min-width: 481px) and (max-width: 823px)")
+                .matches) &&
+            document.body.contains(
+              document.getElementById("filters-main-section")
+            )
           ) {
             jump(document.getElementById("filters-main-section"), {
               duration: 500,
